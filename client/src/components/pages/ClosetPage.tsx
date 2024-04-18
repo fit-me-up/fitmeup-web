@@ -13,7 +13,6 @@ export default function ClosetPage() {
   return (
     <div>
       <NavBar />
-      <h1>{"Closet Page"}</h1>
       {/* <button onClick={handleClick}>Back to Home</button> */}
     </div>
   );

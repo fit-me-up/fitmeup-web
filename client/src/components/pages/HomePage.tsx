@@ -23,7 +23,6 @@ export default function HomePage() {
       <NavBar />
       {/* {!onSavedPage && !onClosetPage && ( */}
       <div>
-        <h1>{"Home Page"}</h1>
         {/* <button onClick={handleClickSaved}>Go to Saved Page</button>
           <button onClick={handleClickCloset}>Go to Closet Page</button> */}
       </div>
