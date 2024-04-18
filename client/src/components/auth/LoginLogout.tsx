@@ -2,6 +2,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
 import { addLoginCookie, removeLoginCookie } from "../../utils/cookie";
 import { useEffect } from "react";
+import logo from "./logo.png";
 import "../../styles/loginlogout.scss";
 
 /**
@@ -27,8 +28,9 @@ const Login: React.FunctionComponent<ILoginPageProps> = (props) => {
 
 
   return (
-    <div className="login-box">
-      <h1 className="App-header">{"Fit-Me-UP!"}</h1>
+    <div className="App-header">
+      <h1>{"Fit-Me-UP!"}</h1>
+      <img src={logo} alt="Marker"/>
       <button
         className="login-button"
         onClick={() => signInWithGoogle()}

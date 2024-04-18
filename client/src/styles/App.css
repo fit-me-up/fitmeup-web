@@ -9,15 +9,33 @@ Styling of App components.
 }
 
 .App-header {
-  font-family: 'Playfair-Display';
   min-height: 10vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  font-size: calc(30px + 2vmin);
-  color: rgb(0, 0, 0);
-  padding-right: 1100px;
+  position: absolute;
+}
+
+h1 {
+  padding-top: -2%;
+  text-align: left;
+  font-family: 'Playfair-Display';
+  font-size: calc(25px + 2vmin);
 }
 
 .login-box {
   color : white;
 }
+/* output-onlinepngtools (4) 1 */
+ 
+img {
+  position: absolute;
+  padding-left: 50%;
+  padding-top: 5%;
+  width: 50%;
+}
+
+button {
+  width: 10%;
+}
+
