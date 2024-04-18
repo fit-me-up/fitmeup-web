@@ -13,7 +13,6 @@ export default function SavedPage() {
   return (
     <div>
       <NavBar />
-      <h1>{"Saved Page"}</h1>
       {/* <button>Back to Home</button> */}
     </div>
   );
