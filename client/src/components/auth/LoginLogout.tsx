@@ -28,16 +28,24 @@ const Login: React.FunctionComponent<ILoginPageProps> = (props) => {
 
 
   return (
-    <div className="App-header">
-      <h1>{"Fit-Me-UP!"}</h1>
-      <img src={logo} alt="Marker"/>
+    <div className="login-box">
+      <h1 className="App-header">{"Fit-Me-UP!"}</h1>
+      <img src={logo} alt="Marker" />
       <button
         className="login-button"
         onClick={() => signInWithGoogle()}
         disabled={props.loggedIn}
       >
-        Sign in with Google
+        Get Started!
       </button>
+      <h2 className="App-header"> Insert text here </h2>
+      <p>
+        Our platform combines fashion and sustainability — offering a unique
+        outfit generator that helps you experiment with new looks and track how 
+        often you wear your clothes. Rediscover your
+        wardrobe, reduce waste, and embrace eco-friendly fashion choices with
+        ease.
+      </p>
     </div>
   );
 };
