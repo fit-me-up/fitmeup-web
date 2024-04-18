@@ -1,0 +1,23 @@
+/*
+Styling of App components.
+*/
+
+.App {
+  text-align: center;
+  background-color: #FAFAF5;
+  height: 100%;
+}
+
+.App-header {
+  font-family: 'Playfair-Display';
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(30px + 2vmin);
+  color: rgb(0, 0, 0);
+  padding-right: 1100px;
+}
+
+.login-box {
+  color : white;
+}

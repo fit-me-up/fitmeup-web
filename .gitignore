@@ -1,0 +1,23 @@
+.idea
+.vscode
+
+# Maven
+target/
+.mvn
+.mvn-classpath
+pom.xml.bak
+
+# node, vite
+node_modules/
+client/*.js
+target/
+build/
+dist/
+.env
+test-results/
+playwright-report/
+playwright/.cache/
+server/src/main/resources/
+
+# mac
+.DS_Store

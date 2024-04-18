@@ -1,1 +1,2 @@
-# fitmeup-web
+# fitmeup
+
