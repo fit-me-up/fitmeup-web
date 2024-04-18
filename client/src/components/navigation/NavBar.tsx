@@ -30,9 +30,10 @@ export default function NavBar() {
   return (
     <div className="navbar">
       <div className="titles-container">
+        <h3 className="pagetitle home" onClick={() => changePage(PageType.Home)}> Home </h3>
         <h3 className="pagetitle generate" onClick={() => changePage(PageType.Generate)}> Generate </h3>
+        <h1 className="maintitle" onClick={() => changePage(PageType.Home)}> Fit-Me-UP! </h1>
         <h3 className="pagetitle saved" onClick={() => changePage(PageType.Saved)}> Saved </h3>
-        <h1 className="hometitle" onClick={() => changePage(PageType.Home)}> Fit-Me-UP! </h1>
         <h3 className="pagetitle closet" onClick={() => changePage(PageType.Closet)}> Closet </h3>
       </div>
     </div>

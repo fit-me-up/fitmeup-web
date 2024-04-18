@@ -1,15 +1,14 @@
 .navbar {
     top: 0%;
-    height: 70px;
+    height: 80px;
     width: 100%;
     box-shadow: 4px 0px 15px rgb(208, 205, 194);
     position: fixed;
 }
 
 .titles-container {
-    width: 60%;
-    left: 12%;
-    top: -5px;
+    width: 70%;
+    left: 14%;
     display: grid;
     grid-auto-flow: column;
     align-items: center;
@@ -34,7 +33,7 @@
     text-shadow: 2px 2px 9px rgb(200, 195, 188);
 }
 
-.hometitle {
+.maintitle {
     cursor: default;
     padding-left: 7%;
     padding-right: 7%;
