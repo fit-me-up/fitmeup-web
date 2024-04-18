@@ -1,7 +1,7 @@
 import {
   useNavigate
 } from "react-router-dom";
-import "../../styles/navbar.css";
+import "../../styles/navbar.scss";
 
 export default function NavBar() {
 
@@ -9,6 +9,9 @@ export default function NavBar() {
 
   const changePage = (page: PageType) => {
     switch (page) {
+      case PageType.Generate:
+        navigate("/generate");
+        break;
       case PageType.Saved:
         navigate("/saved");
         break;
@@ -26,16 +29,19 @@ export default function NavBar() {
 
   return (
     <div className="navbar">
-      <h3 > Generate </h3>
-      <h3 onClick={() => changePage(PageType.Saved)}> Saved </h3>
-      <h1 onClick={() => changePage(PageType.Home)}> Fit-Me-UP! </h1>
-      <h3 onClick={() => changePage(PageType.Closet)}> Closet </h3>
+      <div className="titles-container">
+        <h3 className="pagetitle generate" onClick={() => changePage(PageType.Generate)}> Generate </h3>
+        <h3 className="pagetitle saved" onClick={() => changePage(PageType.Saved)}> Saved </h3>
+        <h1 className="hometitle" onClick={() => changePage(PageType.Home)}> Fit-Me-UP! </h1>
+        <h3 className="pagetitle closet" onClick={() => changePage(PageType.Closet)}> Closet </h3>
+      </div>
     </div>
   );
 }
 
 // can move these enums somewhere else idk
 export enum PageType {
+  Generate = 'generate',
   Saved = 'saved',
   Home = 'home',
   Closet = 'closet',

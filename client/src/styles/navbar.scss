@@ -1,0 +1,42 @@
+.navbar {
+    top: 0%;
+    height: 70px;
+    width: 100%;
+    box-shadow: 4px 0px 15px rgb(208, 205, 194);
+    position: fixed;
+}
+
+.titles-container {
+    width: 60%;
+    left: 12%;
+    top: -5px;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    vertical-align: middle;
+    position: fixed;
+}
+
+.pagetitle {
+    cursor: default;
+    font-family: 'Playfair-Display';
+
+    .generate {
+        left: 30%;
+    }
+
+    .saved {
+        left: 50%;
+    }
+}
+
+.pagetitle:hover {
+    text-shadow: 2px 2px 9px rgb(200, 195, 188);
+}
+
+.hometitle {
+    cursor: default;
+    padding-left: 7%;
+    padding-right: 7%;
+    font-family: 'Playfair-Display';
+}
