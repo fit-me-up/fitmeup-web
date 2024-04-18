@@ -1,8 +1,9 @@
 .logout-box {
     z-index: 1;
-    top: 5%;
-    left: 5%;
+    top: 3%;
+    left: 3.5%;
     position: fixed;
+
 
     .logout-button {
     align-items: center;
@@ -19,7 +20,7 @@
     justify-content: center;
     line-height: 20px;
     max-width: 480px;
-    min-height: 40px;
+    min-height: 33px;
     min-width: 0px;
     overflow: hidden;
     padding: 0px;
@@ -64,11 +65,11 @@
     }
     .login-button {
     -webkit-tap-highlight-color: transparent;
-    background-color: #f1849a;
+    background-color: #d27088;
     background-image: none;
     color: #fff;
     cursor: pointer;
-   font-family: 'Playfair-Display';
+    font-family: 'Playfair-Display';
     font-size: 100%;
     font-weight: 900;
     line-height: 1.5;
