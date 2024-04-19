@@ -7,7 +7,12 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import okio.Buffer;
 
 /**
@@ -89,6 +94,8 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
       HttpURLConnection clientConnection = connect(requestURL);
       Moshi moshi = new Moshi.Builder().build();
 
+      System.out.println("Request URL: " + requestURL.toString());
+
       JsonAdapter<ForecastResponse> adapter = moshi.adapter(ForecastResponse.class).nonNull();
 
       ForecastResponse body =
@@ -100,20 +107,37 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
       if (body == null
           || body.properties() == null
           || body.properties().maxTemperature() == null
-          || body.properties().minTemperature() == null) {
+          || body.properties().minTemperature() == null
+          || body.properties().skyCover() == null
+          || body.properties().probabilityOfPrecipitation() == null
+          || body.properties().temperature() == null) {
         throw new DatasourceException("Malformed response from NWS");
       }
 
       List<ForecastResponseTempValue> highs = body.properties().maxTemperature().values();
       List<ForecastResponseTempValue> lows = body.properties().minTemperature().values();
+      List<ForecastResponseTempValue> skyCover = body.properties().skyCover().values();
+      List<ForecastResponseTempValue> pop = body.properties().probabilityOfPrecipitation().values();
+      List<ForecastResponseTempValue> apparentTemp = body.properties().temperature().values();
 
-      if (highs.isEmpty() || lows.isEmpty()) {
+      if (highs.isEmpty()
+          || lows.isEmpty()
+          || skyCover.isEmpty()
+          || pop.isEmpty()
+          || apparentTemp.isEmpty()) {
         throw new DatasourceException("Could not obtain weather data from NWS");
       }
 
+      // Get time in UTC:
+      ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+
       int high = convertToF(highs.get(0).value());
       int low = convertToF(lows.get(0).value());
-      return new WeatherData(high, low, highs.get(0).validTime().split("T")[0]);
+      int current = convertToF(xHrAvg(apparentTemp, 2, now));
+      int rain = (int) Math.round(xHrAvg(pop, 8, now));
+      int cloud = (int) Math.round(xHrAvg(skyCover, 8, now));
+      return new WeatherData(
+          high, low, current, rain, cloud, highs.get(0).validTime().split("T")[0]);
 
     } catch (IOException e) {
       throw new DatasourceException(e.getMessage(), e);
@@ -122,6 +146,45 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
 
   private static int convertToF(double c) {
     return (int) Math.round(c * 9.0 / 5.0 + 32.0);
+  }
+
+  private static double xHrAvg(
+      List<ForecastResponseTempValue> values, int hours, ZonedDateTime currentTime) {
+    double sum = 0;
+    int count = 0;
+
+    for (ForecastResponseTempValue v : values) {
+      String[] split = v.validTime().split("/");
+      int duration = convertToHours(split[1]);
+      ZonedDateTime vTime = ZonedDateTime.parse(split[0], DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+      for (int i = 0; i < duration; i++) {
+        if (vTime.isAfter(currentTime) && vTime.isBefore(currentTime.plusHours(hours))) {
+          sum += v.value();
+          count++;
+        }
+        vTime = vTime.plusHours(1);
+      }
+    }
+    System.out.println("Num values: " + values.size());
+    System.out.println("Sum: " + sum + " Count: " + count);
+    return count == 0 ? 0 : sum / count;
+  }
+
+  public static int convertToHours(String durationStr) {
+    Pattern pattern = Pattern.compile("P(?:(\\d+)D)?T(\\d+)H");
+    Matcher matcher = pattern.matcher(durationStr);
+    int days = 0;
+    int hours = 0;
+    if (matcher.find()) {
+      String dayMatch = matcher.group(1);
+      String hourMatch = matcher.group(2);
+      days = dayMatch != null ? Integer.parseInt(dayMatch) : 0;
+      hours = Integer.parseInt(hourMatch);
+    }
+    // Convert days to hours and add to hours
+    int totalHours = days * 24 + hours;
+    return totalHours;
   }
 
   // //////////////////////////////////////////////////////////////
@@ -138,7 +201,10 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
   public record ForecastResponseProperties(
       String updateTime,
       ForecastResponseTemperature maxTemperature,
-      ForecastResponseTemperature minTemperature) {}
+      ForecastResponseTemperature minTemperature,
+      ForecastResponseTemperature temperature,
+      ForecastResponseTemperature skyCover,
+      ForecastResponseTemperature probabilityOfPrecipitation) {}
 
   public record ForecastResponseTemperature(String uom, List<ForecastResponseTempValue> values) {}
 
