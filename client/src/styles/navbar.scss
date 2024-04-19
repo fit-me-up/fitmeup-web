@@ -1,3 +1,4 @@
+
 .navbar {
     top: 0%;
     height: 80px;
@@ -7,10 +8,12 @@
 }
 
 .titles-container {
-    width: 70%;
-    left: 14%;
+    width: 80%;
     display: grid;
     grid-auto-flow: column;
+    justify-content: space-evenly;
+    left: 50%;
+    transform: translateX(-50%);
     align-items: center;
     vertical-align: middle;
     position: fixed;
@@ -35,7 +38,6 @@
 
 .maintitle {
     cursor: default;
-    padding-left: 7%;
-    padding-right: 7%;
     font-family: 'Playfair-Display';
+    
 }
