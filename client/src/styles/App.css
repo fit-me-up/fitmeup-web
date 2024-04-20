@@ -21,7 +21,7 @@ Styling of App components.
 
 h1 {
   padding-top: -2%;
-  left: -4%;
+  left: 3%;
   text-align: left;
   font-family: 'Playfair-Display';
   font-size: calc(30px + 2vmin);

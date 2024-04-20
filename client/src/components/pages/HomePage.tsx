@@ -1,34 +1,41 @@
-import "../../styles/homepage.css";
-import SavedPage from "./SavedPage";
-import ClosetPage from "./ClosetPage";
-import { useState } from "react";
+import "../../styles/navbar.scss";
+import { useEffect } from "react";
 import NavBar from "../navigation/NavBar";
 
 export default function HomePage() {
-  const [onSavedPage, setOnSavedPage] = useState(false);
-  const [onClosetPage, setOnClosetPage] = useState(false);
-  // const savedPage = <SavedPage setSaved={setOnSavedPage} />;
-  // const closetPage = <ClosetPage setCloset={setOnClosetPage} />;
+  const HOST = "http://localhost:3232";
 
-  const handleClickSaved = () => {
-    setOnSavedPage(true);
-  };
+  async function queryAPI(
+    endpoint: string,
+    query_params: Record<string, string>
+  ) {
+    const paramsString = new URLSearchParams(query_params).toString();
+    const url = `${HOST}/${endpoint}?${paramsString}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(response.status, response.statusText);
+    }
+    return response.json();
+  }
 
-  const handleClickCloset = () => {
-    setOnClosetPage(true);
-  };
+  async function getWeatherData(lat: number, lon: number) {
+    return await queryAPI("weather", {
+      lat: lat.toString(),
+      lon: lon.toString(),
+    });
+  }
+
+  useEffect(() => {
+    async function fetchWeatherData() {
+      let json = await getWeatherData(41.824, -71.4128);
+      console.log(json.temperature);
+    }
+    fetchWeatherData();
+  }, []);
 
   return (
-    <div>
-      <NavBar />
-      {/* {!onSavedPage && !onClosetPage && ( */}
-      <div>
-        {/* <button onClick={handleClickSaved}>Go to Saved Page</button>
-          <button onClick={handleClickCloset}>Go to Closet Page</button> */}
-      </div>
-      {/* )} */}
-      {/* {onSavedPage && savedPage}
-      {onClosetPage && closetPage} */}
-    </div>
+      <body>
+        <NavBar />
+      </body>
   );
 }

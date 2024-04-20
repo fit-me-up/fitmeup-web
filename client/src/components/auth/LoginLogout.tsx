@@ -2,7 +2,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
 import { addLoginCookie, removeLoginCookie } from "../../utils/cookie";
 import { useEffect } from "react";
-import logo from "./logo.png";
+import logo from "../../styles/logo.png";
 import "../../styles/loginlogout.scss";
 
 /**
