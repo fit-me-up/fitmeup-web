@@ -18,26 +18,24 @@ export default function HomePage() {
     return response.json();
   }
 
-  async function getWeatherData(lat: number, long: number) {
+  async function getWeatherData(lat: number, lon: number) {
     return await queryAPI("weather", {
       lat: lat.toString(),
-      long: long.toString(),
+      lon: lon.toString(),
     });
   }
 
   useEffect(() => {
     async function fetchWeatherData() {
-      let json = await getWeatherData(41.824, 71.4128);
-      console.log(json);
+      let json = await getWeatherData(41.824, -71.4128);
+      console.log(json.temperature);
     }
     fetchWeatherData();
   }, []);
 
   return (
-    <div>
       <body>
         <NavBar />
       </body>
-    </div>
   );
 }

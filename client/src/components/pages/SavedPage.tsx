@@ -11,10 +11,8 @@ export default function SavedPage() {
   //  };
 
   return (
-    <div>
       <body>
         <NavBar />
       </body>
-    </div>
   );
 }

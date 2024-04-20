@@ -11,10 +11,8 @@ export default function ClosetPage() {
   // };
 
   return (
-    <div>
       <body>
         <NavBar />
       </body>
-    </div>
   );
 }
