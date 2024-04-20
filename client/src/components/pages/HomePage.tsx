@@ -1,11 +1,10 @@
 import "../../styles/navbar.scss";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../navigation/NavBar";
 
-export default function HomePage() {
-  const HOST = "http://localhost:3232";
+const HOST = "http://localhost:3232";
 
-  async function queryAPI(
+async function queryAPI(
     endpoint: string,
     query_params: Record<string, string>
   ) {
@@ -18,20 +17,15 @@ export default function HomePage() {
     return response.json();
   }
 
-  async function getWeatherData(lat: number, lon: number) {
+export async function getWeatherData(lat: number, lon: number) {
     return await queryAPI("weather", {
       lat: lat.toString(),
       lon: lon.toString(),
     });
   }
 
-  useEffect(() => {
-    async function fetchWeatherData() {
-      let json = await getWeatherData(41.824, -71.4128);
-      console.log(json.temperature);
-    }
-    fetchWeatherData();
-  }, []);
+export default function HomePage() {
+
 
   return (
       <body>
