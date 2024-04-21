@@ -20,6 +20,16 @@
     position: fixed;
 }
 
+.temp-container {
+    width: 6%;
+    padding-right: 85%;
+    padding-bottom: 1%;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    vertical-align: middle;
+}
+
 .pagetitle {
     cursor: default;
     font-family: 'Playfair-Display';
@@ -40,5 +50,19 @@
 .maintitle {
     cursor: default;
     font-family: 'Playfair-Display';
-    
+}
+
+.temptitle {
+    font-family: 'Playfair-Display';
+    font-size: 15px;
+    height: 4px;
+    top: 5px;
+
+}
+
+.currenttitle {
+    font-family: 'Playfair-Display';
+    font-size: 23px;
+    height: 15px;
+
 }
