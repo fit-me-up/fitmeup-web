@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.server.records;
+package edu.brown.cs.student.main.server.clothing.records;
 
 public record Outfit(
     Boolean isFullBody,

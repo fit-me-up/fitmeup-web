@@ -1,11 +1,10 @@
-package edu.brown.cs.student.main.server.generation;
+package edu.brown.cs.student.main.server.clothing.generation;
 
-import edu.brown.cs.student.main.server.enums.Category;
-import edu.brown.cs.student.main.server.enums.Formality;
+import edu.brown.cs.student.main.server.clothing.enums.Category;
+import edu.brown.cs.student.main.server.clothing.enums.Formality;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
-import edu.brown.cs.student.main.server.records.Clothing;
-import edu.brown.cs.student.main.server.records.Outfit;
-import org.checkerframework.checker.units.qual.C;
+import edu.brown.cs.student.main.server.clothing.records.Clothing;
+import edu.brown.cs.student.main.server.clothing.records.Outfit;
 
 import java.util.ArrayList;
 
