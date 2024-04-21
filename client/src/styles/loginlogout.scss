@@ -124,6 +124,8 @@
         0 100%
     );
     content: "Get started!";
+    align-content: center;
+    
     display: block;
     height: 100%;
     left: calc(-100% - var(--tilt));
