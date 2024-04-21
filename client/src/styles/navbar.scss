@@ -14,7 +14,7 @@
     display: grid;
     grid-auto-flow: column;
     justify-content: space-evenly;
-    left: 8%;
+    left: 11%;
     align-items: center;
     vertical-align: middle;
     position: fixed;
@@ -22,7 +22,7 @@
 
 .temp-container {
     width: 6%;
-    padding-right: 85%;
+    padding-right: 84%;
     padding-bottom: 1%;
     display: grid;
     grid-auto-flow: column;
@@ -69,4 +69,7 @@
 img {
     width: 35px;
     height: 35px;
+    position: absolute;
+    right: 86%;
+    bottom: 30%;
 }
