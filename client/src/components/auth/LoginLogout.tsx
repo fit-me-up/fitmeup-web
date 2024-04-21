@@ -1,7 +1,7 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
 import { addLoginCookie, removeLoginCookie } from "../../utils/cookie";
-import { useEffect } from "react";
+import logo from "../../icons/logo.png";
 import "../../styles/loginlogout.scss";
 
 /**
@@ -25,17 +25,27 @@ const Login: React.FunctionComponent<ILoginPageProps> = (props) => {
     }
   };
 
-
   return (
-    <div className="login-box">
-      <h1 className="App-header">{"Fit-Me-UP!"}</h1>
-      <button
-        className="login-button"
-        onClick={() => signInWithGoogle()}
-        disabled={props.loggedIn}
-      >
-        Sign in with Google
-      </button>
+    <div className="login-page">
+      <img className="logo" src={logo} alt="Marker" />
+      <h2 className="tagline">Insert text here</h2>
+      <h1 className="app-title">{"Fit-Me-UP!"}</h1>
+      {/* <h2> Insert text here </h2> */}
+      <p className="app-description">
+        Our platform combines fashion and sustainability — offering a unique
+        outfit generator that helps you experiment with new looks and track how
+        often you wear your clothes. Rediscover your wardrobe, reduce waste, and
+        embrace eco-friendly fashion choices with ease.
+      </p>
+      <div className="login-box">
+        <button
+          className="login-button"
+          onClick={() => signInWithGoogle()}
+          disabled={props.loggedIn}
+        >
+          Get Started!
+        </button>
+      </div>
     </div>
   );
 };
