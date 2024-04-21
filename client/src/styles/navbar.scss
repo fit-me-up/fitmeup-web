@@ -1,12 +1,17 @@
 
 .navbar {
-    height: 80px;
+    height: 90px;
     width: 100%;
     box-shadow: 4px 0px 15px rgb(208, 205, 194);
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    img {
+    width: 35px;
+    height: 35px;
+}
 }
 
 .titles-container {
@@ -64,9 +69,4 @@
     font-family: 'Playfair-Display';
     font-size: 23px;
     height: 15px;
-}
-
-img {
-    width: 35px;
-    height: 35px;
 }
