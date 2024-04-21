@@ -11,9 +11,8 @@ export default function ClosetPage() {
   // };
 
   return (
-    <div>
-      <NavBar />
-      {/* <button onClick={handleClick}>Back to Home</button> */}
-    </div>
+      <body>
+        <NavBar />
+      </body>
   );
 }
