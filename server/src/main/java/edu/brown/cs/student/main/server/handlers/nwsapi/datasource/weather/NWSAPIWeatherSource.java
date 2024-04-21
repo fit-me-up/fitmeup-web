@@ -110,6 +110,7 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
           || body.properties().minTemperature() == null
           || body.properties().skyCover() == null
           || body.properties().probabilityOfPrecipitation() == null
+          || body.properties().snowfallAmount() == null
           || body.properties().temperature() == null) {
         throw new DatasourceException("Malformed response from NWS");
       }
@@ -119,11 +120,13 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
       List<ForecastResponseTempValue> skyCover = body.properties().skyCover().values();
       List<ForecastResponseTempValue> pop = body.properties().probabilityOfPrecipitation().values();
       List<ForecastResponseTempValue> apparentTemp = body.properties().temperature().values();
+      List<ForecastResponseTempValue> snowfallAmt = body.properties().snowfallAmount().values();
 
       if (highs.isEmpty()
           || lows.isEmpty()
           || skyCover.isEmpty()
           || pop.isEmpty()
+          || snowfallAmt.isEmpty()
           || apparentTemp.isEmpty()) {
         throw new DatasourceException("Could not obtain weather data from NWS");
       }
@@ -136,8 +139,9 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
       int current = convertToF(xHrAvg(apparentTemp, 2, now));
       int rain = (int) Math.round(xHrAvg(pop, 8, now));
       int cloud = (int) Math.round(xHrAvg(skyCover, 8, now));
-      return new WeatherData(
-          high, low, current, rain, cloud, highs.get(0).validTime().split("T")[0]);
+      int snowfall = (int) Math.round(xHrAvg(snowfallAmt, 8, now));
+      String date = highs.get(0).validTime().split("T")[0];
+      return new WeatherData(high, low, current, rain, cloud, snowfall, lat, lon, date);
 
     } catch (IOException e) {
       throw new DatasourceException(e.getMessage(), e);
@@ -166,8 +170,6 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
         vTime = vTime.plusHours(1);
       }
     }
-    System.out.println("Num values: " + values.size());
-    System.out.println("Sum: " + sum + " Count: " + count);
     return count == 0 ? 0 : sum / count;
   }
 
@@ -204,6 +206,7 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
       ForecastResponseTemperature minTemperature,
       ForecastResponseTemperature temperature,
       ForecastResponseTemperature skyCover,
+      ForecastResponseTemperature snowfallAmount,
       ForecastResponseTemperature probabilityOfPrecipitation) {}
 
   public record ForecastResponseTemperature(String uom, List<ForecastResponseTempValue> values) {}
