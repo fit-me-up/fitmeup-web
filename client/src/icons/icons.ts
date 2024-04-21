@@ -1,6 +1,5 @@
 export { default as all } from "./all.png";
 export { default as fullbody } from "./fullbody.png";
-export { default as logo } from "./logo.png";
 export { default as outerwear } from "./outerwear.png";
 export { default as bottoms } from "./bottoms.png";
 export { default as shoes } from "./shoes.png";
