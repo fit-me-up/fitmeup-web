@@ -1,34 +1,35 @@
-import "../../styles/homepage.css";
-import SavedPage from "./SavedPage";
-import ClosetPage from "./ClosetPage";
-import { useState } from "react";
+import "../../styles/navbar.scss";
+import { useState, useEffect } from "react";
 import NavBar from "../navigation/NavBar";
 
+const HOST = "http://localhost:3232";
+
+async function queryAPI(
+    endpoint: string,
+    query_params: Record<string, string>
+  ) {
+    const paramsString = new URLSearchParams(query_params).toString();
+    const url = `${HOST}/${endpoint}?${paramsString}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.error(response.status, response.statusText);
+    }
+    return response.json();
+  }
+
+export async function getWeatherData(lat: number, lon: number) {
+    return await queryAPI("weather", {
+      lat: lat.toString(),
+      lon: lon.toString(),
+    });
+  }
+
 export default function HomePage() {
-  const [onSavedPage, setOnSavedPage] = useState(false);
-  const [onClosetPage, setOnClosetPage] = useState(false);
-  // const savedPage = <SavedPage setSaved={setOnSavedPage} />;
-  // const closetPage = <ClosetPage setCloset={setOnClosetPage} />;
 
-  const handleClickSaved = () => {
-    setOnSavedPage(true);
-  };
-
-  const handleClickCloset = () => {
-    setOnClosetPage(true);
-  };
 
   return (
-    <div>
-      <NavBar />
-      {/* {!onSavedPage && !onClosetPage && ( */}
-      <div>
-        {/* <button onClick={handleClickSaved}>Go to Saved Page</button>
-          <button onClick={handleClickCloset}>Go to Closet Page</button> */}
-      </div>
-      {/* )} */}
-      {/* {onSavedPage && savedPage}
-      {onClosetPage && closetPage} */}
-    </div>
+      <body>
+        <NavBar />
+      </body>
   );
 }

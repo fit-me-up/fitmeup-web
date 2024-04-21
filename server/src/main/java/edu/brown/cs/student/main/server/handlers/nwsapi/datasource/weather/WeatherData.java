@@ -6,4 +6,4 @@ package edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather;
  *
  * @param temp_C the temperature in degrees Celsius
  */
-public record WeatherData(int high, int low, String date) {}
+public record WeatherData(int high, int low, int current, int rain, int cloud, String date) {}

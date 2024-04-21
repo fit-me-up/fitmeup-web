@@ -15,6 +15,7 @@ import { getLoginCookie } from "../utils/cookie";
 import LoginLogout from "./auth/LoginLogout";
 import AuthRoute from "./auth/AuthRoute";
 import ClosetPage from "./pages/ClosetPage";
+import GeneratePage from "./pages/GeneratePage";
 
 /**
  * App class that starts everything!
@@ -52,6 +53,10 @@ function App() {
           <Route
             path="/closet"
             element={<AuthRoute gatedContent={<ClosetPage />} />}
+          />
+          <Route
+            path="/generate"
+            element={<AuthRoute gatedContent={<GeneratePage />} />}
           />
         </Routes>
       </BrowserRouter>
