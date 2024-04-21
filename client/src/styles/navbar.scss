@@ -1,18 +1,33 @@
+
 .navbar {
     height: 90px;
     width: 100%;
     box-shadow: 4px 0px 15px rgb(208, 205, 194);
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .titles-container {
-    width: 70%;
-    left: 14%;
+    width: 80%;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-evenly;
+    left: 8%;
+    align-items: center;
+    vertical-align: middle;
+    position: fixed;
+}
+
+.temp-container {
+    width: 6%;
+    padding-right: 85%;
+    padding-bottom: 1%;
     display: grid;
     grid-auto-flow: column;
     align-items: center;
     vertical-align: middle;
-    position: fixed;
 }
 
 .pagetitle {
@@ -29,12 +44,29 @@
 }
 
 .pagetitle:hover {
-    text-shadow: 2px 2px 9px rgb(200, 195, 188);
+    text-shadow: 1px 1px 15px rgb(198, 193, 186);
 }
 
 .maintitle {
     cursor: default;
-    padding-left: 7%;
-    padding-right: 7%;
     font-family: 'Playfair-Display';
+}
+
+.temptitle {
+    font-family: 'Playfair-Display';
+    font-size: 15px;
+    height: 4px;
+    top: 5px;
+
+}
+
+.currenttitle {
+    font-family: 'Playfair-Display';
+    font-size: 23px;
+    height: 15px;
+}
+
+img {
+    width: 35px;
+    height: 35px;
 }

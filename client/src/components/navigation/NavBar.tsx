@@ -1,11 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "../../styles/navbar.scss";
 import { useState, useEffect } from "react";
-import {
-  getWeatherData,
-  determineWeatherIcon,
-  mapToImage,
-} from "../pages/HomePage";
+import { getWeatherData, determineWeatherIcon, mapToImage } from "../pages/HomePage";
+
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -30,25 +27,25 @@ export default function NavBar() {
     }
   };
 
-  const [highTemp, setHighTemp] = useState("");
-  const [lowTemp, setLowTemp] = useState("");
-  const [currentTemp, setCurrentTemp] = useState("");
-  const [currentRain, setCurrentRain] = useState(0);
-  const [currentCloud, setCurrentCloud] = useState(0);
-  const [currentSnow, setCurrentSnow] = useState(0);
+   const [highTemp, setHighTemp] = useState("");
+   const [lowTemp, setLowTemp] = useState("");
+   const [currentTemp, setCurrentTemp] = useState("");
+   const [currentRain, setCurrentRain] = useState(0);
+   const [currentCloud, setCurrentCloud] = useState(0);
+   const [currentSnow, setCurrentSnow] = useState(0);
 
-  useEffect(() => {
-    async function fetchWeatherData() {
-      let json = await getWeatherData(39.64, 106.37);
-      setLowTemp(json.temperature.low);
-      setHighTemp(json.temperature.high);
-      setCurrentTemp(json.temperature.current);
-      setCurrentCloud(json.temperature.cloud);
-      setCurrentRain(json.temperature.rain);
-      setCurrentSnow(json.temperature.snowFall);
-    }
-    fetchWeatherData();
-  }, []);
+   useEffect(() => {
+     async function fetchWeatherData() {
+       let json = await getWeatherData(39.64, 106.37);
+       setLowTemp(json.temperature.low);
+       setHighTemp(json.temperature.high);
+       setCurrentTemp(json.temperature.current);
+       setCurrentCloud(json.temperature.cloud);
+       setCurrentRain(json.temperature.rain);
+       setCurrentSnow(json.temperature.snowFall);
+     }
+     fetchWeatherData();
+   }, []);
 
   return (
     <div className="navbar">
@@ -95,6 +92,13 @@ export default function NavBar() {
             determineWeatherIcon(currentCloud, currentRain, currentSnow)
           )}
         />
+      </div>
+      <div className="temp-container">
+        <h3 className="temptitle temp"> {highTemp}˚</h3>
+        <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
+        <h3 className="temptitle temp"> {lowTemp}˚</h3>
+        <img src = {mapToImage(determineWeatherIcon(currentCloud,currentRain,currentSnow))}/>
+
       </div>
     </div>
   );

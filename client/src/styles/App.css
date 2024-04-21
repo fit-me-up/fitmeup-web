@@ -4,18 +4,41 @@ Styling of App components.
 
 .App {
   text-align: center;
-  background-color: #FAFAF5;
   height: 100%;
+  background-image: url('background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(10px);
 }
 
-.App-header {
+h1 {
+  padding-top: -2%;
+  left: 3%;
+  text-align: left;
   font-family: 'Playfair-Display';
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
   font-size: calc(30px + 2vmin);
-  color: rgb(0, 0, 0);
-  padding-right: 1100px;
+  color :rgb(0, 0, 0);
+}
+
+h2 {
+  padding-top: 8%;
+  padding-left: 5%;
+  text-align: left;
+  font-family: 'Playfair-Display';
+  font-size: calc(25px + 2vmin);
+  color :rgb(0, 0, 0);
+}
+
+p {
+  width: 40%;
+  padding-left: 5%;
+  padding-top: 12%;
+  font-size: calc(15px + 2vmin);
+  font-family: 'Playfair-Display';
+  font-weight: 400;
+  text-align: left;
+  color :rgb(0, 0, 0);
 }
 
 .login-box {

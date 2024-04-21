@@ -11,9 +11,8 @@ export default function SavedPage() {
   //  };
 
   return (
-    <div>
-      <NavBar />
-      {/* <button>Back to Home</button> */}
-    </div>
+      <body>
+        <NavBar />
+      </body>
   );
 }
