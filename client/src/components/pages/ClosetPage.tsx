@@ -12,22 +12,25 @@ export default function ClosetPage() {
     <body>
       <NavBar />
       <div className="selection-bar">
-        <img src={all} alt="Show all clothes"/>
-        <img src={tops} alt="Show all tops"/>
-        <img src={bottoms} alt="Show all bottoms"/>
-        <img src={fullbody} alt="Show full body items"/>
-        <img src={shoes} alt="Show all shoes"/>
-        <img src={outerwear} alt="Show all outerwear"/>
-        <img src={accessories} alt="Show all accessories"/>
-        <button onClick={()=>setShowAddBox(true)} aria-label="Add item"> + Add </button>
+        <img draggable={false} src={all} alt="Show all clothes" />
+        <img draggable={false} src={tops} alt="Show all tops" />
+        <img draggable={false} src={bottoms} alt="Show all bottoms" />
+        <img draggable={false} src={fullbody} alt="Show full body items" />
+        <img draggable={false} src={shoes} alt="Show all shoes" />
+        <img draggable={false} src={outerwear} alt="Show all outerwear" />
+        <img draggable={false} src={accessories} alt="Show all accessories" />
+        <button onClick={() => setShowAddBox(true)} aria-label="Add item">
+          {" "}
+          + Add{" "}
+        </button>
       </div>
-      {showAddBox &&
+      {showAddBox && (
         <div className="overlay">
           <div className="add-box">
-            <p onClick={()=>setShowAddBox(false)}>temporary close button</p>
+            <p onClick={() => setShowAddBox(false)}>temporary close button</p>
           </div>
         </div>
-      }
+      )}
     </body>
   );
 }
