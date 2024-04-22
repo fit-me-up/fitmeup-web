@@ -2,10 +2,9 @@ package edu.brown.cs.student.main.server.clothing.generation;
 
 import edu.brown.cs.student.main.server.clothing.enums.Category;
 import edu.brown.cs.student.main.server.clothing.enums.Formality;
-import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Outfit;
-
+import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
 import java.util.ArrayList;
 
 public class Generator {
@@ -30,43 +29,52 @@ public class Generator {
     Clothing accessory = null;
     Clothing shoe;
 
-    if (isFull){
+    if (isFull) {
       full = this.addItem(formality, weatherData, selectedItems, Category.FULL_BODY, 1);
-    }
-
-    else {
+    } else {
       top = this.addItem(formality, weatherData, selectedItems, Category.TOP, 1);
       bot = this.addItem(formality, weatherData, selectedItems, Category.BOTTOM, 10);
     }
 
     shoe = this.addItem(formality, weatherData, selectedItems, Category.SHOE, 5);
 
-    if (this.useJacket(weatherData)){
+    if (this.useJacket(weatherData)) {
       outerwear = this.addItem(formality, weatherData, selectedItems, Category.OUTERWEAR, 10);
     }
 
-    if (this.useAccessory()){
+    if (this.useAccessory()) {
       accessory = this.addItem(formality, weatherData, selectedItems, Category.ACCESSORY, 5);
     }
 
     return new Outfit(isFull, top, bot, shoe, outerwear, full, accessory);
   }
 
-  private Clothing addItem(Formality formality, WeatherData weather, ArrayList<Clothing> selectedItems, Category category, int n){
+  private Clothing addItem(
+      Formality formality,
+      WeatherData weather,
+      ArrayList<Clothing> selectedItems,
+      Category category,
+      int n) {
     ArrayList<Clothing> accessoryOptions = this.closet.getRandItem(formality, category, n);
     Clothing item = this.comper.pickBest(accessoryOptions, selectedItems, weather);
     selectedItems.add(item);
     return item;
   }
 
-  private boolean useJacket(WeatherData weatherData){
-    double temp = ((double)(weatherData.high() + weatherData.low() + weatherData.current() + weatherData.current())) / 4.0;
+  private boolean useJacket(WeatherData weatherData) {
+    double temp =
+        ((double)
+                (weatherData.high()
+                    + weatherData.low()
+                    + weatherData.current()
+                    + weatherData.current()))
+            / 4.0;
     temp = Math.max(temp, 0.0);
     temp = Math.min(temp, 100.0);
     double scaled = temp / 100.0;
 
     // Hard limits
-    if (scaled < 0.3){
+    if (scaled < 0.3) {
       return true;
     } else if (scaled > 0.7) {
       return false;
@@ -76,18 +84,17 @@ public class Generator {
     }
   }
 
-  private boolean useAccessory(){
+  private boolean useAccessory() {
     double chance = Math.random();
     return chance < 0.5;
   }
 
-  private boolean useFullBody(Formality formality){
+  private boolean useFullBody(Formality formality) {
     double fullRatio;
-    if ((fullRatio = this.closet.hasFullBody(formality)) > 0){
+    if ((fullRatio = this.closet.hasFullBody(formality)) > 0) {
       double chance = Math.random();
       return chance < fullRatio;
-    }
-    else {
+    } else {
       return false;
     }
   }

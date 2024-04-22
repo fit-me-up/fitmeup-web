@@ -1,10 +1,9 @@
 package edu.brown.cs.student.main.server.clothing.generation;
 
+import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Color;
 import edu.brown.cs.student.main.server.clothing.records.Palette;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
-import edu.brown.cs.student.main.server.clothing.records.Clothing;
-
 import java.util.ArrayList;
 
 public class CompatibilityUtils {
@@ -37,10 +36,9 @@ public class CompatibilityUtils {
     double err = (Math.abs(r1 - r2) + Math.abs(b1 - b2) + Math.abs(g1 - g2)) / 3;
     comp = 1.0 - err;
 
-    if (comp < 0.4){
+    if (comp < 0.4) {
       return 0;
-    }
-    else return comp;
+    } else return comp;
   }
 
   private double colorValueComp(Color option, Color existing) {
@@ -60,10 +58,9 @@ public class CompatibilityUtils {
     double diff = Math.abs(sat1 - sat2);
     comp = 1 - diff;
 
-    if (comp < 0.6){
+    if (comp < 0.6) {
       return 0;
-    }
-    else return comp;
+    } else return comp;
   }
 
   private double paletteComp(Palette option, Palette existing) {
@@ -74,25 +71,29 @@ public class CompatibilityUtils {
     double sToP = 0;
     double sToS = 0;
 
-    pToP = colorBaseComp(option.primary(), existing.primary()) +
-            colorValueComp(option.primary(), existing.primary());
+    pToP =
+        colorBaseComp(option.primary(), existing.primary())
+            + colorValueComp(option.primary(), existing.primary());
     numComps++;
 
-    if (existing.accent() != null){
-      pToS = colorBaseComp(option.primary(), existing.accent()) +
-              colorValueComp(option.primary(), existing.accent());
+    if (existing.accent() != null) {
+      pToS =
+          colorBaseComp(option.primary(), existing.accent())
+              + colorValueComp(option.primary(), existing.accent());
       numComps++;
     }
 
-    if (option.accent() != null){
-      sToP = colorBaseComp(option.accent(), existing.primary()) +
-              colorValueComp(option.accent(), existing.primary());
+    if (option.accent() != null) {
+      sToP =
+          colorBaseComp(option.accent(), existing.primary())
+              + colorValueComp(option.accent(), existing.primary());
       numComps++;
     }
 
-    if (option.accent() != null && existing.accent() != null){
-      sToS = colorBaseComp(option.accent(), existing.accent()) +
-              colorValueComp(option.accent(), existing.accent());
+    if (option.accent() != null && existing.accent() != null) {
+      sToS =
+          colorBaseComp(option.accent(), existing.accent())
+              + colorValueComp(option.accent(), existing.accent());
       numComps++;
     }
 
@@ -100,27 +101,27 @@ public class CompatibilityUtils {
     return (pToP + pToS + sToS + sToP) / numComps;
   }
 
-  private double colorComp(Clothing option, ArrayList<Clothing> existing){
+  private double colorComp(Clothing option, ArrayList<Clothing> existing) {
     double n = existing.size();
     boolean penalty = false;
 
-    if (n == 0){
+    if (n == 0) {
       return 1;
     }
 
     double agg = 0;
-    for (Clothing test : existing){
+    for (Clothing test : existing) {
       double colorCompat = paletteComp(option.colors(), test.colors());
 
       // Penalty if any specific item compatibility is too low.
-      if (colorCompat < 0.5){
+      if (colorCompat < 0.5) {
         penalty = true;
       }
       agg += colorCompat;
     }
 
     // If it has a color compat of less than 0.5 with any of the existing clothing items...
-    if (penalty){
+    if (penalty) {
       return (agg / n) / 2;
     }
 
@@ -130,28 +131,29 @@ public class CompatibilityUtils {
   private double materialComp(Clothing option, ArrayList<Clothing> existing) {
     double n = existing.size();
 
-    if (n == 0){
+    if (n == 0) {
       return 1;
     }
 
     double agg = 0;
-    for (Clothing test : existing){
+    for (Clothing test : existing) {
       agg += option.material().compatWith(test.material());
     }
     return (agg / n);
   }
 
-  private double weatherComp(Clothing option, WeatherData weather){
+  private double weatherComp(Clothing option, WeatherData weather) {
     return 1;
   }
 
-  public Clothing pickBest(ArrayList<Clothing> options, ArrayList<Clothing> existing, WeatherData weather){
+  public Clothing pickBest(
+      ArrayList<Clothing> options, ArrayList<Clothing> existing, WeatherData weather) {
     Clothing best = options.get(0);
 
     double bestScore = 0;
     double currScore;
-    for (Clothing option : options){
-      if ((currScore = this.getCompatibility(option, existing, weather)) > bestScore){
+    for (Clothing option : options) {
+      if ((currScore = this.getCompatibility(option, existing, weather)) > bestScore) {
         bestScore = currScore;
         best = option;
       }
@@ -159,7 +161,8 @@ public class CompatibilityUtils {
     return best;
   }
 
-  private double getCompatibility(Clothing option, ArrayList<Clothing> existing, WeatherData weather){
+  private double getCompatibility(
+      Clothing option, ArrayList<Clothing> existing, WeatherData weather) {
     double weatherComp = this.weatherComp(option, weather);
     double materialComp = this.materialComp(option, existing);
     double colorComp = this.colorComp(option, existing);
