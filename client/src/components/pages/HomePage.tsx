@@ -63,7 +63,6 @@ export function determineWeatherIcon(cloud: number, rain: number, snow : number)
 
 export default function HomePage() {
 
-
   return (
       <body>
         <NavBar />

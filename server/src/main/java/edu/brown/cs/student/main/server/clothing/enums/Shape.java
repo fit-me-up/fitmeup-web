@@ -1,4 +1,4 @@
-package edu.brown.cs.student.main.server.enums;
+package edu.brown.cs.student.main.server.clothing.enums;
 
 public enum Shape {
   LONG_SLEEVE(0),
