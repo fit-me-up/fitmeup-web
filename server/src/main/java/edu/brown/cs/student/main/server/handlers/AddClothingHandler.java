@@ -8,14 +8,14 @@ import spark.Response;
 import spark.Route;
 
 /**
- * AddPinHandler is called by the add pin endpoint in server, and works to set each pin to its
- * respective data.
+ * AddClothingHandler is called by the add clothing endpoint in server, and works to add an item of
+ * clothing to the user's closet.
  */
-public class AddPinHandler implements Route {
+public class AddClothingHandler implements Route {
 
   public StorageInterface storageHandler;
 
-  public AddPinHandler(StorageInterface storageHandler) {
+  public AddClothingHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
   }
 
@@ -30,25 +30,30 @@ public class AddPinHandler implements Route {
   public Object handle(Request request, Response response) {
     Map<String, Object> responseMap = new HashMap<>();
     try {
-      // Collect parameters from the request.
+      // Collect parameters from the request to build a clothing item.
       String uid = request.queryParams("uid");
-      String longitude = request.queryParams("long");
-      String latitude = request.queryParams("lat");
+      String id = request.queryParams("id");
+      String category = request.queryParams("category");
+      String type = request.queryParams("type");
+      String formality = request.queryParams("formality");
+      String colors = request.queryParams("colors");
+      String material = request.queryParams("material");
 
       Map<String, Object> data = new HashMap<>();
-      String pinPos = longitude + "," + latitude;
+      String clothing =
+          id + "," + category + "," + type + "," + formality + "," + colors + "," + material;
       // Set the pin to its longitude and latitude
-      data.put("pin", pinPos);
+      data.put("clothing", clothing);
 
       // Get the current pin count to make a unique pinId by index.
-      int pinCount = this.storageHandler.getCollection(uid, "pins").size();
-      String pinId = "pin-" + pinCount;
+      int clothingCount = this.storageHandler.getCollection(uid, "clothing").size();
+      String clothingId = "clothing-" + clothingCount;
 
       // Use the storage handler to add the document to the database.
-      this.storageHandler.addDocument(uid, "pins", pinId, data);
+      this.storageHandler.addDocument(uid, "clothing", clothingId, data);
 
       responseMap.put("response_type", "success");
-      responseMap.put("pin", pinPos);
+      responseMap.put("clothing", Utils.fromStringClothing(clothing));
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");
