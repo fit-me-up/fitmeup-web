@@ -2,9 +2,9 @@ package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
-import edu.brown.cs.student.main.server.handlers.AddPinHandler;
+import edu.brown.cs.student.main.server.handlers.AddClothingHandler;
 import edu.brown.cs.student.main.server.handlers.ClearUserHandler;
-import edu.brown.cs.student.main.server.handlers.ListPinsHandler;
+import edu.brown.cs.student.main.server.handlers.ListClothingHandler;
 import edu.brown.cs.student.main.server.handlers.nwsapi.WeatherHandler;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.NWSAPIWeatherSource;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherDatasource;
@@ -32,10 +32,10 @@ public class Server {
     try {
       firebaseUtils = new FirebaseUtilities();
 
-      Spark.get("add-pin", new AddPinHandler(firebaseUtils));
-      Spark.get("list-pins", new ListPinsHandler(firebaseUtils));
+      Spark.get("add-clothing", new AddClothingHandler(firebaseUtils));
+      Spark.get("list-clothing", new ListClothingHandler(firebaseUtils));
       Spark.get("clear-user", new ClearUserHandler(firebaseUtils));
-      Spark.get("/weather", new WeatherHandler(datasource));
+      Spark.get("weather", new WeatherHandler(datasource));
 
       Spark.notFound(
           (request, response) -> {
