@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.handlers;
 
+import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +10,14 @@ import spark.Response;
 import spark.Route;
 
 /**
- * ListPinsHandler is called by the list-pins endpoint in server, and works to retrieve the list of
- * pins associated with the user who created them.
+ * ListClothingHandler is called by the list-clothing endpoint in server, and works to retrieve the
+ * list of clothing associated with the user who created them.
  */
-public class ListPinsHandler implements Route {
+public class ListClothingHandler implements Route {
 
   public StorageInterface storageHandler;
 
-  public ListPinsHandler(StorageInterface storageHandler) {
+  public ListClothingHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
   }
 
@@ -34,13 +35,15 @@ public class ListPinsHandler implements Route {
       String uid = request.queryParams("uid");
 
       // Get all the pins for the user
-      List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "pins");
+      List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "clothing");
 
       // Convert the key,value map to just a list of the pins.
-      List<String> pins = vals.stream().map(pin -> pin.get("pin").toString()).toList();
-
+      List<String> clothingList =
+          vals.stream().map(clothing -> clothing.get("clothing").toString()).toList();
+      List<Clothing> clothingConverted =
+          clothingList.stream().map(Utils::fromStringClothing).toList();
       responseMap.put("response_type", "success");
-      responseMap.put("pins", pins);
+      responseMap.put("clothing", clothingConverted);
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");
