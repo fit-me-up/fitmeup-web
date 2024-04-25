@@ -13,15 +13,14 @@ public class ClosetData {
   private HashMap<Category, HashMap<Formality, HashMap<Integer, Clothing>>> closet;
   private ArrayList<Clothing> clothingList;
 
-    private ClosetSource source;
+  private ClosetSource source;
 
-    public ClosetData(ClosetSource source){
-        this.source = source;
-        this.clothingList = this.loadClothing();
-        this.initializeCloset();
-        this.loadCloset();
-    }
-
+  public ClosetData(ClosetSource source) {
+    this.source = source;
+    this.clothingList = this.loadClothing();
+    this.initializeCloset();
+    this.loadCloset();
+  }
 
   private void initializeCloset() {
     this.closet = new HashMap<>();
@@ -51,11 +50,10 @@ public class ClosetData {
     }
   }
 
-
-    private ArrayList<Clothing> loadClothing(){
-        // GET CLOTHING LIST FROM DATABASE
-        return this.source.getClothing();
-    }
+  private ArrayList<Clothing> loadClothing() {
+    // GET CLOTHING LIST FROM DATABASE
+    return this.source.getClothing();
+  }
 
   public ArrayList<Clothing> getRandItem(Formality formality, Category category, int n) {
     ArrayList<Clothing> randList = new ArrayList<>();
