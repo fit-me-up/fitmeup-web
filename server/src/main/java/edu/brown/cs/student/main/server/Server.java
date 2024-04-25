@@ -5,6 +5,7 @@ import static spark.Spark.after;
 import edu.brown.cs.student.main.server.handlers.AddClothingHandler;
 import edu.brown.cs.student.main.server.handlers.ClearUserHandler;
 import edu.brown.cs.student.main.server.handlers.ListClothingHandler;
+import edu.brown.cs.student.main.server.handlers.RemoveClothingHandler;
 import edu.brown.cs.student.main.server.handlers.nwsapi.WeatherHandler;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.NWSAPIWeatherSource;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherDatasource;
@@ -34,6 +35,7 @@ public class Server {
 
       Spark.get("add-clothing", new AddClothingHandler(firebaseUtils));
       Spark.get("list-clothing", new ListClothingHandler(firebaseUtils));
+      Spark.get("remove-clothing", new RemoveClothingHandler(firebaseUtils));
       Spark.get("clear-user", new ClearUserHandler(firebaseUtils));
       Spark.get("weather", new WeatherHandler(datasource));
 

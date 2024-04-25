@@ -71,6 +71,15 @@ public class FirebaseUtilities implements StorageInterface {
     return data;
   }
 
+  @Override
+  public DocumentReference getDocumentReference(
+      String uid, String collection_id, String document_id) {
+    Firestore db = FirestoreClient.getFirestore();
+    CollectionReference collectionRef =
+        db.collection("users").document(uid).collection(collection_id);
+    return collectionRef.document(document_id);
+  }
+
   /** Clears the data for a specified user. */
   @Override
   public void clearUser(String uid) throws IllegalArgumentException {
@@ -92,7 +101,8 @@ public class FirebaseUtilities implements StorageInterface {
    *
    * @param doc the document to delete,
    */
-  private void deleteDocument(DocumentReference doc) {
+  @Override
+  public void deleteDocument(DocumentReference doc) {
     Iterable<CollectionReference> collections = doc.listCollections();
     for (CollectionReference collection : collections) {
       deleteCollection(collection);
