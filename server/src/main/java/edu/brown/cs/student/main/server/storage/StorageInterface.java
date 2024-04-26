@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.storage;
 
+import com.google.cloud.firestore.DocumentReference;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -13,4 +14,8 @@ public interface StorageInterface {
       throws InterruptedException, ExecutionException;
 
   void clearUser(String uid) throws InterruptedException, ExecutionException;
+
+  void deleteDocument(DocumentReference doc);
+
+  DocumentReference getDocumentReference(String uid, String collection_id, String doc_id);
 }

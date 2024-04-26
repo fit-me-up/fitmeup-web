@@ -29,6 +29,24 @@ export async function getWeatherData(lat: number, lon: number) {
     });
   }
 
+export async function addClothingItem(uid: string, id: string, category: number, type: number, formality: number, colors: string, material: string) {
+  return await queryAPI("add-clothing", {
+    uid: uid,
+    id : id,
+    category: category.toString(),
+    type : type.toString(),
+    formality: formality.toString(),
+    colors: colors,
+    material: material
+  })
+}
+
+export async function listClothing(uid: string) {
+  return await queryAPI("list-clothing", {
+    uid : uid
+  })
+}
+
 export enum WeatherType {
   SNOW = 'snow',
   CLOUDY = 'cloudy',
