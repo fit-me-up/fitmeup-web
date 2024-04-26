@@ -51,7 +51,6 @@ export default function ClosetPage() {
     
   }
 
-
   return (
     <body>
       <NavBar />
@@ -68,28 +67,15 @@ export default function ClosetPage() {
         </button>
       </div>
       {showAddBox && (
-        <div className="overlay">
-          <div className="add-box">
-            <p onClick={() => setShowAddBox(false)}>temporary close button</p>
-            <p
-              onClick={() => {
-                setShowAddBox(true);
-                addClothing();
-              }}
-            >
-              temporary add button
-            </p>
-          </div>
-        </div>
         // <div className="overlay">
           <UploadBox setShowAddBox={setShowAddBox}/>
         // </div>
       )}
-      <div className="clothing">
+      {/* <div className="clothing">
         {clothes.map((img, index) => (
           <img key={index} src={img} alt="Marker" className={"img-" + index} />
         ))}
-      </div>
+      </div> */}
     </body>
   );
 }
