@@ -45,7 +45,7 @@ public class MockedCloset {
         new Clothing(
             4,
             Category.SHOE,
-            Shape.SHOES,
+            Shape.SANDAL,
             Formality.FLEX,
             new Palette(new Color(1.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
             Material.NOT_APPLICABLE));
@@ -54,7 +54,7 @@ public class MockedCloset {
         new Clothing(
             5,
             Category.ACCESSORY,
-            Shape.CAP,
+            Shape.HEADWEAR,
             Formality.FLEX,
             new Palette(new Color(0.7, 0.7, 0.0), new Color(0.0, 0.0, 0.0)),
             Material.WOOL_COTTON));
