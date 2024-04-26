@@ -36,7 +36,7 @@ export default function NavBar() {
 
    useEffect(() => {
      async function fetchWeatherData() {
-       let json = await getWeatherData(41.824, -71.4128);
+       let json = await getWeatherData(43.1536, -93.201);
        setLowTemp(json.temperature.low);
        setHighTemp(json.temperature.high);
        setCurrentTemp(json.temperature.current);

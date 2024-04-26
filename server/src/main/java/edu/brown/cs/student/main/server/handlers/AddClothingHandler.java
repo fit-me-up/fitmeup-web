@@ -42,12 +42,11 @@ public class AddClothingHandler implements Route {
       Map<String, Object> data = new HashMap<>();
       String clothing =
           id + "," + category + "," + type + "," + formality + "," + colors + "," + material;
-      // Set the pin to its longitude and latitude
       data.put("clothing", clothing);
 
       // Get the current pin count to make a unique pinId by index.
-      int clothingCount = this.storageHandler.getCollection(uid, "clothing").size();
-      String clothingId = "clothing-" + clothingCount;
+      // int clothingCount = this.storageHandler.getCollection(uid, "clothing").size();
+      String clothingId = "clothing-" + id;
 
       // Use the storage handler to add the document to the database.
       this.storageHandler.addDocument(uid, "clothing", clothingId, data);
