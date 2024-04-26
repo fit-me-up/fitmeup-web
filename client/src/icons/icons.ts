@@ -5,3 +5,4 @@ export { default as bottoms } from "./bottoms.png";
 export { default as shoes } from "./shoes.png";
 export { default as tops } from "./tops.png";
 export { default as accessories } from "./accessories.png";
+export { default as closebutton } from "./close-button.png";
