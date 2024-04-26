@@ -59,7 +59,7 @@
 .login-box {
     position: absolute;
     top: 68%;
-    left: 17%;
+    left: 16.5%;
     
     .login-button,
     .login-button *,
@@ -123,9 +123,10 @@
         calc(100% - var(--tilt)) 100%,
         0 100%
     );
-    content: "Get started!";
+
+    content: "Get Started!";
     align-content: center;
-    
+    margin-left: auto;
     display: block;
     height: 100%;
     left: calc(-100% - var(--tilt));

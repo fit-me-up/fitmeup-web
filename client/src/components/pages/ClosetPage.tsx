@@ -5,6 +5,8 @@ import cardigan from "../../icons/cardigan.png";
 import "../../styles/closetpage.scss";
 import { useState, Dispatch, SetStateAction } from "react";
 import { addClothingItem, listClothing } from "../pages/HomePage";
+import UploadBox from "./UploadBox";
+
 
 export default function ClosetPage() {
 
@@ -62,8 +64,7 @@ export default function ClosetPage() {
         <img draggable={false} src={outerwear} alt="Show all outerwear" />
         <img draggable={false} src={accessories} alt="Show all accessories" />
         <button onClick={() => setShowAddBox(true)} aria-label="Add item">
-          {" "}
-          + Add{" "}
+          + Add
         </button>
       </div>
       {showAddBox && (
@@ -80,6 +81,9 @@ export default function ClosetPage() {
             </p>
           </div>
         </div>
+        // <div className="overlay">
+          <UploadBox setShowAddBox={setShowAddBox}/>
+        // </div>
       )}
       <div className="clothing">
         {clothes.map((img, index) => (

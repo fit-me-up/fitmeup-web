@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/navbar.scss";
 import { useState, useEffect } from "react";
 import { getWeatherData, determineWeatherIcon, mapToImage } from "../pages/HomePage";
+import { PageType } from "../../enums/enums";
 
 
 export default function NavBar() {
@@ -64,12 +65,4 @@ export default function NavBar() {
       </div>
     </div>
   );
-}
-
-// can move these enums somewhere else idk
-export enum PageType {
-  Generate = "generate",
-  Saved = "saved",
-  Home = "home",
-  Closet = "closet",
 }
