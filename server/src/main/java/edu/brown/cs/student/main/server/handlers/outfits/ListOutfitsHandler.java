@@ -1,6 +1,6 @@
-package edu.brown.cs.student.main.server.handlers;
+package edu.brown.cs.student.main.server.handlers.outfits;
 
-import edu.brown.cs.student.main.server.clothing.records.Clothing;
+import edu.brown.cs.student.main.server.handlers.Utils;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.util.HashMap;
 import java.util.List;
@@ -10,14 +10,14 @@ import spark.Response;
 import spark.Route;
 
 /**
- * ListClothingHandler is called by the list-clothing endpoint in server, and works to retrieve the
- * list of clothing associated with the user who created them.
+ * ListOutfitsHandler is called by the list-outfits endpoint in server, and works to retrieve the
+ * list of outfits associated with the user who created them.
  */
-public class ListClothingHandler implements Route {
+public class ListOutfitsHandler implements Route {
 
   public StorageInterface storageHandler;
 
-  public ListClothingHandler(StorageInterface storageHandler) {
+  public ListOutfitsHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
   }
 
@@ -34,16 +34,14 @@ public class ListClothingHandler implements Route {
     try {
       String uid = request.queryParams("uid");
 
-      // Get all the pins for the user
-      List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "clothing");
+      // Get all the outfits for the user
+      List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "outfits");
 
-      // Convert the key,value map to just a list of the pins.
-      List<String> clothingList =
-          vals.stream().map(clothing -> clothing.get("clothing").toString()).toList();
-      List<Clothing> clothingConverted =
-          clothingList.stream().map(Utils::fromStringClothing).toList();
+      // Convert the key,value map to just a list of the outfits.
+      List<String> outfitList =
+          vals.stream().map(outfit -> outfit.get("outfit").toString()).toList();
       responseMap.put("response_type", "success");
-      responseMap.put("clothing", clothingConverted);
+      responseMap.put("clothing", outfitList);
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");

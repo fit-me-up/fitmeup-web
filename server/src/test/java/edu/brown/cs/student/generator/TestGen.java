@@ -13,7 +13,7 @@ public class TestGen {
   @Test
   public void TestOutputs() {
     MockedCloset source = new MockedCloset();
-    ClosetData closet = new ClosetData(source);
+    ClosetData closet = new ClosetData(source.getClothing());
     Generator generator = new Generator(closet);
     WeatherData weather = new WeatherData(0, 0, 0, 50, 50, 50, 50.0, 50.0, "hey");
     WeatherData weather2 = new WeatherData(100, 100, 100, 50, 50, 50, 50.0, 50.0, "hey");
@@ -27,7 +27,7 @@ public class TestGen {
   @Test
   public void TestWeather() {
     MockedCloset source = new MockedCloset();
-    ClosetData closet = new ClosetData(source);
+    ClosetData closet = new ClosetData(source.getClothing());
     Generator generator = new Generator(closet);
     WeatherData cold = new WeatherData(0, 0, 0, 50, 50, 50, 50.0, 50.0, "hey");
 

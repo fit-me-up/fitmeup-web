@@ -1,6 +1,5 @@
 package edu.brown.cs.student.generator.mocking;
 
-import edu.brown.cs.student.main.server.clothing.data.ClosetSource;
 import edu.brown.cs.student.main.server.clothing.enums.Category;
 import edu.brown.cs.student.main.server.clothing.enums.Formality;
 import edu.brown.cs.student.main.server.clothing.enums.Material;
@@ -10,7 +9,7 @@ import edu.brown.cs.student.main.server.clothing.records.Color;
 import edu.brown.cs.student.main.server.clothing.records.Palette;
 import java.util.ArrayList;
 
-public class MockedCloset implements ClosetSource {
+public class MockedCloset {
   public MockedCloset() {}
 
   public ArrayList<Clothing> getClothing() {
