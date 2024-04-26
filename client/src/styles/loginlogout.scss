@@ -5,7 +5,7 @@
 
 .logout-box {
     z-index: 1;
-    top: 3%;
+    top: 3.5%;
     right: 6%;
     position: fixed;
 
@@ -123,6 +123,7 @@
         calc(100% - var(--tilt)) 100%,
         0 100%
     );
+
     content: "Get Started!";
     align-content: center;
     margin-left: auto;
@@ -145,6 +146,7 @@
     top: 5%;
     left: 42%;
     height: 92%;
+    width: 50%
 }
 
 .app-title {

@@ -1,0 +1,56 @@
+.selection-bar {
+    font-family: 'Playfair-Display';
+    display: grid;
+    grid-auto-flow: column;
+    position: absolute;
+    width: 88%;
+    left: 6%;
+    top: 13%;
+    align-items: center;
+
+    img {
+        width: 90px;
+        padding: 20px;
+        opacity: 0.4;
+    }
+
+    img:hover {
+        opacity: 1;
+    }
+
+    button {
+        margin-left: 40px;
+        width: 120px;
+        height: 48px;
+        border: none;
+        border-radius: 30px;
+        background-color: #3f6492;
+        color: #fafaf5;
+        font-family: 'Playfair-Display';
+        font-size: 20px;
+    }
+
+    button:hover,
+    button:focus { 
+    background-color: #37557a;
+    color: #ffffff;
+    }
+
+}
+
+.overlay {
+    width: 100%;
+    height: 150%;
+    background-color:rgba(0, 0, 0, 0.5);
+    opacity: 0.55;
+}
+
+.add-box {
+    position: absolute;
+    width: 46%;
+    left: 27%;
+    height: 80%;
+    top: 32%;
+    border-radius: 30px;
+    background-color: #edede3;
+}
