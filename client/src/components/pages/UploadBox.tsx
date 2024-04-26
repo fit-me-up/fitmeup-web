@@ -8,22 +8,10 @@ import cardigan from "../../icons/cardigan.png";
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
+  setClothing: Dispatch<SetStateAction<string[]>>;
+  clothes: string[];
 }
-
-export default function UploadBox(props: UploadBoxProps) {
-  const [clothingType, setClothingType] = useState<ClothingType>();
-  const [showSpecificTypes, setShowSpecificTypes] = useState<boolean>(false);
-
-  function changeClothingType(type: ClothingType) {
-    setClothingType(type);
-    setShowSpecificTypes(true);
-    console.log(clothingType);
-  }
-
-  const [clothes, setClothes] = useState<string[]>([]);
-  const clothingImage: Element[] = [];
-
-  const determineCategory = (category: String) => {
+export function determineCategory(category: String) {
     console.log(category);
     switch (category) {
       case "TOP":
@@ -42,16 +30,22 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   };
 
+export default function UploadBox(props: UploadBoxProps) {
+  const [clothingType, setClothingType] = useState<ClothingType>();
+  const [showSpecificTypes, setShowSpecificTypes] = useState<boolean>(false);
+
+  function changeClothingType(type: ClothingType) {
+    setClothingType(type);
+    setShowSpecificTypes(true);
+    console.log(clothingType);
+  }
+
+
   async function addClothing() {
-    let clotheImages: string[] = [];
     await addClothingItem("1", "0", 0, 0, 0, "0-0-1-10-12-14", "0");
-    await addClothingItem("1", "1", 1, 1, 0, "0-0-1-10-12-14", "0");
-    let json = await listClothing("1");
-    setClothes([...json.clothing]);
-    json.clothing.forEach((clothingItem: { category: String }) => {
-      clotheImages.push(determineCategory(clothingItem.category));
-    });
-    setClothes(clotheImages);
+    let newItem = await addClothingItem("1", "1", 1, 1, 0, "0-0-1-10-12-14", "0");
+    // let json = await listClothing("1");
+    props.setClothing(prevClothes => [prevClothes, newItem]);
   }
 
   return (
@@ -85,11 +79,6 @@ export default function UploadBox(props: UploadBoxProps) {
         </button>
       </div>
       <p onClick={() => addClothing()}> temporary add</p>
-      <div className="clothing">
-        {clothes.map((img, index) => (
-          <img key={index} src={img} alt="Marker" className={"img-" + index} />
-        ))}
-      </div>
     </div>
   );
 }
