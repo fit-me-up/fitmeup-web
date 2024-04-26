@@ -94,8 +94,6 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
       HttpURLConnection clientConnection = connect(requestURL);
       Moshi moshi = new Moshi.Builder().build();
 
-      System.out.println("Request URL: " + requestURL.toString());
-
       JsonAdapter<ForecastResponse> adapter = moshi.adapter(ForecastResponse.class).nonNull();
 
       ForecastResponse body =
@@ -173,7 +171,7 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
     return count == 0 ? 0 : sum / count;
   }
 
-  public static int convertToHours(String durationStr) {
+  private static int convertToHours(String durationStr) {
     Pattern pattern = Pattern.compile("P(?:(\\d+)D)?T(\\d+)H");
     Matcher matcher = pattern.matcher(durationStr);
     int days = 0;

@@ -2,13 +2,17 @@ package edu.brown.cs.student.main.server;
 
 import static spark.Spark.after;
 
-import edu.brown.cs.student.main.server.handlers.AddClothingHandler;
 import edu.brown.cs.student.main.server.handlers.ClearUserHandler;
-import edu.brown.cs.student.main.server.handlers.ListClothingHandler;
-import edu.brown.cs.student.main.server.handlers.RemoveClothingHandler;
+import edu.brown.cs.student.main.server.handlers.clothing.AddClothingHandler;
+import edu.brown.cs.student.main.server.handlers.clothing.ListClothingHandler;
+import edu.brown.cs.student.main.server.handlers.clothing.RemoveClothingHandler;
 import edu.brown.cs.student.main.server.handlers.nwsapi.WeatherHandler;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.NWSAPIWeatherSource;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherDatasource;
+import edu.brown.cs.student.main.server.handlers.outfits.AddOutfitHandler;
+import edu.brown.cs.student.main.server.handlers.outfits.GenerateOutfitHandler;
+import edu.brown.cs.student.main.server.handlers.outfits.ListOutfitsHandler;
+import edu.brown.cs.student.main.server.handlers.outfits.RemoveOutfitHandler;
 import edu.brown.cs.student.main.server.storage.FirebaseUtilities;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.io.IOException;
@@ -33,9 +37,16 @@ public class Server {
     try {
       firebaseUtils = new FirebaseUtilities();
 
+      // Clothing Handlers
       Spark.get("add-clothing", new AddClothingHandler(firebaseUtils));
       Spark.get("list-clothing", new ListClothingHandler(firebaseUtils));
       Spark.get("remove-clothing", new RemoveClothingHandler(firebaseUtils));
+      // Outfit Handlers
+      Spark.get("add-outfit", new AddOutfitHandler(firebaseUtils));
+      Spark.get("list-outfits", new ListOutfitsHandler(firebaseUtils));
+      Spark.get("remove-outfit", new RemoveOutfitHandler(firebaseUtils));
+      Spark.get("generate-outfit", new GenerateOutfitHandler(firebaseUtils, datasource));
+      // Misc Handlers
       Spark.get("clear-user", new ClearUserHandler(firebaseUtils));
       Spark.get("weather", new WeatherHandler(datasource));
 
