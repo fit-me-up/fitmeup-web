@@ -1,6 +1,5 @@
 package edu.brown.cs.student.main.server.clothing.generation;
 
-import edu.brown.cs.student.main.server.clothing.data.ClosetSource;
 import edu.brown.cs.student.main.server.clothing.enums.Category;
 import edu.brown.cs.student.main.server.clothing.enums.Formality;
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
@@ -13,11 +12,8 @@ public class ClosetData {
   private HashMap<Category, HashMap<Formality, HashMap<Integer, Clothing>>> closet;
   private ArrayList<Clothing> clothingList;
 
-  private ClosetSource source;
-
-  public ClosetData(ClosetSource source) {
-    this.source = source;
-    this.clothingList = this.loadClothing();
+  public ClosetData(ArrayList<Clothing> clothingList) {
+    this.clothingList = clothingList;
     this.initializeCloset();
     this.loadCloset();
   }
@@ -48,11 +44,6 @@ public class ClosetData {
         this.closet.get(item.category()).get(Formality.FORMAL).put(item.id(), item);
       }
     }
-  }
-
-  private ArrayList<Clothing> loadClothing() {
-    // GET CLOTHING LIST FROM DATABASE
-    return this.source.getClothing();
   }
 
   public ArrayList<Clothing> getRandItem(Formality formality, Category category, int n) {

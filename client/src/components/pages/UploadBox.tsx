@@ -13,7 +13,7 @@ export default function UploadBox(props: UploadBoxProps) {
   const [clothingType, setClothingType] = useState<number>();
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Shape][]>([]); // list of tuples for [label, enum]
-
+  
   /**
    * Handles behavior for when a type button is pressed
    * @param type enum for clothing type
