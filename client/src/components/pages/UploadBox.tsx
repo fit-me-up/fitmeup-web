@@ -5,10 +5,33 @@ import jeans from "../../icons/jeans.png";
 import cardigan from "../../icons/cardigan.png";
 import { ClothingType, Shape } from "../../items/enums";
 import { ClothingItem } from "../../items/ClothingItem";
+import { addClothingItem, listClothing } from "../pages/HomePage";
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
+  setClothing: Dispatch<SetStateAction<string[]>>;
+  clothes: string[];
 }
+
+export function determineCategory(category: number | undefined) {
+    console.log(category);
+    switch (category) {
+      case 0:
+        console.log("Entering TOP case");
+        return cardigan;
+      case 1:
+        return jeans;
+      default:
+        console.log("Unknown or undefined category:", category);
+        return (
+          <div>
+            {/* Fallback JSX for unknown or undefined category */}
+            Unknown category
+          </div>
+        );
+    }
+  };
+
 
 export default function UploadBox(props: UploadBoxProps) {
   const clothingItem = new ClothingItem();
@@ -95,29 +118,11 @@ export default function UploadBox(props: UploadBoxProps) {
     console.log(clothingItem);
     // if all fields are defined, submit
     // else "please fill out all fields"
-
-export function determineCategory(category: String) {
-    console.log(category);
-    switch (category) {
-      case "TOP":
-        console.log("Entering TOP case");
-        return cardigan;
-      case "BOTTOM":
-        return jeans;
-      default:
-        console.log("Unknown or undefined category:", category);
-        return (
-          <div>
-            {/* Fallback JSX for unknown or undefined category */}
-            Unknown category
-          </div>
-        );
-    }
-  };
+  }
 
   function changeClothingType(type: ClothingType) {
     setClothingType(type);
-    setShowSpecificTypes(true);
+    setShowShapes(true);
     console.log(clothingType);
   }
 

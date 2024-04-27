@@ -12,29 +12,31 @@ import "../../styles/closetpage.scss";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import UploadBox from "./UploadBox";
 import { addClothingItem, listClothing } from "../pages/HomePage";
-import { determineCategory } from "./UploadBox";
+import { determineCategory} from "./UploadBox";
+import { ClothingItem } from "../../items/ClothingItem";
 
 export default function ClosetPage() {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<string[]>([]);
 
-  interface Clothing {
-    id : string,
-    category : string,
-    type : string,
-    formality : string,
-    colors : string, 
-    material : string
-  }
+  // interface Clothing {
+  //   id : string,
+  //   category : string,
+  //   type : string,
+  //   formality : string,
+  //   colors : string, 
+  //   material : string
+  // }
 
 
   useEffect(() => {
-    listClothing("1").then((clothing: { clothing : Clothing[]}) => clothing.clothing)
-    .then((clothings : Clothing[]) => {
-      console.log(clothings);
+    // just changed this to the ClothingItem class I made, but def modify the class for the correct fields
+    listClothing("1").then((clothing: { clothing : ClothingItem[]}) => clothing.clothing)
+    .then((clothes : ClothingItem[]) => {
+      console.log(clothes);
       let clotheImages : string[] = [];
-      clothings.forEach(clothing => {
-        clotheImages.push(determineCategory(clothing.category));
+      clothes.forEach(clothing => {
+        clotheImages.push(determineCategory(clothing.type));
       });
       setClothes(clotheImages);
     })
