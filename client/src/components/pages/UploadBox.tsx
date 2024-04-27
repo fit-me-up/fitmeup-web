@@ -1,6 +1,8 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import "../../styles/uploadbox.scss";
 import { closebutton } from "../../icons/icons";
+import jeans from "../../icons/jeans.png";
+import cardigan from "../../icons/cardigan.png";
 import { ClothingType, Shape } from "../../items/enums";
 import { ClothingItem } from "../../items/ClothingItem";
 
@@ -93,6 +95,38 @@ export default function UploadBox(props: UploadBoxProps) {
     console.log(clothingItem);
     // if all fields are defined, submit
     // else "please fill out all fields"
+
+export function determineCategory(category: String) {
+    console.log(category);
+    switch (category) {
+      case "TOP":
+        console.log("Entering TOP case");
+        return cardigan;
+      case "BOTTOM":
+        return jeans;
+      default:
+        console.log("Unknown or undefined category:", category);
+        return (
+          <div>
+            {/* Fallback JSX for unknown or undefined category */}
+            Unknown category
+          </div>
+        );
+    }
+  };
+
+  function changeClothingType(type: ClothingType) {
+    setClothingType(type);
+    setShowSpecificTypes(true);
+    console.log(clothingType);
+  }
+
+
+  async function addClothing() {
+    await addClothingItem("1", "0", 0, 0, 0, "0-0-1-10-12-14", "0");
+    let newItem = await addClothingItem("1", "1", 1, 1, 0, "0-0-1-10-12-14", "0");
+    // let json = await listClothing("1");
+    props.setClothing(prevClothes => [prevClothes, newItem]);
   }
 
   return (

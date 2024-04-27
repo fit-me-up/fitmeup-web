@@ -38,18 +38,25 @@ export default function NavBar() {
   const [currentCloud, setCurrentCloud] = useState(0);
   const [currentSnow, setCurrentSnow] = useState(0);
 
-  useEffect(() => {
-    async function fetchWeatherData() {
-      let json = await getWeatherData(43.1536, -93.201);
-      setLowTemp(json.temperature.low);
-      setHighTemp(json.temperature.high);
-      setCurrentTemp(json.temperature.current);
-      setCurrentCloud(json.temperature.cloud);
-      setCurrentRain(json.temperature.rain);
-      setCurrentSnow(json.temperature.snowFall);
-    }
-    fetchWeatherData();
-  }, []);
+   useEffect(() => {
+     async function fetchWeatherData(lat: number, long: number) {
+       let json = await getWeatherData(lat, long);
+       setLowTemp(json.temperature.low);
+       setHighTemp(json.temperature.high);
+       setCurrentTemp(json.temperature.current);
+       setCurrentCloud(json.temperature.cloud);
+       setCurrentRain(json.temperature.rain);
+       setCurrentSnow(json.temperature.snowFall);
+     }
+
+     if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition((position) => {
+         fetchWeatherData(position.coords.latitude, position.coords.longitude);
+       });
+     } else {
+       console.log("Geolocation is not supported by this browser.");
+     }
+   }, []);
 
   return (
     <div className="navbar">
