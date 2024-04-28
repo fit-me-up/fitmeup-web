@@ -1,4 +1,5 @@
 h3 {
+    margin: 7px;
     font-family: 'Playfair-Display';
 }
 
@@ -12,11 +13,13 @@ h3 {
     border-radius: 30px;
     background-color: #e2dee6;
     text-align: center;
+    align-items: center;
+    justify-content: center;
   
     h1 {
-        position: absolute;
-        top: 0%;
-        left: 33%;
+        text-align: center;
+        margin-top: 0%;
+        margin-bottom: 3%;
         color: black;
         font-size: 40px;
     }
@@ -30,20 +33,11 @@ h3 {
     opacity:.8;
 }
 
-.clothing-types-container {
+.types-container {
     position: relative;
-    top: 9%;
-    left: 7%;
+    left: 10%;
     width: 80%;
-    height: 12%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; 
-    grid-template-rows: 1fr 1fr;
-    gap: 30px;
-    align-content: center;
-    justify-content: center;
-
-    padding-left: 4.5%;
+    height: 22%;
 
     button {
         &.type-active {
@@ -51,9 +45,10 @@ h3 {
             border-color: black;
             background-color:#d27088;
         }
-
-        width: 150px;
-        height: 40px;
+        position: relative;
+        width: 84%;
+        left: 8%;
+        height: 100%;
         border-radius: 15px;
         border: none;
         font-family: 'Playfair-Display';
@@ -63,6 +58,7 @@ h3 {
         border-style: solid;
         border-width: 2px;
     }
+}
 
     .inactive:hover {
         color:#fafaf5;
@@ -71,35 +67,48 @@ h3 {
         opacity: 0.7;
     }
 
-    button:nth-child(1) { grid-area: 1 / 1; background-color: none }
-    button:nth-child(2) { grid-area: 1 / 2; background-color: none }
-    button:nth-child(3) { grid-area: 1 / 3; background-color: none }
-    button:nth-child(4) { grid-area: 2 / 1; background-color: none }
-    button:nth-child(5) { grid-area: 2 / 2; background-color: none }
-    button:nth-child(6) { grid-area: 2 / 3; background-color: none }
-}
 
-.clothing-type-header {
-    position: relative;
-    top: 9%;
-}
+.row1 {
+    width: 100%;
+    height: 30%;
+    padding-bottom: 1%;
 
-.shapes-header {
-    position: relative;
-    top: 11%;
-}
-
-.shapes-container {
-    position: relative;
-    top: 10%;
-    left: 10%;
-    width: 80%;
-    height: 6%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-auto-flow: column;
     gap: 8px;
     justify-content: space-evenly;
+}
+
+.row2 {
+    width: 100%;
+    height: 30%;
+    padding-top: 1%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-flow: column;
+    gap: 8px;
+    justify-content: space-evenly;
+}
+
+.shapes-container {
+    position: relative;
+    left: 10%;
+    width: 80%;
+    height: 14%;
+
+    .button-container {
+        position: relative;
+        width: 100%;
+        height: 46%;
+        padding-bottom: 1%;
+
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-flow: column;
+        gap: 8px;
+        justify-content: space-evenly;
+    }
 
     button {
 
@@ -114,7 +123,6 @@ h3 {
         left: 8%;
         height: 100%;
         border-radius: 15px;
-        border: none;
         font-family: 'Playfair-Display';
         color: black;
         font-weight: bold;
@@ -134,9 +142,8 @@ h3 {
 
 .color-container {
     position: relative;
-    left: 36%;
-    top: 10%;
-    width: 30%;
+    height: 50%;
+    width: 100%;
 }
 
 .material-container {
@@ -144,22 +151,6 @@ h3 {
     height: 15;
     position: relative;
     top: 10%;
-
-    .row1 {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        grid-auto-flow: column;
-        gap: 8px;
-        justify-content: space-evenly;
-    }
-
-    .row2 {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        grid-auto-flow: column;
-        gap: 8px;
-        justify-content: space-evenly;
-    }
 
     button {
 
@@ -189,5 +180,46 @@ h3 {
         background-color: #3f6492;
         border-color: black;
         opacity: 0.7;
+    }
+}
+
+.picker-container {
+    width: 70%;
+    height: 80%;
+    padding: 1%;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-evenly;
+    left: 15%;
+
+}
+
+.color-display {
+    // position: relative;
+    width: 25%;
+    height: 100%;
+
+    .color-box {
+        height: 50%;
+        width: 100%;
+        background-color: black;
+        margin-top: 20%;
+        margin-bottom: 10%;
+        border-radius: 10px;
+    }
+    
+    button {
+        font-family: 'Playfair-Display';
+        padding: 5px;
+        height: 13%;
+        width: 70%;
+        border-radius: 15px;
+        border-style: solid;
+        border-width: 1px;
+    }
+
+    button:hover {
+        filter: brightness(90%);
     }
 }

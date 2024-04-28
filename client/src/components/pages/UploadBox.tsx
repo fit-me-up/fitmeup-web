@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
 import "../../styles/uploadbox.scss";
 import { closebutton } from "../../icons/icons";
 import jeans from "../../icons/jeans.png";
@@ -115,12 +115,26 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
+  const [color, setColor] = useState<RgbColor>({r: 0, g: 0, b: 0});
+  const [colorString, setColorString] = useState<string>("");
+  const [colorSelect, setColorSelect] = useState<string>("Select");
+  const handleColorChange = (color: RgbColor) => {
+    setColor(color);
+    setColorString(`rgb(${color.r}, ${color.g}, ${color.b})`);
+    setColorSelect("Select");
+  }
   /**
    * Function to handle color selection and set the clothing item's fields.
    * @param color the selected RGB color 
    */
   function handleColorSelection(color: RgbColor) {
-    clothingItem.color = [color.r, color.g, color.b];
+    if (colorSelect === "Select") {
+      clothingItem.color = [color.r, color.g, color.b];
+      setColorSelect("Selected!");
+    } else {
+      clothingItem.color = [color.r, color.g, color.b];
+      setColorSelect("Select");
+    }
   }
 
   function submitItem() {
@@ -146,30 +160,40 @@ export default function UploadBox(props: UploadBoxProps) {
         aria-label="Close"
       />
       <h1> Add to Closet </h1>
-      <h3 className="clothing-type-header"> Clothing Type:</h3>
-      <div className="clothing-types-container">
-        <button id="type 0" className="inactive" onClick={() => handleTypePress(ClothingType.Top)}>Top</button>
-        <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottom</button>
-        <button id="type 2" className="inactive" onClick={() => handleTypePress(ClothingType.FullBody)}>Full Body</button>
-        <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
-        <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
-        <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
+      <div className="types-container">
+        <h3 className="clothing-type-header"> Clothing Type:</h3>
+        <div className="row1">
+          <button id="type 0" className="inactive" onClick={() => handleTypePress(ClothingType.Top)}>Top</button>
+          <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottom</button>
+          <button id="type 2" className="inactive" onClick={() => handleTypePress(ClothingType.FullBody)}>Full Body</button>
+        </div>
+        <div className="row2">
+          <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
+          <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
+          <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
+        </div>
       </div>
       {showShapes && (
-        <>
+        <div className="shapes-container">
           <h3 className="shapes-header"> Subcategory: </h3>
-          <div className="shapes-container">
+          <div className="button-container">
             {shapeLabels.map((label) => (
               <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
                 {label[0]}
               </button>
             ))}
           </div>
-        </>
+        </div>
       )}
       <div className="color-container">
         <h3>Color:</h3>
-        <RgbColorPicker onChange={handleColorSelection}/>
+        <div className="picker-container">
+          <RgbColorPicker color={color} onChange={handleColorChange}/>
+          <div className="color-display">
+            <div className="color-box" style={{backgroundColor: colorString}}/>
+            <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
+          </div>
+        </div>
       </div>
       <div className="material-container">
         <h3>Material:</h3>
