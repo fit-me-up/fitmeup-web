@@ -34,9 +34,11 @@ public class RemoveClothingHandler implements Route {
           vals.stream().map(clothing -> clothing.get("clothing").toString()).toList();
       List<Clothing> clothingConverted =
           clothingList.stream().map(Utils::fromStringClothing).toList();
+      List<Map<String, String>> clothingMaps =
+          clothingConverted.stream().map(Utils::clothingToHashMap).toList();
 
       responseMap.put("response_type", "success");
-      responseMap.put("clothing", clothingConverted);
+      responseMap.put("clothing", clothingMaps);
 
     } catch (Exception e) {
       // Error likely occurred in the storage handler.

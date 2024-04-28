@@ -38,13 +38,16 @@ public class ListClothingHandler implements Route {
       // Get all the clothing items for the user
       List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "clothing");
 
-      // Convert the key,value map to just a list of the clothing items.
+      // Convert the key,value map to just a list of the clothing items as hash maps.
       List<String> clothingList =
           vals.stream().map(clothing -> clothing.get("clothing").toString()).toList();
       List<Clothing> clothingConverted =
           clothingList.stream().map(Utils::fromStringClothing).toList();
+      List<Map<String, String>> clothingMaps =
+          clothingConverted.stream().map(Utils::clothingToHashMap).toList();
+
       responseMap.put("response_type", "success");
-      responseMap.put("clothing", clothingConverted);
+      responseMap.put("clothing", clothingMaps);
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");
