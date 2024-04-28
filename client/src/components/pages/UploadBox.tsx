@@ -5,10 +5,34 @@ import jeans from "../../icons/jeans.png";
 import cardigan from "../../icons/cardigan.png";
 import { ClothingType, Shape } from "../../items/enums";
 import { ClothingItem } from "../../items/ClothingItem";
+import { addClothingItem, listClothing } from "../pages/HomePage";
+import { RgbColor, RgbColorPicker } from "react-colorful";
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
+  setClothing: Dispatch<SetStateAction<string[]>>;
+  clothes: string[];
 }
+
+export function determineCategory(category: number | undefined) {
+    console.log(category);
+    switch (category) {
+      case 0:
+        console.log("Entering TOP case");
+        return cardigan;
+      case 1:
+        return jeans;
+      default:
+        console.log("Unknown or undefined category:", category);
+        return (
+          <div>
+            {/* Fallback JSX for unknown or undefined category */}
+            Unknown category
+          </div>
+        );
+    }
+  };
+
 
 export default function UploadBox(props: UploadBoxProps) {
   const clothingItem = new ClothingItem();
@@ -91,36 +115,19 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
+  /**
+   * Function to handle color selection and set the clothing item's fields.
+   * @param color the selected RGB color 
+   */
+  function handleColorSelection(color: RgbColor) {
+    clothingItem.color = [color.r, color.g, color.b];
+  }
+
   function submitItem() {
     console.log(clothingItem);
     // if all fields are defined, submit
     // else "please fill out all fields"
-
-export function determineCategory(category: String) {
-    console.log(category);
-    switch (category) {
-      case "TOP":
-        console.log("Entering TOP case");
-        return cardigan;
-      case "BOTTOM":
-        return jeans;
-      default:
-        console.log("Unknown or undefined category:", category);
-        return (
-          <div>
-            {/* Fallback JSX for unknown or undefined category */}
-            Unknown category
-          </div>
-        );
-    }
-  };
-
-  function changeClothingType(type: ClothingType) {
-    setClothingType(type);
-    setShowSpecificTypes(true);
-    console.log(clothingType);
   }
-
 
   async function addClothing() {
     await addClothingItem("1", "0", 0, 0, 0, "0-0-1-10-12-14", "0");
@@ -130,6 +137,7 @@ export function determineCategory(category: String) {
   }
 
   return (
+    // prettier-ignore
     <div className="add-box">
       <img
         className="close-button"
@@ -141,7 +149,7 @@ export function determineCategory(category: String) {
       <h3 className="clothing-type-header"> Clothing Type:</h3>
       <div className="clothing-types-container">
         <button id="type 0" className="inactive" onClick={() => handleTypePress(ClothingType.Top)}>Top</button>
-        <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottoms</button>
+        <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottom</button>
         <button id="type 2" className="inactive" onClick={() => handleTypePress(ClothingType.FullBody)}>Full Body</button>
         <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
         <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
@@ -152,13 +160,30 @@ export function determineCategory(category: String) {
           <h3 className="shapes-header"> Subcategory: </h3>
           <div className="shapes-container">
             {shapeLabels.map((label) => (
-              <button id={`shape ${label[1].toString()}`} className="inactive" onClick={()=>handleShapeSelection(label[1])}>{label[0]}</button>
+              <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
+                {label[0]}
+              </button>
             ))}
           </div>
         </>
       )}
-      <div className="clothing-types-container">
-
+      <div className="color-container">
+        <h3>Color:</h3>
+        <RgbColorPicker onChange={handleColorSelection}/>
+      </div>
+      <div className="material-container">
+        <h3>Material:</h3>
+        <div className="row1" >
+          <button>Cotton/Wool</button>
+          <button>Nylon</button>
+          <button>Polyester</button>
+          <button>Denim</button>
+        </div>
+        <div className="row2" >
+          <button>Leather</button>
+          <button>Fur</button>
+          <button>Other</button>
+        </div>
       </div>
     </div>
   );
