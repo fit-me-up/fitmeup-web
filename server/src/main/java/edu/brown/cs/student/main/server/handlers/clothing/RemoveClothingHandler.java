@@ -1,6 +1,7 @@
-package edu.brown.cs.student.main.server.handlers;
+package edu.brown.cs.student.main.server.handlers.clothing;
 
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
+import edu.brown.cs.student.main.server.handlers.Utils;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,6 @@ public class RemoveClothingHandler implements Route {
     try {
       String uid = request.queryParams("uid");
       String id = request.queryParams("id");
-
-      // Get all the pins for the user
 
       this.storageHandler.deleteDocument(
           this.storageHandler.getDocumentReference(uid, "clothing", "clothing-" + id));

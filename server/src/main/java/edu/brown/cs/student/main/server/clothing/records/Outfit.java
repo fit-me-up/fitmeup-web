@@ -7,4 +7,4 @@ public record Outfit(
     Clothing shoe,
     Clothing outerwear,
     Clothing fullbody,
-    Clothing accesory) {}
+    Clothing accessory) {}

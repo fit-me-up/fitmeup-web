@@ -1,5 +1,6 @@
-package edu.brown.cs.student.main.server.handlers;
+package edu.brown.cs.student.main.server.handlers.clothing;
 
+import edu.brown.cs.student.main.server.handlers.Utils;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +44,6 @@ public class AddClothingHandler implements Route {
       String clothing =
           id + "," + category + "," + type + "," + formality + "," + colors + "," + material;
       data.put("clothing", clothing);
-
-      // Get the current pin count to make a unique pinId by index.
-      // int clothingCount = this.storageHandler.getCollection(uid, "clothing").size();
       String clothingId = "clothing-" + id;
 
       // Use the storage handler to add the document to the database.
