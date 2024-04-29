@@ -5,6 +5,8 @@ import sunlogo from "../../styles/images/sunshinefitmeup.png"
 import snowylogo from "../../styles/images/snowfitmeup.png"
 import rainylogo from "../../styles/images/rainyfitmeup.png"
 import cloudylogo from "../../styles/images/cloudyfitmeup.png"
+import { ClothingType, Formality, Material, Shape } from "../../items/enums";
+import { RgbColor, RgbColorPicker } from "react-colorful";
 
 
 const HOST = "http://localhost:3232";
@@ -15,6 +17,7 @@ async function queryAPI(
   ) {
     const paramsString = new URLSearchParams(query_params).toString();
     const url = `${HOST}/${endpoint}?${paramsString}`;
+    console.log(url);
     const response = await fetch(url);
     if (!response.ok) {
       console.error(response.status, response.statusText);
@@ -29,15 +32,15 @@ export async function getWeatherData(lat: number, lon: number) {
     });
   }
 
-export async function addClothingItem(uid: string, id: string, category: number, type: number, formality: number, colors: string, material: string) {
+export async function addClothingItem(uid: string, id: string, category: number, subcategory : number, formality : number, primary : number[], secondary : number[], material: Material) {
   return await queryAPI("add-clothing", {
     uid: uid,
     id : id,
     category: category.toString(),
-    type : type.toString(),
+    type : subcategory.toString(),
     formality: formality.toString(),
-    colors: colors,
-    material: material
+    colors: primary[0].toString() + "-" + primary[1].toString() + "-" + primary[2].toString() + "-" + secondary[0].toString() + "-" + secondary[1].toString() + "-" + secondary[2].toString(),
+    material: material.toString()
   })
 }
 

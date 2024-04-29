@@ -51,6 +51,7 @@ public class Utils {
    * @return the clothing object.
    */
   public static Clothing fromStringClothing(String clothing) {
+    System.out.println(clothing);
     String[] parts = clothing.split(",");
     int id = Integer.parseInt(parts[0]);
     Category cat = Category.values()[Integer.parseInt(parts[1])];
@@ -60,7 +61,9 @@ public class Utils {
     String[] colors = parts[4].split("-");
     Color color1 =
         new Color(
-            Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2]));
+            Double.parseDouble(colors[0]),
+            Double.parseDouble(colors[1]),
+            Double.parseDouble(colors[2]));
     Color color2 =
         new Color(
             Integer.parseInt(colors[3]), Integer.parseInt(colors[4]), Integer.parseInt(colors[5]));

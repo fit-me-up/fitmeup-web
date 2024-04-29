@@ -1,7 +1,9 @@
+
 export class ClothingItem {
-  type: number | undefined = undefined;
-  category: number | undefined = undefined;
-  color: number[] | undefined = undefined;
-  material: number | undefined = undefined;
-  formality: number | undefined = undefined;
+  type: number = -1;
+  category: number = -1;
+  primary: number[] = [];
+  secondary: number[] = [];
+  material: number = -1;
+  formality: number = -1;
 }

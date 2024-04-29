@@ -19,18 +19,18 @@ export default function ClosetPage() {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<string[]>([]);
 
-  useEffect(() => {
-    // just changed this to the ClothingItem class I made, but def modify the class for the correct fields
-    listClothing("1").then((clothing: { clothing : ClothingItem[]}) => clothing.clothing)
-    .then((clothes : ClothingItem[]) => {
-      let clotheImages : string[] = [];
-      clothes.forEach(clothing => {
-        console.log(clothing.category);
-        clotheImages.push(determineCategory(clothing.category, clothing.type, clothing.material, clothing.formality));
-      });
-      setClothes(clotheImages);
-    })
-  }, []);
+  // useEffect(() => {
+  //   // just changed this to the ClothingItem class I made, but def modify the class for the correct fields
+  //   listClothing("1").then((clothing: { clothing : ClothingItem[]}) => clothing.clothing)
+  //   .then((clothes : ClothingItem[]) => {
+  //     let clotheImages : string[] = [];
+  //     clothes.forEach(clothing => {
+  //       console.log(clothing.category);
+  //       clotheImages.push(determineCategory(clothing.category, clothing.type, clothing.material, clothing.formality));
+  //     });
+  //     setClothes(clotheImages);
+  //   })
+  // }, []);
 
   return (
     <body>

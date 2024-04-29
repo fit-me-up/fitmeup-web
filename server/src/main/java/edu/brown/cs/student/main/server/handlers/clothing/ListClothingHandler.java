@@ -49,6 +49,7 @@ public class ListClothingHandler implements Route {
       responseMap.put("response_type", "success");
       responseMap.put("clothing", clothingMaps);
     } catch (Exception e) {
+      e.printStackTrace();
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");
       String[] parts = e.getClass().toString().split("\\.");
