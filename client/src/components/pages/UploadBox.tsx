@@ -188,7 +188,7 @@ export default function UploadBox(props: UploadBoxProps) {
       clothingItem.primary = [color.r / 255, color.g / 255, color.b / 255];
       setColorSelect("Selected!");
     } else {
-      clothingItem.color = undefined;
+      clothingItem.primary = [];
       setColorSelect("Select");
     }
   }
@@ -203,7 +203,7 @@ export default function UploadBox(props: UploadBoxProps) {
       activeButton[0].className = "inactive";
     }
     if (clothingItem.material === material) {
-      clothingItem.material === undefined;
+      clothingItem.material = -1;
     } else {
       clothingItem.material = material;
       const buttonName = "material " + material.toString();
@@ -220,7 +220,7 @@ export default function UploadBox(props: UploadBoxProps) {
       activeButton[0].className = "inactive";
     }
     if (clothingItem.formality === formality) {
-      clothingItem.formality === undefined;
+      clothingItem.formality = -1;
     } else {
       clothingItem.formality = formality;
       const buttonName = "formality " + formality.toString();
@@ -233,17 +233,25 @@ export default function UploadBox(props: UploadBoxProps) {
 
   const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     console.log(clothingItem);
-    if (clothingItem.type === undefined || clothingItem.shape === undefined || clothingItem.color === undefined || clothingItem.material === undefined || clothingItem.formality === undefined) {
-      // alert("Temporary alert (will change): Please fill out all fields.");
+    if (clothingItem.type === -1 || clothingItem.category === -1 || !clothingItem.primary || clothingItem.material === -1 || clothingItem.formality === -1) {
       setIncompleteFields(true);
     } else {
       setNotSubmitted(false);
+      setIncompleteFields(false);
+      setColorSelect("Select");
+      setColorString("");
+      setShowShapes(false);
       let secondary : number[] = [0,0,0];
-      clothingItem.secondary = secondary;
-      await addClothing(clothingItem.category,clothingItem.type, clothingItem.formality, clothingItem.primary,clothingItem.secondary,clothingItem.material);
+      // define these local variables because reset doesn't work after the await
+      const category = clothingItem.category;
+      const type = clothingItem.type;
+      const formality = clothingItem.formality;
+      const primary = clothingItem.primary;
+      const material = clothingItem.material;
       clothingItem.reset();
+      await addClothing(category, type, formality, primary, secondary, material);
     }
   }
 
@@ -273,12 +281,6 @@ export default function UploadBox(props: UploadBoxProps) {
           <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
         </div>
       </div>
-      <div className="row2">
-        <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
-        <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
-        <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
-      </div>
-    </div>
     {showShapes && (
       <div className="shapes-container">
         <h3 className="shapes-header"> Subcategory: </h3>
