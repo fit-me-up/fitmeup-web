@@ -12,6 +12,7 @@ export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
   setClothing: Dispatch<SetStateAction<string[]>>;
   clothes: string[];
+  clothingItem: ClothingItem;
 }
 
 function determineBottom(shape: number | undefined, material: number | undefined, formality: number | undefined) {
@@ -72,13 +73,20 @@ export function determineCategory(category: number | undefined, shape: number | 
  * @returns 
  */
 export default function UploadBox(props: UploadBoxProps) {
-
-  const [clothingItem, setClothingItem] = useState<ClothingItem>(new ClothingItem());
-  const [notSubmitted, setNotSubmitted] = useState<boolean>(false);
+  const clothingItem = props.clothingItem;
+  const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
   const [clothingType, setClothingType] = useState<number>();
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Shape][]>([]); // list of tuples for [label, enum]
   
+  /**
+   * Handles behavior for the x being pressed to close the upload box
+   */
+  const handleBoxClose = () => {
+    props.setShowAddBox(false);
+    clothingItem.reset();
+    setNotSubmitted(true);
+  };
   /**
    * Handles behavior for when a type button is pressed
    * @param type enum for clothing type
@@ -180,7 +188,7 @@ export default function UploadBox(props: UploadBoxProps) {
       clothingItem.primary = [color.r / 255, color.g / 255, color.b / 255];
       setColorSelect("Selected!");
     } else {
-      clothingItem.primary = [color.r / 255, color.g / 255, color.b / 255];
+      clothingItem.color = undefined;
       setColorSelect("Select");
     }
   }
@@ -223,15 +231,20 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
-  async function handleSubmit() {
-    setNotSubmitted(!notSubmitted);
-    let secondary : number[] = [0,0,0];
-    clothingItem.secondary = secondary;
-    console.log(clothingItem);
-    await addClothing(clothingItem.category,clothingItem.type, clothingItem.formality, clothingItem.primary,clothingItem.secondary,clothingItem.material);
+  const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
-    // if all fields are defined, submit
-    // else "please fill out all fields"
+  function handleSubmit() {
+    console.log(clothingItem);
+    if (clothingItem.type === undefined || clothingItem.shape === undefined || clothingItem.color === undefined || clothingItem.material === undefined || clothingItem.formality === undefined) {
+      // alert("Temporary alert (will change): Please fill out all fields.");
+      setIncompleteFields(true);
+    } else {
+      setNotSubmitted(false);
+      let secondary : number[] = [0,0,0];
+      clothingItem.secondary = secondary;
+      await addClothing(clothingItem.category,clothingItem.type, clothingItem.formality, clothingItem.primary,clothingItem.secondary,clothingItem.material);
+      clothingItem.reset();
+    }
   }
 
   async function addClothing(category: number, subcategory : number, formality : number, primary : number[], secondary : number[], material: number) {
@@ -240,79 +253,83 @@ export default function UploadBox(props: UploadBoxProps) {
     // props.setClothing(prevClothes => [prevClothes, newItem]);
   }
 
-    return notSubmitted ? (
-      // prettier-ignore
-      <div className="add-box">
-        <img
-          className="close-button"
-          src={closebutton}
-          onClick={() => props.setShowAddBox(false)}
-          aria-label="Close"
-        />
-        <h1> Add to Closet </h1>
-        <div className="types-container">
-          <h3 className="clothing-type-header"> Clothing Type:</h3>
-          <div className="row1">
-            <button id="type 0" className="inactive" onClick={() => handleTypePress(ClothingType.Top)}>Top</button>
-            <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottom</button>
-            <button id="type 2" className="inactive" onClick={() => handleTypePress(ClothingType.FullBody)}>Full Body</button>
-          </div>
-          <div className="row2">
-            <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
-            <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
-            <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
-          </div>
-        </div>
-        {showShapes && (
-          <div className="shapes-container">
-            <h3 className="shapes-header"> Subcategory: </h3>
-            <div className="button-container">
-              {shapeLabels.map((label) => (
-                <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
-                  {label[0]}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-        <div className="color-container">
-          <h3>Color:</h3>
-          <div className="picker-container">
-            <RgbColorPicker color={color} onChange={handleColorChange}/>
-            <div className="color-display">
-              <div className="color-box" style={{backgroundColor: colorString}}/>
-              <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
-            </div>
-          </div>
-        </div>
-        <div className="material-container">
-          <h3>Material:</h3>
-          <div className="material-container row1" >
-            <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
-            <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
-            <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
-            <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
-          </div>
-          <div className="material-container row2" >
-            <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
-            <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
-            <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
-          </div>
-        </div>
-        <div className="formality-container">
-          <h3 > Formality: </h3>
-          <div className="button-container">
-            <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
-            <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
-            <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
-          </div>
-        </div>
-        <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
-      </div>
-    ) : (
+  return notSubmitted ? (
+    // prettier-ignore
     <div className="add-box">
-      <p> Temporary submitted page</p>
-      <button onClick={handleSubmit}>Temporary unsubmit</button>
+      <div className="close-button-container">
+        <img className="close-button" src={closebutton} onClick={handleBoxClose} aria-label="Close"/>
+      </div>
+      <h1> Add to Closet </h1>
+      <div className="types-container">
+        <h3 className="clothing-type-header"> Clothing Type:</h3>
+        <div className="row1">
+          <button id="type 0" className="inactive" onClick={() => handleTypePress(ClothingType.Top)}>Top</button>
+          <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottom</button>
+          <button id="type 2" className="inactive" onClick={() => handleTypePress(ClothingType.FullBody)}>Full Body</button>
+        </div> 
+        <div className="row2">
+          <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
+          <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
+          <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
+        </div>
+      </div>
+      <div className="row2">
+        <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
+        <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
+        <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
+      </div>
     </div>
-    ) 
+    {showShapes && (
+      <div className="shapes-container">
+        <h3 className="shapes-header"> Subcategory: </h3>
+        <div className="button-container">
+          {shapeLabels.map((label) => (
+            <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
+              {label[0]}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+    <div className="color-container">
+      <h3>Color:</h3>
+      <div className="picker-container">
+        <RgbColorPicker color={color} onChange={handleColorChange}/>
+        <div className="color-display">
+          <div className="color-box" style={{backgroundColor: colorString}}/>
+          <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
+        </div>
+      </div>
+    </div>
+    <div className="material-container">
+      <h3>Material:</h3>
+      <div className="material-container row1" >
+        <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
+        <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
+        <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
+        <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
+      </div>
+      <div className="material-container row2" >
+        <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
+        <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
+        <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
+      </div>
+    </div>
+    <div className="formality-container">
+      <h3 > Formality: </h3>
+      <div className="button-container">
+        <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
+        <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
+        <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
+      </div>
+    </div>
+    <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
+    { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
+  </div>
+  ) : (
+  <div className="add-box">
+    <p> Temporary submitted page</p>
+    <button onClick={()=> setNotSubmitted(true)}>Temporary unsubmit</button>
+  </div>
+  ) 
 }
