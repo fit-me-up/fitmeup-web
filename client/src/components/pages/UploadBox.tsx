@@ -1,12 +1,12 @@
 import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
 import "../../styles/uploadbox.scss";
 import { closebutton } from "../../icons/icons";
-import jeans from "../../icons/jeans.png";
-import cardigan from "../../icons/cardigan.png";
+import {jeans, sweater, skirt, jeanshorts, shorts, longsleeve} from "../../icons/clothes/clothes"
 import { ClothingType, Formality, Material, Shape } from "../../items/enums";
 import { ClothingItem } from "../../items/ClothingItem";
 import { addClothingItem, listClothing } from "../pages/HomePage";
 import { RgbColor, RgbColorPicker } from "react-colorful";
+
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
@@ -15,22 +15,55 @@ export interface UploadBoxProps {
   clothingItem: ClothingItem;
 }
 
-export function determineCategory(category: number | undefined) {
+function determineBottom(shape: number | undefined, material: number | undefined, formality: number | undefined) {
+  switch (shape) {
+    case 3:
+      return skirt;
+    case 4:
+      if (formality == 0) {
+        return "dresspants";
+      } else {
+        if (material == 3 || material == 2) {
+          return jeans;
+        } else {
+          return "sweatpants";
+        }
+      }
+    case 5:
+      if (material == 3 || material == 2) {
+        return jeanshorts;
+      } else {
+        return shorts;
+      }
+  }
+}
+
+function determineTOP(shape: number | undefined, material: number | undefined, formality: number | undefined) {
+  switch (shape) {
+    case 0:
+      if (formality == 0) {
+        return "button down";
+      } else {
+        return longsleeve;
+      }
+    case 1:
+      return "short-sleeve";
+    case 2:
+      return "tank";
+  }
+}
+
+export function determineCategory(category: number | undefined, shape: number | undefined, material: number | undefined, formality: number | undefined) {
     console.log(category);
     switch (category) {
-      case 0:
-        console.log("Entering TOP case");
-        return cardigan;
-      case 1:
-        return jeans;
+      case ClothingType.Top:
+        console.log("here");
+        return determineTOP(shape,material,formality);
+      case ClothingType.Bottom:
+        return determineBottom(shape, material, formality);
       default:
         console.log("Unknown or undefined category:", category);
-        return (
-          <div>
-            {/* Fallback JSX for unknown or undefined category */}
-            Unknown category
-          </div>
-        );
+        
     }
   };
 
@@ -71,11 +104,13 @@ export default function UploadBox(props: UploadBoxProps) {
     
     if (type === clothingType && showShapes) {
       setShowShapes(false);
-      clothingItem.type = undefined;
+      clothingItem.type = -1;
     } else {
+      console.log(type);
       setClothingType(type);
       setShowShapes(true);
       clothingItem.type = type;
+      console.log(clothingItem.type);
 
       // selects active button visually
       const buttonName = "type " + type.toString();
@@ -112,16 +147,16 @@ export default function UploadBox(props: UploadBoxProps) {
    * Handles behavior for when a shape button is pressed
    * @param shape enum for shape
    */
-  function handleShapeSelection(shape: Shape) {
+  function handleShapeSelection(category: Shape) {
     const activeButton = document.getElementsByClassName("shape-active");
     if (activeButton[0]) {
       activeButton[0].className = "inactive";
     }
-    if (clothingItem.shape === shape) {
-        clothingItem.shape === undefined;
+    if (clothingItem.category === category) {
+        clothingItem.category = -1;
     } else {
-        clothingItem.shape = shape;
-        const buttonName = "shape " + shape.toString();
+        clothingItem.category = category;
+        const buttonName = "shape " + category.toString();
         const pressedButton = document.getElementById(buttonName);
         if (pressedButton !== null) {
           pressedButton.className = "shape-active";
@@ -148,8 +183,9 @@ export default function UploadBox(props: UploadBoxProps) {
    * @param color the selected RGB color 
    */
   function handleColorSelection(color: RgbColor) {
+    clothingItem.primary = [color.r / 255, color.g / 255, color.b / 255];
     if (colorSelect === "Select") {
-      clothingItem.color = [color.r, color.g, color.b];
+      clothingItem.primary = [color.r / 255, color.g / 255, color.b / 255];
       setColorSelect("Selected!");
     } else {
       clothingItem.color = undefined;
@@ -204,18 +240,17 @@ export default function UploadBox(props: UploadBoxProps) {
       setIncompleteFields(true);
     } else {
       setNotSubmitted(false);
-      addClothing(clothingItem.type, clothingItem.shape, clothingItem.color, clothingItem.material, clothingItem.formality);
+      let secondary : number[] = [0,0,0];
+      clothingItem.secondary = secondary;
+      await addClothing(clothingItem.category,clothingItem.type, clothingItem.formality, clothingItem.primary,clothingItem.secondary,clothingItem.material);
       clothingItem.reset();
     }
-    // if all fields are defined, submit
-    // else "please fill out all fields"
   }
 
-  async function addClothing(type: ClothingType, shape: Shape, color: number[], material: Material, formality: Formality) {
-    await addClothingItem("1", "0", 0, 0, 0, "0-0-1-10-12-14", "0");
-    let newItem = await addClothingItem("1", "1", 1, 1, 0, "0-0-1-10-12-14", "0");
-    // let json = await listClothing("1");
-    props.setClothing(prevClothes => [prevClothes, newItem]);
+  async function addClothing(category: number, subcategory : number, formality : number, primary : number[], secondary : number[], material: number) {
+    await addClothingItem("1", "1", category, subcategory, formality, primary, secondary, material);
+    // console.log(newItem);
+    // props.setClothing(prevClothes => [prevClothes, newItem]);
   }
 
   return notSubmitted ? (
@@ -231,60 +266,66 @@ export default function UploadBox(props: UploadBoxProps) {
           <button id="type 0" className="inactive" onClick={() => handleTypePress(ClothingType.Top)}>Top</button>
           <button id="type 1" className="inactive" onClick={() => handleTypePress(ClothingType.Bottom)}>Bottom</button>
           <button id="type 2" className="inactive" onClick={() => handleTypePress(ClothingType.FullBody)}>Full Body</button>
-        </div>
+        </div> 
         <div className="row2">
           <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
           <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
           <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
         </div>
       </div>
-      {showShapes && (
-        <div className="shapes-container">
-          <h3 className="shapes-header"> Subcategory: </h3>
-          <div className="button-container">
-            {shapeLabels.map((label) => (
-              <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
-                {label[0]}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-      <div className="color-container">
-        <h3>Color:</h3>
-        <div className="picker-container">
-          <RgbColorPicker color={color} onChange={handleColorChange}/>
-          <div className="color-display">
-            <div className="color-box" style={{backgroundColor: colorString}}/>
-            <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
-          </div>
-        </div>
+      <div className="row2">
+        <button id="type 3" className="inactive" onClick={() => handleTypePress(ClothingType.Shoe)}>Shoe</button>
+        <button id="type 4" className="inactive" onClick={() => handleTypePress(ClothingType.Outerwear)}>Outerwear</button>
+        <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
       </div>
-      <div className="material-container">
-        <h3>Material:</h3>
-        <div className="material-container row1" >
-          <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
-          <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
-          <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
-          <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
-        </div>
-        <div className="material-container row2" >
-          <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
-          <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
-          <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
-        </div>
-      </div>
-      <div className="formality-container">
-        <h3 > Formality: </h3>
-        <div className="button-container">
-          <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
-          <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
-          <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
-        </div>
-      </div>
-      <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
-      { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
     </div>
+    {showShapes && (
+      <div className="shapes-container">
+        <h3 className="shapes-header"> Subcategory: </h3>
+        <div className="button-container">
+          {shapeLabels.map((label) => (
+            <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
+              {label[0]}
+            </button>
+          ))}
+        </div>
+      </div>
+    )}
+    <div className="color-container">
+      <h3>Color:</h3>
+      <div className="picker-container">
+        <RgbColorPicker color={color} onChange={handleColorChange}/>
+        <div className="color-display">
+          <div className="color-box" style={{backgroundColor: colorString}}/>
+          <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
+        </div>
+      </div>
+    </div>
+    <div className="material-container">
+      <h3>Material:</h3>
+      <div className="material-container row1" >
+        <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
+        <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
+        <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
+        <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
+      </div>
+      <div className="material-container row2" >
+        <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
+        <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
+        <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
+      </div>
+    </div>
+    <div className="formality-container">
+      <h3 > Formality: </h3>
+      <div className="button-container">
+        <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
+        <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
+        <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
+      </div>
+    </div>
+    <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
+    { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
+  </div>
   ) : (
   <div className="add-box">
     <p> Temporary submitted page</p>

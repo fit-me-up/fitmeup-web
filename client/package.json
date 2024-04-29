@@ -7,7 +7,7 @@
     "start": "vite",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test", 
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -16,7 +16,7 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
     "dotenv": "^16.4.4",
-    "firebase": "^10.11.0",
+    "firebase": "^10.11.1",
     "js-cookie": "^3.0.5",
     "mapbox-gl": "^3.2.0",
     "playwright": "^1.38.1",
