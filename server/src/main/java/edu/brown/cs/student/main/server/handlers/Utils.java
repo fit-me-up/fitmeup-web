@@ -55,7 +55,7 @@ public class Utils {
     String[] parts = clothing.split(",");
     int id = Integer.parseInt(parts[0]);
     Category cat = Category.values()[Integer.parseInt(parts[1])];
-    Shape shape = Shape.values()[Integer.parseInt(parts[2])];
+    Subcategory subcat = Subcategory.values()[Integer.parseInt(parts[2])];
     Formality formality = Formality.values()[Integer.parseInt(parts[3])];
     Material material = Material.values()[Integer.parseInt(parts[5])];
     String[] colors = parts[4].split("-");
@@ -69,7 +69,7 @@ public class Utils {
             Integer.parseInt(colors[3]), Integer.parseInt(colors[4]), Integer.parseInt(colors[5]));
     Palette palette = new Palette(color1, color2);
 
-    return new Clothing(id, cat, shape, formality, palette, material);
+    return new Clothing(id, cat, subcat, formality, palette, material);
   }
 
   /*
@@ -95,7 +95,7 @@ public class Utils {
         + ","
         + clothing.category().ordinal()
         + ","
-        + clothing.type().ordinal()
+        + clothing.subcategory().ordinal()
         + ","
         + clothing.formality().ordinal()
         + ","
@@ -118,7 +118,7 @@ public class Utils {
             clothing.colors().accent().b());
     map.put("id", Integer.toString(clothing.id()));
     map.put("category", Integer.toString(clothing.category().ordinal()));
-    map.put("type", Integer.toString(clothing.type().ordinal()));
+    map.put("subcategory", Integer.toString(clothing.subcategory().ordinal()));
     map.put("formality", Integer.toString(clothing.formality().ordinal()));
     map.put("primary", hexColor1);
     map.put("accent", hexColor2);

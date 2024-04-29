@@ -3,7 +3,7 @@ package edu.brown.cs.student.generator.mocking;
 import edu.brown.cs.student.main.server.clothing.enums.Category;
 import edu.brown.cs.student.main.server.clothing.enums.Formality;
 import edu.brown.cs.student.main.server.clothing.enums.Material;
-import edu.brown.cs.student.main.server.clothing.enums.Shape;
+import edu.brown.cs.student.main.server.clothing.enums.Subcategory;
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Color;
 import edu.brown.cs.student.main.server.clothing.records.Palette;
@@ -18,7 +18,7 @@ public class MockedCloset {
         new Clothing(
             1,
             Category.TOP,
-            Shape.LONG_SLEEVE,
+            Subcategory.LONG_SLEEVE,
             Formality.FLEX,
             new Palette(new Color(1.0, 1.0, 1.0), new Color(0.0, 0.0, 0.0)),
             Material.WOOL_COTTON));
@@ -27,7 +27,7 @@ public class MockedCloset {
         new Clothing(
             2,
             Category.TOP,
-            Shape.NO_SLEEVE,
+            Subcategory.NO_SLEEVE,
             Formality.FLEX,
             new Palette(new Color(1.0, 1.0, 1.0), new Color(1.0, 0.0, 0.0)),
             Material.STRETCHY_SPANDEX));
@@ -36,7 +36,7 @@ public class MockedCloset {
         new Clothing(
             3,
             Category.FULL_BODY,
-            Shape.DRESS,
+            Subcategory.DRESS,
             Formality.FLEX,
             new Palette(new Color(0.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
             Material.SOFT_FUR));
@@ -45,7 +45,7 @@ public class MockedCloset {
         new Clothing(
             4,
             Category.SHOE,
-            Shape.SANDAL,
+            Subcategory.SANDAL,
             Formality.FLEX,
             new Palette(new Color(1.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
             Material.NOT_APPLICABLE));
@@ -54,7 +54,7 @@ public class MockedCloset {
         new Clothing(
             5,
             Category.ACCESSORY,
-            Shape.HEADWEAR,
+            Subcategory.HEADWEAR,
             Formality.FLEX,
             new Palette(new Color(0.7, 0.7, 0.0), new Color(0.0, 0.0, 0.0)),
             Material.WOOL_COTTON));
@@ -63,7 +63,7 @@ public class MockedCloset {
         new Clothing(
             6,
             Category.OUTERWEAR,
-            Shape.JACKET,
+            Subcategory.JACKET,
             Formality.FLEX,
             new Palette(new Color(0.2, 0.2, 0.2), new Color(0.0, 0.0, 0.0)),
             Material.PLASTIC_NYLON));
@@ -72,7 +72,7 @@ public class MockedCloset {
         new Clothing(
             7,
             Category.BOTTOM,
-            Shape.PANTS,
+            Subcategory.PANTS,
             Formality.FLEX,
             new Palette(new Color(0.0, 0.0, 0.2), new Color(0.0, 0.0, 0.0)),
             Material.DENIM));

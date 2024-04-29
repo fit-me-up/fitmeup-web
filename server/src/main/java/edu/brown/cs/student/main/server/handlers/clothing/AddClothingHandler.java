@@ -35,14 +35,14 @@ public class AddClothingHandler implements Route {
       String uid = request.queryParams("uid");
       String id = request.queryParams("id");
       String category = request.queryParams("category");
-      String type = request.queryParams("type");
+      String subcategory = request.queryParams("subcategory");
       String formality = request.queryParams("formality");
       String colors = request.queryParams("colors");
       String material = request.queryParams("material");
 
       Map<String, Object> data = new HashMap<>();
       String clothing =
-          id + "," + category + "," + type + "," + formality + "," + colors + "," + material;
+          id + "," + category + "," + subcategory + "," + formality + "," + colors + "," + material;
       data.put("clothing", clothing);
       String clothingId = "clothing-" + id;
 

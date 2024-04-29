@@ -1,6 +1,6 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
-public enum Shape {
+public enum Subcategory {
   LONG_SLEEVE(0),
   SHORT_SLEEVE(1),
   NO_SLEEVE(2),
@@ -22,7 +22,7 @@ public enum Shape {
 
   private final int index;
 
-  Shape(int id) {
+  Subcategory(int id) {
     this.index = id;
   }
 
