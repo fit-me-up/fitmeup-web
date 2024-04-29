@@ -63,6 +63,7 @@ export default function ClosetPage() {
           setShowAddBox={setShowAddBox}
           setClothing={setClothes}
           clothes={clothes}
+          clothingItem={new ClothingItem()}
         />
         // </div>
       )}

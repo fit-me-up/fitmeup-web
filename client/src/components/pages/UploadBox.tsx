@@ -12,6 +12,7 @@ export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
   setClothing: Dispatch<SetStateAction<string[]>>;
   clothes: string[];
+  clothingItem: ClothingItem;
 }
 
 export function determineCategory(category: number | undefined) {
@@ -39,12 +40,20 @@ export function determineCategory(category: number | undefined) {
  * @returns 
  */
 export default function UploadBox(props: UploadBoxProps) {
-  const clothingItem = new ClothingItem();
-  const [notSubmitted, setNotSubmitted] = useState<boolean>(false);
+  const clothingItem = props.clothingItem;
+  const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
   const [clothingType, setClothingType] = useState<number>();
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Shape][]>([]); // list of tuples for [label, enum]
   
+  /**
+   * Handles behavior for the x being pressed to close the upload box
+   */
+  const handleBoxClose = () => {
+    props.setShowAddBox(false);
+    clothingItem.reset();
+    setNotSubmitted(true);
+  };
   /**
    * Handles behavior for when a type button is pressed
    * @param type enum for clothing type
@@ -143,7 +152,7 @@ export default function UploadBox(props: UploadBoxProps) {
       clothingItem.color = [color.r, color.g, color.b];
       setColorSelect("Selected!");
     } else {
-      clothingItem.color = [color.r, color.g, color.b];
+      clothingItem.color = undefined;
       setColorSelect("Select");
     }
   }
@@ -186,12 +195,17 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
+  const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
+
   function handleSubmit() {
-    setNotSubmitted(!notSubmitted);
+    console.log(clothingItem);
     if (clothingItem.type === undefined || clothingItem.shape === undefined || clothingItem.color === undefined || clothingItem.material === undefined || clothingItem.formality === undefined) {
-      alert("Temporary alert (will change): Please fill out all fields.");
+      // alert("Temporary alert (will change): Please fill out all fields.");
+      setIncompleteFields(true);
     } else {
+      setNotSubmitted(false);
       addClothing(clothingItem.type, clothingItem.shape, clothingItem.color, clothingItem.material, clothingItem.formality);
+      clothingItem.reset();
     }
     // if all fields are defined, submit
     // else "please fill out all fields"
@@ -207,12 +221,9 @@ export default function UploadBox(props: UploadBoxProps) {
   return notSubmitted ? (
     // prettier-ignore
     <div className="add-box">
-      <img
-        className="close-button"
-        src={closebutton}
-        onClick={() => props.setShowAddBox(false)}
-        aria-label="Close"
-      />
+      <div className="close-button-container">
+        <img className="close-button" src={closebutton} onClick={handleBoxClose} aria-label="Close"/>
+      </div>
       <h1> Add to Closet </h1>
       <div className="types-container">
         <h3 className="clothing-type-header"> Clothing Type:</h3>
@@ -272,11 +283,12 @@ export default function UploadBox(props: UploadBoxProps) {
         </div>
       </div>
       <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
+      { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
     </div>
   ) : (
   <div className="add-box">
     <p> Temporary submitted page</p>
-    <button onClick={handleSubmit}>Temporary unsubmit</button>
+    <button onClick={()=> setNotSubmitted(true)}>Temporary unsubmit</button>
   </div>
   ) 
 }
