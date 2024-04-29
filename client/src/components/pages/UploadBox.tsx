@@ -14,63 +14,55 @@ export interface UploadBoxProps {
   clothes: string[];
 }
 
-function determineBottom(shape: string, material: string, formality: string) {
+function determineBottom(shape: number | undefined, material: number | undefined, formality: number | undefined) {
   switch (shape) {
-    case "SKIRT":
+    case 3:
       return skirt;
-    case "SHORTS":
-      if (material == "DENIM" || material == "LEATHER") {
+    case 4:
+      if (formality == 0) {
+        return "dresspants";
+      } else {
+        if (material == 3 || material == 2) {
+          return jeans;
+        } else {
+          return "sweatpants";
+        }
+      }
+    case 5:
+      if (material == 3 || material == 2) {
         return jeanshorts;
       } else {
         return shorts;
       }
-    case "PANTS":
-      if (formality == "FORMAL") {
-        return 'dresspants';
-      } else {
-         if (material == "DENIM" || material == "LEATHER") {
-           return jeans;
-         } else {
-          return 'sweatpants';
-         }
-      }
   }
 }
 
-function determineTOP(shape: string, material: string, formality: string) {
+function determineTOP(shape: number | undefined, material: number | undefined, formality: number | undefined) {
   switch (shape) {
-    case "NO_SLEEVE":
-      return 'tank';
-    case "SHORT_SLEEVE":
-      return 'short-sleeve'
-    case "LONG_SLEEVE":
-      if (formality == "FORMAL") {
-        return 'button down'
+    case 0:
+      if (formality == 0) {
+        return "button down";
       } else {
         return longsleeve;
       }
+    case 1:
+      return "short-sleeve";
+    case 2:
+      return "tank";
   }
 }
 
-
-
-
-export function determineCategory(category: number | undefined) {
+export function determineCategory(category: number | undefined, shape: number | undefined, material: number | undefined, formality: number | undefined) {
     console.log(category);
     switch (category) {
-      case 0:
-        console.log("Entering TOP case");
-        return sweater;
-      case 1:
-        return jeans;
+      case ClothingType.Top:
+        console.log("here");
+        return determineTOP(shape,material,formality);
+      case ClothingType.Bottom:
+        return determineBottom(shape, material, formality);
       default:
         console.log("Unknown or undefined category:", category);
-        return (
-          <div>
-            {/* Fallback JSX for unknown or undefined category */}
-            Unknown category
-          </div>
-        );
+        
     }
   };
 
@@ -139,16 +131,16 @@ export default function UploadBox(props: UploadBoxProps) {
    * Handles behavior for when a shape button is pressed
    * @param shape enum for shape
    */
-  function handleShapeSelection(shape: Shape) {
+  function handleShapeSelection(category: Shape) {
     const activeButton = document.getElementsByClassName("shape-active");
     if (activeButton[0]) {
       activeButton[0].className = "inactive";
     }
-    if (clothingItem.shape === shape) {
-        clothingItem.shape === undefined;
+    if (clothingItem.category === category) {
+        clothingItem.category === undefined;
     } else {
-        clothingItem.shape = shape;
-        const buttonName = "shape " + shape.toString();
+        clothingItem.category = category;
+        const buttonName = "shape " + category.toString();
         const pressedButton = document.getElementById(buttonName);
         if (pressedButton !== null) {
           pressedButton.className = "shape-active";
@@ -161,7 +153,7 @@ export default function UploadBox(props: UploadBoxProps) {
    * @param color the selected RGB color 
    */
   function handleColorSelection(color: RgbColor) {
-    clothingItem.color = [color.r, color.g, color.b];
+    clothingItem.color = [color.r / 255, color.g / 255, color.b / 255];
   }
 
   function submitItem() {

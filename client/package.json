@@ -7,7 +7,7 @@
     "start": "vite",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test", 
     "build": "vite build",
     "serve": "vite preview"
   },

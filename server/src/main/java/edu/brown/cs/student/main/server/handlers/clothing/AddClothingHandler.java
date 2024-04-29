@@ -50,7 +50,7 @@ public class AddClothingHandler implements Route {
       this.storageHandler.addDocument(uid, "clothing", clothingId, data);
 
       responseMap.put("response_type", "success");
-      responseMap.put("clothing", Utils.fromStringClothing(clothing));
+      responseMap.put("clothing", Utils.clothingToHashMap(Utils.fromStringClothing(clothing)));
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");
