@@ -1,6 +1,6 @@
 import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
 import "../../styles/uploadbox.scss";
-import { closebutton } from "../../icons/icons";
+import { closebutton, success } from "../../icons/icons";
 import {jeans, sweater, skirt, jeanshorts, shorts, longsleeve} from "../../icons/clothes/clothes"
 import { ClothingType, Formality, Material, Shape } from "../../items/enums";
 import { ClothingItem } from "../../items/ClothingItem";
@@ -267,7 +267,7 @@ export default function UploadBox(props: UploadBoxProps) {
       <div className="close-button-container">
         <img className="close-button" src={closebutton} onClick={handleBoxClose} aria-label="Close"/>
       </div>
-      <h1> Add to Closet </h1>
+      <h1 className="add-message"> Add to Closet </h1>
       <div className="types-container">
         <h3 className="clothing-type-header"> Clothing Type:</h3>
         <div className="row1">
@@ -281,57 +281,66 @@ export default function UploadBox(props: UploadBoxProps) {
           <button id="type 5" className="inactive" onClick={() => handleTypePress(ClothingType.Accessory)}>Accessory</button>
         </div>
       </div>
-    {showShapes && (
-      <div className="shapes-container">
-        <h3 className="shapes-header"> Subcategory: </h3>
+      {showShapes && (
+        <div className="shapes-container">
+          <h3 className="shapes-header"> Subcategory: </h3>
+          <div className="button-container">
+            {shapeLabels.map((label) => (
+              <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
+                {label[0]}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="color-container">
+        <h3>Color:</h3>
+        <div className="picker-container">
+          <RgbColorPicker color={color} onChange={handleColorChange}/>
+          <div className="color-display">
+            <div className="color-box" style={{backgroundColor: colorString}}/>
+            <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
+          </div>
+        </div>
+      </div>
+      <div className="material-container">
+        <h3>Material:</h3>
+        <div className="material-container row1" >
+          <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
+          <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
+          <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
+          <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
+        </div>
+        <div className="material-container row2" >
+          <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
+          <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
+          <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
+        </div>
+      </div>
+      <div className="formality-container">
+        <h3 > Formality: </h3>
         <div className="button-container">
-          {shapeLabels.map((label) => (
-            <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
-              {label[0]}
-            </button>
-          ))}
+          <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
+          <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
+          <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
         </div>
       </div>
-    )}
-    <div className="color-container">
-      <h3>Color:</h3>
-      <div className="picker-container">
-        <RgbColorPicker color={color} onChange={handleColorChange}/>
-        <div className="color-display">
-          <div className="color-box" style={{backgroundColor: colorString}}/>
-          <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
-        </div>
-      </div>
+      <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
+      { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
     </div>
-    <div className="material-container">
-      <h3>Material:</h3>
-      <div className="material-container row1" >
-        <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
-        <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
-        <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
-        <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
-      </div>
-      <div className="material-container row2" >
-        <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
-        <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
-        <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
-      </div>
-    </div>
-    <div className="formality-container">
-      <h3 > Formality: </h3>
-      <div className="button-container">
-        <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
-        <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
-        <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
-      </div>
-    </div>
-    <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
-    { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
-  </div>
   ) : (
-  <div className="add-box">
-    <p> Temporary submitted page</p>
-    <button onClick={()=> setNotSubmitted(true)}>Temporary unsubmit</button>
-  </div>
-  ) 
+    <div className="add-box">
+      <div className="close-button-container">
+        <img className="close-button" src={closebutton} onClick={handleBoxClose} aria-label="Close" />
+      </div>
+      <h1 className="success-message"> Successfully added item!</h1>
+      <button className="newitem-button" onClick={() => setNotSubmitted(true)}>
+        Add another item
+      </button>
+      <br></br>
+      <button className="closet-button" onClick={handleBoxClose}>Back to closet</button>
+      <br></br>
+      <img className="success-icon" src={success} />
+    </div>
+  ); 
 }
