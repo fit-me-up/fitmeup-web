@@ -5,8 +5,7 @@ import sunlogo from "../../styles/images/sunshinefitmeup.png"
 import snowylogo from "../../styles/images/snowfitmeup.png"
 import rainylogo from "../../styles/images/rainyfitmeup.png"
 import cloudylogo from "../../styles/images/cloudyfitmeup.png"
-import { ClothingType, Formality, Material, Shape } from "../../items/enums";
-import { RgbColor, RgbColorPicker } from "react-colorful";
+
 
 
 const HOST = "http://localhost:3232";
@@ -17,7 +16,7 @@ async function queryAPI(
   ) {
     const paramsString = new URLSearchParams(query_params).toString();
     const url = `${HOST}/${endpoint}?${paramsString}`;
-    console.log(url);
+    console.log(url)
     const response = await fetch(url);
     if (!response.ok) {
       console.error(response.status, response.statusText);
@@ -32,14 +31,15 @@ export async function getWeatherData(lat: number, lon: number) {
     });
   }
 
-export async function addClothingItem(uid: string, id: string, category: number, subcategory : number, formality : number, primary : number[], secondary : number[], material: Material) {
+export async function addClothingItem(uid: number, id: number, category: number, subcategory : number, formality : number, primary : string, secondary : string, material: number) {
   return await queryAPI("add-clothing", {
-    uid: uid,
-    id : id,
+    uid: uid.toString(),
+    id : id.toString(),
     category: category.toString(),
-    type : subcategory.toString(),
+    subcategory : subcategory.toString(),
     formality: formality.toString(),
-    colors: primary[0].toString() + "-" + primary[1].toString() + "-" + primary[2].toString() + "-" + secondary[0].toString() + "-" + secondary[1].toString() + "-" + secondary[2].toString(),
+    primary: primary,
+    secondary: secondary,
     material: material.toString()
   })
 }
@@ -70,7 +70,7 @@ export function mapToImage(weather: WeatherType) {
   }
 }
 
-export function determineWeatherIcon(cloud: number, rain: number, snow : number) : WeatherType{
+export function determineWeatherIcon(cloud: number, rain: number, snow : number) {
   if (snow > 1) {
     return WeatherType.SNOW;
   } else if (rain > 50) {

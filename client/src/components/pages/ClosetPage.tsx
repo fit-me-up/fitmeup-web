@@ -12,25 +12,29 @@ import "../../styles/closetpage.scss";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import UploadBox from "./UploadBox";
 import { addClothingItem, listClothing } from "../pages/HomePage";
-import { determineCategory} from "./UploadBox";
+import { determineCategory } from "../../utils/determineImage";
 import { ClothingItem } from "../../items/ClothingItem";
 
 export default function ClosetPage() {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
-  const [clothes, setClothes] = useState<string[]>([]);
+  const [clothes, setClothes] = useState<ClothingItem[]>([]);
+  const [clothingDisplay, setClothingDisplay] = useState<[string, string][]>([]);
 
-  // useEffect(() => {
-  //   // just changed this to the ClothingItem class I made, but def modify the class for the correct fields
-  //   listClothing("1").then((clothing: { clothing : ClothingItem[]}) => clothing.clothing)
-  //   .then((clothes : ClothingItem[]) => {
-  //     let clotheImages : string[] = [];
-  //     clothes.forEach(clothing => {
-  //       console.log(clothing.category);
-  //       clotheImages.push(determineCategory(clothing.category, clothing.type, clothing.material, clothing.formality));
-  //     });
-  //     setClothes(clotheImages);
-  //   })
-  // }, []);
+
+
+  useEffect(() => {
+    listClothing("2").then((clothing : {clothing : ClothingItem[]}) => {
+      let clothes = clothing.clothing;
+      let display : [string, string][] = [];
+      setClothes(clothes);
+      clothes.forEach((clothe => {
+        let img = determineCategory(clothe.category,clothe.subcategory,clothe.material,clothe.formality);
+        display.push([img,clothe.primary]);
+      }));
+      setClothingDisplay(display);
+    });  
+  }, [])
+
 
   return (
     <body>
@@ -51,18 +55,21 @@ export default function ClosetPage() {
         // <div className="overlay">
         <UploadBox
           setShowAddBox={setShowAddBox}
-          setClothing={setClothes}
-          clothes={clothes}
           clothingItem={new ClothingItem()}
+          listofClothes={clothes}
+
         />
         // </div>
       )}
-
-      <div className="clothing">
-        {clothes.map((img, index) => (
-          <img key={index} src={img} alt="Marker" className={"img-" + index} />
-        ))}
-      </div>
+      {!showAddBox && (
+        <div className="closet-container">
+              {clothingDisplay.map((img, index) => (
+                <div className="box">
+                  <img key={index} src={img[0]} alt="Marker" className={"img"} style={{backgroundColor: img[1]}}/>
+                </div>
+              ))}
+        </div>
+      )}
     </body>
   );
 }

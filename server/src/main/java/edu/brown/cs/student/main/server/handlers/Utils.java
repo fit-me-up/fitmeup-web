@@ -51,23 +51,14 @@ public class Utils {
    * @return the clothing object.
    */
   public static Clothing fromStringClothing(String clothing) {
-    System.out.println(clothing);
     String[] parts = clothing.split(",");
+
     int id = Integer.parseInt(parts[0]);
     Category cat = Category.values()[Integer.parseInt(parts[1])];
     Subcategory subcat = Subcategory.values()[Integer.parseInt(parts[2])];
     Formality formality = Formality.values()[Integer.parseInt(parts[3])];
-    Material material = Material.values()[Integer.parseInt(parts[5])];
-    String[] colors = parts[4].split("-");
-    Color color1 =
-        new Color(
-            Double.parseDouble(colors[0]),
-            Double.parseDouble(colors[1]),
-            Double.parseDouble(colors[2]));
-    Color color2 =
-        new Color(
-            Integer.parseInt(colors[3]), Integer.parseInt(colors[4]), Integer.parseInt(colors[5]));
-    Palette palette = new Palette(color1, color2);
+    Palette palette = new Palette(hexToRGB(parts[4]), hexToRGB(parts[5]));
+    Material material = Material.values()[Integer.parseInt(parts[6])];
 
     return new Clothing(id, cat, subcat, formality, palette, material);
   }
@@ -79,18 +70,10 @@ public class Utils {
    * @return the string representation of the clothing object.
    */
   public static String toStringFromClothing(Clothing clothing) {
-    String colors =
-        clothing.colors().primary().r()
-            + "-"
-            + clothing.colors().primary().g()
-            + "-"
-            + clothing.colors().primary().b()
-            + "-"
-            + clothing.colors().accent().r()
-            + "-"
-            + clothing.colors().accent().g()
-            + "-"
-            + clothing.colors().accent().b();
+    Color prim = clothing.colors().primary();
+    Color sec = clothing.colors().accent();
+    String primary = rgbToHex(prim.r(), prim.g(), prim.b());
+    String secondary = rgbToHex(sec.r(), sec.g(), sec.b());
     return clothing.id()
         + ","
         + clothing.category().ordinal()
@@ -99,7 +82,9 @@ public class Utils {
         + ","
         + clothing.formality().ordinal()
         + ","
-        + colors
+        + primary
+        + ","
+        + secondary
         + ","
         + clothing.material().ordinal();
   }
@@ -131,5 +116,13 @@ public class Utils {
     int green = Math.min((int) (g * 255), 255);
     int blue = Math.min((int) (b * 255), 255);
     return String.format("#%02x%02x%02x", red, green, blue);
+  }
+
+  public static Color hexToRGB(String hex) {
+    double r = Integer.parseInt(hex.substring(1, 3), 16) / 255.0;
+    double g = Integer.parseInt(hex.substring(3, 5), 16) / 255.0;
+    double b = Integer.parseInt(hex.substring(5, 7), 16) / 255.0;
+
+    return new Color(r, g, b);
   }
 }

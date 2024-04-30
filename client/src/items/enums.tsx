@@ -5,7 +5,7 @@ export enum PageType {
   Closet = "closet",
 }
 
-export enum ClothingType {
+export enum Category {
     Top = 0,
     Bottom = 1,
     FullBody = 2,
@@ -14,7 +14,7 @@ export enum ClothingType {
     Accessory = 5,
 }
 
-export enum Shape {
+export enum Subcategory {
     LongSleeve = 0, 
     ShortSleeve = 1,
     NoSleeve = 2,

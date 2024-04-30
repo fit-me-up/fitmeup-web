@@ -1,17 +1,19 @@
 
 export class ClothingItem {
-  type: number = -1;
+  id : number = -1;
   category: number = -1;
-  primary: number[] = [];
-  secondary: number[] = [];
+  subcategory : number = -1;
+  primary: string = "#000000";
+  secondary: string = "#000000";
   material: number = -1;
   formality: number = -1;
 
   reset() {
-    this.type = -1;
+    this.id = -1;
     this.category = -1;
-    this.primary = [];
-    this.secondary = [];
+    this.subcategory = -1;
+    this.primary = "#000000";
+    this.secondary = "#000000";
     this.material = -1;
     this.formality = -1;
   }
