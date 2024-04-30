@@ -17,7 +17,7 @@ h3 {
     align-items: center;
     justify-content: center;
   
-    h1 {
+    .add-message {
         text-align: center;
         margin-top: 1%;
         margin-bottom: 3%;
@@ -336,4 +336,52 @@ h3 {
     padding: 0px;
     margin: 0;
     text-align: center;
+}
+
+.success-message {
+    font-size: 40px;
+    text-align: center;
+    margin-top: 2%;
+}
+
+.newitem-button {
+    height: 8%;
+    width: 35%;
+    border-radius: 20px;
+    background-color: #3f6492;
+    color: #fafaf5;
+    font-family: 'Playfair-Display';
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-style: none;
+}
+
+.newitem-button:hover, .closet-button:hover {
+    filter: brightness(85%);
+}
+
+
+.closet-button {
+    margin-top: 2%;
+    margin-bottom: 3%;
+    height: 8%;
+    width: 35%;
+    border-radius: 20px;
+    background-color: #846a95;
+    color: #fafaf5;
+    font-family: 'Playfair-Display';
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-style: none;
+
+    :hover {
+        filter: brightness(85%);
+    }
+}
+
+.success-icon {
+    position: relative;
+    left: 3%;
+    width: 44%;
+    margin: 0;
 }
