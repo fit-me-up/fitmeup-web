@@ -44,7 +44,9 @@ public class AddOutfitHandler implements Route {
       Map<String, Object> data = new HashMap<>();
       // Create comma separated ID list:
       String outfit =
-          topID
+          id
+              + ","
+              + topID
               + ","
               + bottomID
               + ","
@@ -62,7 +64,7 @@ public class AddOutfitHandler implements Route {
       this.storageHandler.addDocument(uid, "outfits", outfitID, data);
 
       responseMap.put("response_type", "success");
-      responseMap.put("outfit", outfit);
+      responseMap.put("outfit", Utils.outfitStringToHashMap(outfit));
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");

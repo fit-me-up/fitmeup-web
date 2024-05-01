@@ -6,10 +6,9 @@ import edu.brown.cs.student.main.server.clothing.generation.ClosetData;
 import edu.brown.cs.student.main.server.clothing.generation.Generator;
 import edu.brown.cs.student.main.server.clothing.records.Outfit;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
+import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.testng.Assert;
-
-import java.util.ArrayList;
 
 public class TestGen {
 
@@ -19,8 +18,7 @@ public class TestGen {
     MockedCloset source = new MockedCloset();
     ClosetData closet = new ClosetData(source.getClothing(1));
     Generator generator = new Generator(closet);
-    WeatherData weather = new WeatherData(50, 50, 50, 50, 50,
-            50, 50.0, 50.0, "12/05/2024");
+    WeatherData weather = new WeatherData(50, 50, 50, 50, 50, 50, 50.0, 50.0, "12/05/2024");
 
     double different = 0;
     for (int i = 0; i < 10; i++) {
@@ -81,7 +79,7 @@ public class TestGen {
 
   // Test that en empty closet it ok
   @Test
-  public void TestEmptyCloset(){
+  public void TestEmptyCloset() {
     ClosetData closet = new ClosetData(new ArrayList<>());
     Generator generator = new Generator(closet);
     WeatherData weather = new WeatherData(0, 0, 0, 50, 50, 50, 50.0, 50.0, "hey");
@@ -95,12 +93,11 @@ public class TestGen {
 
   // Test that if there is only one option, it gives that option each time
   @Test
-  public void TestOnePossible(){
+  public void TestOnePossible() {
     MockedCloset source = new MockedCloset();
     ClosetData closet = new ClosetData(source.getClothing(0));
     Generator generator = new Generator(closet);
-    WeatherData weather = new WeatherData(50, 50, 50, 50, 50,
-            50, 50.0, 50.0, "12/05/2024");
+    WeatherData weather = new WeatherData(50, 50, 50, 50, 50, 50, 50.0, 50.0, "12/05/2024");
 
     double different = 0;
     for (int i = 0; i < 10; i++) {
@@ -116,12 +113,11 @@ public class TestGen {
 
   // Test that formality has an effect
   @Test
-  public void TestFormality(){
+  public void TestFormality() {
     MockedCloset source = new MockedCloset();
     ClosetData closet = new ClosetData(source.getClothing(1));
     Generator generator = new Generator(closet);
-    WeatherData weather = new WeatherData(50, 50, 50, 50, 50,
-            50, 50.0, 50.0, "12/05/2024");
+    WeatherData weather = new WeatherData(50, 50, 50, 50, 50, 50, 50.0, 50.0, "12/05/2024");
 
     double formal = 0;
     double informal = 0;
@@ -138,5 +134,3 @@ public class TestGen {
     Assert.assertTrue(formal > informal);
   }
 }
-
-

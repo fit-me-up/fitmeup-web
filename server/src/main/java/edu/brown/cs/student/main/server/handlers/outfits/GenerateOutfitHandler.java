@@ -27,6 +27,7 @@ public class GenerateOutfitHandler implements Route {
   public GenerateOutfitHandler(
       StorageInterface storageHandler, WeatherDatasource weatherDatasource) {
     this.storageHandler = storageHandler;
+    this.weatherDatasource = weatherDatasource;
   }
 
   /**
@@ -45,6 +46,7 @@ public class GenerateOutfitHandler implements Route {
       int formality = Integer.parseInt(request.queryParams("formality"));
       double lat = Double.parseDouble(request.queryParams("lat"));
       double lon = Double.parseDouble(request.queryParams("lon"));
+      String outfitID = request.queryParams("id");
 
       // Get all the clothing items for the user
       List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "clothing");
@@ -62,7 +64,7 @@ public class GenerateOutfitHandler implements Route {
       Outfit outfit = generator.generateOutfit(weatherData, formalityEnum);
 
       responseMap.put("response_type", "success");
-      responseMap.put("outfit", outfit);
+      responseMap.put("outfit", Utils.serializeOutfit(outfit, outfitID));
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");
