@@ -3,7 +3,7 @@ import "../../styles/uploadbox.scss";
 import { Category, Formality, Material, Subcategory } from "../../items/enums";
 import { closebutton, success } from "../../icons/icons";
 import { ClothingItem } from "../../items/ClothingItem";
-import { addClothingItem, listClothing } from "../pages/HomePage";
+import { addClothingItem } from "../../utils/api";
 import { RgbColor, RgbColorPicker } from "react-colorful";
 
 
@@ -247,7 +247,7 @@ export default function UploadBox(props: UploadBoxProps) {
       }))
       index = (max + 1);
     }
-    await addClothingItem(2, index , category, subcategory, formality, primary, secondary, material);
+    await addClothingItem(index , category, subcategory, formality, primary, secondary, material);
     props.setUpdateClothes(!props.updateClothes);
   }
 

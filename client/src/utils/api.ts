@@ -26,8 +26,42 @@ async function queryAPI(
  * @param uid the user's id.
  * @returns clear user data.
  */
-export async function clearUser(uid: string = getLoginCookie() || "") {
+export async function clearUser() {
   return await queryAPI("clear-user", {
-    uid: uid,
+    uid: getLoginCookie() || "",
+  });
+}
+
+export async function getWeatherData(lat: number, lon: number) {
+  return await queryAPI("weather", {
+    lat: lat.toString(),
+    lon: lon.toString(),
+  });
+}
+
+export async function addClothingItem(
+  id: number,
+  category: number,
+  subcategory: number,
+  formality: number,
+  primary: string,
+  secondary: string,
+  material: number
+) {
+  return await queryAPI("add-clothing", {
+    uid: getLoginCookie() || "",
+    id: id.toString(),
+    category: category.toString(),
+    subcategory: subcategory.toString(),
+    formality: formality.toString(),
+    primary: primary,
+    secondary: secondary,
+    material: material.toString(),
+  });
+}
+
+export async function listClothing() {
+  return await queryAPI("list-clothing", {
+    uid: getLoginCookie() || "",
   });
 }

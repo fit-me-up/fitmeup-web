@@ -11,7 +11,7 @@ import {
 import "../../styles/closetpage.scss";
 import { useState, useEffect } from "react";
 import UploadBox from "./UploadBox";
-import { addClothingItem, listClothing } from "../pages/HomePage";
+import { listClothing } from "../../utils/api";
 import { determineCategory } from "../../utils/determineImage";
 import { ClothingItem } from "../../items/ClothingItem";
 
@@ -24,7 +24,7 @@ export default function ClosetPage() {
 
 
   useEffect(() => {
-    listClothing("2").then((clothing : {clothing : ClothingItem[]}) => {
+    listClothing().then((clothing : {clothing : ClothingItem[]}) => {
       let clothes = clothing.clothing;
       let display : [string, string, string][] = [];
       setClothes(clothes);

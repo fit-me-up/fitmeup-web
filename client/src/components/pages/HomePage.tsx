@@ -6,50 +6,6 @@ import snowylogo from "../../styles/images/snowfitmeup.png"
 import rainylogo from "../../styles/images/rainyfitmeup.png"
 import cloudylogo from "../../styles/images/cloudyfitmeup.png"
 
-
-
-const HOST = "http://localhost:3232";
-
-async function queryAPI(
-    endpoint: string,
-    query_params: Record<string, string>
-  ) {
-    const paramsString = new URLSearchParams(query_params).toString();
-    const url = `${HOST}/${endpoint}?${paramsString}`;
-    console.log(url)
-    const response = await fetch(url);
-    if (!response.ok) {
-      console.error(response.status, response.statusText);
-    }
-    return response.json();
-  }
-
-export async function getWeatherData(lat: number, lon: number) {
-    return await queryAPI("weather", {
-      lat: lat.toString(),
-      lon: lon.toString(),
-    });
-  }
-
-export async function addClothingItem(uid: number, id: number, category: number, subcategory : number, formality : number, primary : string, secondary : string, material: number) {
-  return await queryAPI("add-clothing", {
-    uid: uid.toString(),
-    id : id.toString(),
-    category: category.toString(),
-    subcategory : subcategory.toString(),
-    formality: formality.toString(),
-    primary: primary,
-    secondary: secondary,
-    material: material.toString()
-  })
-}
-
-export async function listClothing(uid: string) {
-  return await queryAPI("list-clothing", {
-    uid : uid
-  })
-}
-
 export enum WeatherType {
   SNOW = 'snow',
   CLOUDY = 'cloudy',
