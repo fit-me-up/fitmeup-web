@@ -19,6 +19,7 @@ export default function ClosetPage() {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
   const [clothingDisplay, setClothingDisplay] = useState<[string, string][]>([]);
+  const [updateClothes, setUpdateClothes] = useState<boolean>(false);
 
 
 
@@ -57,9 +58,10 @@ export default function ClosetPage() {
           setShowAddBox={setShowAddBox}
           clothingItem={new ClothingItem()}
           listofClothes={clothes}
+          updateClothes={updateClothes}
+          setUpdateClothes={setUpdateClothes}
 
         />
-        // </div>
       )}
       {!showAddBox && (
         <div className="closet-container">

@@ -11,6 +11,8 @@ export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
   clothingItem: ClothingItem;
   listofClothes: ClothingItem[];
+  setUpdateClothes: Dispatch<SetStateAction<boolean>>;
+  updateClothes: boolean;
 }
 
 
@@ -249,7 +251,7 @@ export default function UploadBox(props: UploadBoxProps) {
     }
     
     await addClothingItem(2, index , category, subcategory, formality, primary, secondary, material);
-
+    props.setUpdateClothes(!props.updateClothes);
   }
 
 

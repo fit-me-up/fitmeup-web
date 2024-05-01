@@ -33,22 +33,18 @@ function determineBottom(shape: number, material: number, formality: number) {
   }
 }
 
-function determineTOP(
-  subcategory: number,
-  material: number,
-  formality: number
-) {
+function determineTOP(subcategory: number,material: number,formality: number) {
   switch (subcategory.toString()) {
     case "0":
       if (formality.toString() == "0") {
-        return longsleeve;
+        return "button down";
       } else {
         return longsleeve;
       }
     case "1":
-      return longsleeve;
+      return "short sleeve";
     case "2":
-      return longsleeve;
+      return "no sleeve";
   }
 }
 
