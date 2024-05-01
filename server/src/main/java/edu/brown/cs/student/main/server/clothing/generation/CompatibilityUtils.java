@@ -10,7 +10,7 @@ public class CompatibilityUtils {
 
   public CompatibilityUtils() {}
 
-  private double colorBaseComp(Color option, Color existing) {
+  public double colorBaseComp(Color option, Color existing) {
     double comp = 0;
 
     // Here we will try to decide whether the color is similar by ratios.
@@ -41,7 +41,7 @@ public class CompatibilityUtils {
     } else return comp;
   }
 
-  private double colorValueComp(Color option, Color existing) {
+  public double colorValueComp(Color option, Color existing) {
     double comp = 0;
 
     // Here, we will be taking effectively the saturation of the color.
@@ -63,7 +63,7 @@ public class CompatibilityUtils {
     } else return comp;
   }
 
-  private double paletteComp(Palette option, Palette existing) {
+  public double paletteComp(Palette option, Palette existing) {
     // Compatibility with primary color.
     int numComps = 0;
     double pToP = 0;
