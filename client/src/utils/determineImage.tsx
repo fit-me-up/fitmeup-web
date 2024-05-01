@@ -1,14 +1,5 @@
-import {
-  jeans,
-  sweater,
-  skirt,
-  jeanshorts,
-  shorts,
-  longsleeve,
-  dress,
-  jacket,
-  scarf,
-} from "../icons/clothes/clothes";
+import { boots, cardigan, dress, dresspants, jacket, jeans, jeanshorts, longsleeve, 
+  romper, shorts, skirt, sneakers, scarf, shortsleeve, buttondown, sweatpants} from "../icons/clothes/clothes";
 
 function determineBottom(shape: number, material: number, formality: number) {
   switch (shape?.toString()) {
@@ -16,12 +7,12 @@ function determineBottom(shape: number, material: number, formality: number) {
       return skirt;
     case "4":
       if (formality.toString() == "0") {
-        return "dresspants";
+        return dresspants;
       } else {
         if (material.toString() == "3" || material.toString() == "2") {
           return jeans;
         } else {
-          return "sweatpants";
+          return sweatpants;
         }
       }
     case "5":
@@ -37,12 +28,12 @@ function determineTOP(subcategory: number,material: number,formality: number) {
   switch (subcategory.toString()) {
     case "0":
       if (formality.toString() == "0") {
-        return "button down";
+        return buttondown;
       } else {
         return longsleeve;
       }
     case "1":
-      return "short sleeve";
+      return shortsleeve;
     case "2":
       return "no sleeve";
   }
@@ -55,16 +46,16 @@ function determineFullBody(subcategory: number) {
     case "10":
       return "suit";
     case "11":
-      return "romper";
+      return romper;
   }
 }
 
 function determineShoe(subcategory: number) {
   switch (subcategory.toString()) {
     case "6":
-      return "sneaker";
+      return sneakers;
     case "7":
-      return "boot";
+      return boots;
     case "8":
       return "sandal";
   }
@@ -73,11 +64,11 @@ function determineShoe(subcategory: number) {
 function determineOuterwear(subcategory: number) {
   switch (subcategory.toString()) {
     case "12":
-      return sweater;
+      return "sweatshirt";
     case "13":
       return jacket;
     case "14":
-      return "cardigan";
+      return cardigan;
   }
 }
 

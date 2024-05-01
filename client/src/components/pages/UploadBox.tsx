@@ -238,18 +238,15 @@ export default function UploadBox(props: UploadBoxProps) {
   }
 
   async function addClothing(category: number, subcategory : number, formality : number, primary : string, secondary : string, material: number) {
-    var index : number;
-    if (props.listofClothes.length == 0) {
-      index = 0;
-    } else {
-      let max = 0;
+    let index : number = 0;
+    if (props.listofClothes.length > 0) {
+      let max : number = 0;
       props.listofClothes.forEach((id => {
         if (id.id > max)
-          max = id.id;
+          max = parseInt(id.id.toString());
       }))
-      index = max + 1;
+      index = (max + 1);
     }
-    
     await addClothingItem(2, index , category, subcategory, formality, primary, secondary, material);
     props.setUpdateClothes(!props.updateClothes);
   }
