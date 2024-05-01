@@ -65,3 +65,13 @@ export async function listClothing() {
     uid: getLoginCookie() || "",
   });
 }
+
+export async function generateOutfit(formality: number) {
+  return await queryAPI("generate-outfit", {
+    uid: getLoginCookie() || "",
+    lat: "41.824",
+    lon: "-71.41888",
+    id: "0",
+    formality: formality.toString(),
+  });
+}

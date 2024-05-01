@@ -9,33 +9,39 @@ import {
   accessories,
 } from "../../icons/icons";
 import "../../styles/closetpage.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import UploadBox from "./UploadBox";
 import { listClothing } from "../../utils/api";
 import { determineCategory } from "../../utils/determineImage";
 import { ClothingItem } from "../../items/ClothingItem";
+import { Category } from "../../items/enums";
 
-export default function ClosetPage() {
+export interface ClosetProps {
+  setClothes: Dispatch<SetStateAction<Map<number, [string, string]>>>;
+}
+
+export default function ClosetPage(props: ClosetProps) {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
   const [clothingDisplay, setClothingDisplay] = useState<[string, string, string][]>([]);
   const [updateClothes, setUpdateClothes] = useState<boolean>(false);
   const [clothingFilter, setClothingFilter] = useState<string>("-1");
 
-
   useEffect(() => {
     listClothing().then((clothing : {clothing : ClothingItem[]}) => {
       let clothes = clothing.clothing;
       let display : [string, string, string][] = [];
+      let clothesMap = new Map<number, [string, string]>();
       setClothes(clothes);
       clothes.forEach((clothe => {
         let img = determineCategory(clothe.category,clothe.subcategory,clothe.material,clothe.formality);
         display.push([img,clothe.primary, clothe.category.toString()]);
+        clothesMap.set(clothe.id, [img, clothe.primary]);
       }));
       setClothingDisplay(display);
+      props.setClothes(clothesMap);
     });  
-  }, [])
-
+  }, []);
 
   return (
     <body>
@@ -48,37 +54,37 @@ export default function ClosetPage() {
           alt="Show all clothes"
         />
         <img
-          onClick={() => setClothingFilter("0")}
+          onClick={() => setClothingFilter(Category.Top.toString())}
           draggable={false}
           src={tops}
           alt="Show all tops"
         />
         <img
-          onClick={() => setClothingFilter("1")}
+          onClick={() => setClothingFilter(Category.Bottom.toString())}
           draggable={false}
           src={bottoms}
           alt="Show all bottoms"
         />
         <img
-          onClick={() => setClothingFilter("2")}
+          onClick={() => setClothingFilter(Category.FullBody.toString())}
           draggable={false}
           src={fullbody}
           alt="Show full body items"
         />
         <img
-          onClick={() => setClothingFilter("3")}
+          onClick={() => setClothingFilter(Category.Shoe.toString())}
           draggable={false}
           src={shoes}
           alt="Show all shoes"
         />
         <img
-          onClick={() => setClothingFilter("4")}
+          onClick={() => setClothingFilter(Category.Outerwear.toString())}
           draggable={false}
           src={outerwear}
           alt="Show all outerwear"
         />
         <img
-          onClick={() => setClothingFilter("5")}
+          onClick={() => setClothingFilter(Category.Accessory.toString())}
           draggable={false}
           src={accessories}
           alt="Show all accessories"

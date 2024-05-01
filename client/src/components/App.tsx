@@ -33,6 +33,8 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 function App() {
+  const [clothes, setClothes] = useState<Map<number, [string, string]>>(new Map());
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -52,11 +54,11 @@ function App() {
           />
           <Route
             path="/closet"
-            element={<AuthRoute gatedContent={<ClosetPage />} />}
+            element={<AuthRoute gatedContent={<ClosetPage setClothes={setClothes}/>} />}
           />
           <Route
             path="/generate"
-            element={<AuthRoute gatedContent={<GeneratePage />} />}
+            element={<AuthRoute gatedContent={<GeneratePage clothes={clothes}/>} />}
           />
         </Routes>
       </BrowserRouter>

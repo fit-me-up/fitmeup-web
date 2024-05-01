@@ -96,9 +96,9 @@ export function determineCategory(
     case "1":
       return determineBottom(subcategory, material, formality);
     case "2":
-      return determineFullBody(subcategory);
-    case "3":
       return determineShoe(subcategory);
+    case "3":
+      return determineFullBody(subcategory);
     case "4":
       return determineOuterwear(subcategory);
     case "5":
