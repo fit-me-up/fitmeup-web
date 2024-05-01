@@ -74,11 +74,11 @@ function determineOuterwear(subcategory: number) {
 
 function determineAccessory(subcategory: number) {
   switch (subcategory.toString()) {
-    case "14":
-      return "hat";
     case "15":
-      return scarf;
+      return "hat";
     case "16":
+      return scarf;
+    case "17":
       return "bag";
   }
 }
