@@ -14,3 +14,10 @@ export { default as buttondown } from "./buttondown.png";
 export { default as sweatpants } from "./sweatpants.png";
 export { default as scarf } from "./scarf.png";
 export { default as shortsleeve } from "./shortsleeve.png";
+export { default as nosleeve } from "./nosleeve.png";
+export { default as sandals } from "./sandals.png";
+export { default as hat } from "./hat.png";
+export { default as bag } from "./bag.png";
+export { default as suit } from "./suit.png";
+export { default as sweatshirt } from "./sweatshirt.png";
+

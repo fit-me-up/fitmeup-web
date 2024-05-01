@@ -1,5 +1,6 @@
 import { boots, cardigan, dress, dresspants, jacket, jeans, jeanshorts, longsleeve, 
-  romper, shorts, skirt, sneakers, scarf, shortsleeve, buttondown, sweatpants} from "../icons/clothes/clothes";
+  romper, shorts, skirt, sneakers, scarf, shortsleeve, buttondown, sweatpants, nosleeve,
+hat, bag, sandals, suit, sweatshirt} from "../icons/clothes/clothes";
 
 function determineBottom(shape: number, material: number, formality: number) {
   switch (shape?.toString()) {
@@ -35,7 +36,7 @@ function determineTOP(subcategory: number,material: number,formality: number) {
     case "1":
       return shortsleeve;
     case "2":
-      return "no sleeve";
+      return nosleeve;
   }
 }
 
@@ -44,7 +45,7 @@ function determineFullBody(subcategory: number) {
     case "9":
       return dress;
     case "10":
-      return "suit";
+      return suit;
     case "11":
       return romper;
   }
@@ -57,14 +58,14 @@ function determineShoe(subcategory: number) {
     case "7":
       return boots;
     case "8":
-      return "sandal";
+      return sandals;
   }
 }
 
 function determineOuterwear(subcategory: number) {
   switch (subcategory.toString()) {
     case "12":
-      return "sweatshirt";
+      return sweatshirt;
     case "13":
       return jacket;
     case "14":
@@ -75,11 +76,11 @@ function determineOuterwear(subcategory: number) {
 function determineAccessory(subcategory: number) {
   switch (subcategory.toString()) {
     case "15":
-      return "hat";
+      return hat;
     case "16":
       return scarf;
     case "17":
-      return "bag";
+      return bag;
   }
 }
 
