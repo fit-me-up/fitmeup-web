@@ -17,7 +17,7 @@ import { ClothingItem } from "../../items/ClothingItem";
 import { Category } from "../../items/enums";
 
 export interface ClosetProps {
-  setClothes: Dispatch<SetStateAction<Map<number, [string, string]>>>;
+  setClothes: Dispatch<SetStateAction<Map<string, [string, string]>>>;
 }
 
 export default function ClosetPage(props: ClosetProps) {
@@ -31,12 +31,12 @@ export default function ClosetPage(props: ClosetProps) {
     listClothing().then((clothing : {clothing : ClothingItem[]}) => {
       let clothes = clothing.clothing;
       let display : [string, string, string][] = [];
-      let clothesMap = new Map<number, [string, string]>();
+      let clothesMap = new Map<string, [string, string]>();
       setClothes(clothes);
       clothes.forEach((clothe => {
         let img = determineCategory(clothe.category,clothe.subcategory,clothe.material,clothe.formality);
         display.push([img,clothe.primary, clothe.category.toString()]);
-        clothesMap.set(clothe.id, [img, clothe.primary]);
+        clothesMap.set(clothe.id.toString(), [img, clothe.primary]);
       }));
       setClothingDisplay(display);
       props.setClothes(clothesMap);

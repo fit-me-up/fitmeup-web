@@ -11,11 +11,28 @@ async function generateNewOutfit(setOutfit: Dispatch<SetStateAction<OutfitItem>>
 }
 
 export interface GenerationProps {
-  clothes: Map<number, [string, string]>;
+  clothes: Map<string, [string, string]>;
 }
+
+
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
+  
+  function showClothing(item: string) {
+    return item !== "-1" ? (
+      <div className="box">
+        <img
+          key={0}
+          src={props.clothes.get(item)?.[0]}
+          alt="Marker"
+          className={"img"}
+          style={{ backgroundColor: props.clothes.get(item)?.[1] }}
+        />
+      </div>
+    ) : null;
+  }
+
   return (
     <body>
       <NavBar />
@@ -25,39 +42,12 @@ export default function GeneratePage(props: GenerationProps) {
         </button>
       </div>
       <div className="closet-container">
-        {outfit.top !== -1 ? (
-          <div className="box">
-            <img
-              key={0}
-              src={props.clothes.get(outfit.top)?.[0]}
-              alt="Marker"
-              className={"img"}
-              style={{ backgroundColor: props.clothes.get(outfit.top)?.[1] }}
-            />
-          </div>
-        ) : null}
-        {outfit.bottom !== -1 ? (
-          <div className="box">
-            <img
-              key={0}
-              src={props.clothes.get(outfit.bottom)?.[0]}
-              alt="Marker"
-              className={"img"}
-              style={{ backgroundColor: props.clothes.get(outfit.bottom)?.[1] }}
-            />
-          </div>
-        ) : null}
-        {outfit.fullbody !== -1 ? (
-          <div className="box">
-            <img
-              key={0}
-              src={props.clothes.get(outfit.fullbody)?.[0]}
-              alt="Marker"
-              className={"img"}
-              style={{ backgroundColor: props.clothes.get(outfit.fullbody)?.[1] }}
-            />
-          </div>
-        ) : null}
+        {showClothing(outfit.top)}
+        {showClothing(outfit.bottom)}
+        {showClothing(outfit.outerwear)}
+        {showClothing(outfit.fullbody)}
+        {showClothing(outfit.accessory)}
+        {showClothing(outfit.shoe)}
       </div>
     </body>
   );

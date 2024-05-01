@@ -33,7 +33,7 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 function App() {
-  const [clothes, setClothes] = useState<Map<number, [string, string]>>(new Map());
+  const [clothes, setClothes] = useState<Map<string, [string, string]>>(new Map());
 
   return (
     <div className="App">

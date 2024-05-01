@@ -1,19 +1,19 @@
 export class OutfitItem {
-  top: number = -1;
-  bottom: number = -1;
-  outerwear: number = -1;
-  id: number = -1;
-  fullbody: number = -1;
-  accessory: number = -1;
-  shoe: number = -1;
+  top: string = "-1";
+  bottom: string = "-1";
+  outerwear: string = "-1";
+  id: string = "-1";
+  fullbody: string = "-1";
+  accessory: string = "-1";
+  shoe: string = "-1";
 
   reset() {
-    this.top = -1;
-    this.bottom = -1;
-    this.outerwear = -1;
-    this.id = -1;
-    this.fullbody = -1;
-    this.accessory = -1;
-    this.shoe = -1;
+    this.top = "-1";
+    this.bottom = "-1";
+    this.outerwear = "-1";
+    this.id = "-1";
+    this.fullbody = "-1";
+    this.accessory = "-1";
+    this.shoe = "-1";
   }
 }

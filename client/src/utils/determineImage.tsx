@@ -1,6 +1,27 @@
-import { boots, cardigan, dress, dresspants, jacket, jeans, jeanshorts, longsleeve, 
-  romper, shorts, skirt, sneakers, scarf, shortsleeve, buttondown, sweatpants, nosleeve,
-hat, bag, sandals, suit, sweatshirt} from "../icons/clothes/clothes";
+import {
+  boots,
+  cardigan,
+  dress,
+  dresspants,
+  jacket,
+  jeans,
+  jeanshorts,
+  longsleeve,
+  romper,
+  shorts,
+  skirt,
+  sneakers,
+  scarf,
+  shortsleeve,
+  buttondown,
+  sweatpants,
+  nosleeve,
+  hat,
+  bag,
+  sandals,
+  suit,
+  sweatshirt,
+} from "../icons/clothes/clothes";
 
 function determineBottom(shape: number, material: number, formality: number) {
   switch (shape?.toString()) {
@@ -25,7 +46,11 @@ function determineBottom(shape: number, material: number, formality: number) {
   }
 }
 
-function determineTOP(subcategory: number,material: number,formality: number) {
+function determineTOP(
+  subcategory: number,
+  material: number,
+  formality: number
+) {
   switch (subcategory.toString()) {
     case "0":
       if (formality.toString() == "0") {
