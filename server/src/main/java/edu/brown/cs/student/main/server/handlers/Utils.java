@@ -6,6 +6,7 @@ import com.squareup.moshi.Types;
 import edu.brown.cs.student.main.server.clothing.enums.*;
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Color;
+import edu.brown.cs.student.main.server.clothing.records.Outfit;
 import edu.brown.cs.student.main.server.clothing.records.Palette;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -123,5 +124,36 @@ public class Utils {
     double b = Integer.parseInt(hex.substring(5, 7), 16) / 255.0;
 
     return new Color(r, g, b);
+  }
+
+  public static Map<String, String> outfitStringToHashMap(String outfit) {
+    Map<String, String> map = new HashMap<>();
+    String[] parts = outfit.split(",");
+
+    map.put("id", parts[0]);
+    map.put("top", parts[1]);
+    map.put("bottom", parts[2]);
+    map.put("shoe", parts[3]);
+    map.put("outerwear", parts[4]);
+    map.put("fullbody", parts[5]);
+    map.put("accessory", parts[6]);
+    return map;
+  }
+
+  public static Map<String, String> serializeOutfit(Outfit outfit, String id) {
+    Map<String, String> map = new HashMap<String, String>();
+    map.put("id", id);
+    map.put("top", (outfit.top() != null) ? Integer.toString(outfit.top().id()) : "-1");
+    map.put("bottom", (outfit.bottom() != null) ? Integer.toString(outfit.bottom().id()) : "-1");
+    map.put("shoe", (outfit.shoe() != null) ? Integer.toString(outfit.shoe().id()) : "-1");
+    map.put(
+        "outerwear",
+        (outfit.outerwear() != null) ? Integer.toString(outfit.outerwear().id()) : "-1");
+    map.put(
+        "fullbody", (outfit.fullbody() != null) ? Integer.toString(outfit.fullbody().id()) : "-1");
+    map.put(
+        "accessory",
+        (outfit.accessory() != null) ? Integer.toString(outfit.accessory().id()) : "-1");
+    return map;
   }
 }

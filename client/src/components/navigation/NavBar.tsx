@@ -2,11 +2,11 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/navbar.scss";
 import { useState, useEffect } from "react";
 import {
-  getWeatherData,
   determineWeatherIcon,
   mapToImage,
 } from "../pages/HomePage";
 import { PageType } from "../items/enums";
+import { getWeatherData } from "../../utils/api";
 
 export default function NavBar() {
   const navigate = useNavigate();

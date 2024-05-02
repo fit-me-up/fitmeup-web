@@ -40,8 +40,10 @@ public class ListOutfitsHandler implements Route {
       // Convert the key,value map to just a list of the outfits.
       List<String> outfitList =
           vals.stream().map(outfit -> outfit.get("outfit").toString()).toList();
+      List<Map<String, String>> outfitMaps =
+          outfitList.stream().map(outfit -> Utils.outfitStringToHashMap(outfit)).toList();
       responseMap.put("response_type", "success");
-      responseMap.put("clothing", outfitList);
+      responseMap.put("clothing", outfitMaps);
     } catch (Exception e) {
       // Error likely occurred in the storage handler.
       responseMap.put("response_type", "error");

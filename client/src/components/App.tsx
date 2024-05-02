@@ -33,6 +33,10 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 function App() {
+  // Stores clothes in a map with the key being the id of the clothing item, and the 
+  // value being an array of the image url, primary color, and category of the clothing item.
+  const [clothes, setClothes] = useState<Map<string, [string, string, string]>>(new Map());
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -52,11 +56,11 @@ function App() {
           />
           <Route
             path="/closet"
-            element={<AuthRoute gatedContent={<ClosetPage />} />}
+            element={<AuthRoute gatedContent={<ClosetPage clothes={clothes} setClothes={setClothes}/>} />}
           />
           <Route
             path="/generate"
-            element={<AuthRoute gatedContent={<GeneratePage />} />}
+            element={<AuthRoute gatedContent={<GeneratePage clothes={clothes}/>} />}
           />
         </Routes>
       </BrowserRouter>

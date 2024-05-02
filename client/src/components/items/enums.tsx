@@ -8,8 +8,8 @@ export enum PageType {
 export enum Category {
     Top = 0,
     Bottom = 1,
-    FullBody = 2,
-    Shoe = 3,
+    Shoe = 2,
+    FullBody = 3,
     Outerwear = 4,
     Accessory = 5,
 }

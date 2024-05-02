@@ -55,9 +55,14 @@ public class Generator {
       ArrayList<Clothing> selectedItems,
       Category category,
       int n) {
+    Clothing item;
     ArrayList<Clothing> accessoryOptions = this.closet.getRandItem(formality, category, n);
-    Clothing item = this.comper.pickBest(accessoryOptions, selectedItems, weather);
-    selectedItems.add(item);
+    if (!accessoryOptions.isEmpty()) {
+      item = this.comper.pickBest(accessoryOptions, selectedItems, weather);
+      selectedItems.add(item);
+    } else {
+      item = null;
+    }
     return item;
   }
 

@@ -12,34 +12,38 @@ import java.util.ArrayList;
 public class MockedCloset {
   public MockedCloset() {}
 
-  public ArrayList<Clothing> getClothing() {
+  public ArrayList<Clothing> getClothing(int type) {
     ArrayList<Clothing> closet = new ArrayList<>();
     closet.add(
         new Clothing(
             1,
             Category.TOP,
             Subcategory.LONG_SLEEVE,
-            Formality.FLEX,
+            Formality.FORMAL,
             new Palette(new Color(1.0, 1.0, 1.0), new Color(0.0, 0.0, 0.0)),
             Material.WOOL_COTTON));
 
-    closet.add(
-        new Clothing(
-            2,
-            Category.TOP,
-            Subcategory.NO_SLEEVE,
-            Formality.FLEX,
-            new Palette(new Color(1.0, 1.0, 1.0), new Color(1.0, 0.0, 0.0)),
-            Material.STRETCHY_SPANDEX));
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              2,
+              Category.TOP,
+              Subcategory.NO_SLEEVE,
+              Formality.FLEX,
+              new Palette(new Color(1.0, 1.0, 1.0), new Color(1.0, 0.0, 0.0)),
+              Material.STRETCHY_SPANDEX));
+    }
 
-    closet.add(
-        new Clothing(
-            3,
-            Category.FULL_BODY,
-            Subcategory.DRESS,
-            Formality.FLEX,
-            new Palette(new Color(0.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
-            Material.SOFT_FUR));
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              3,
+              Category.FULL_BODY,
+              Subcategory.DRESS,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
+              Material.SOFT_FUR));
+    }
 
     closet.add(
         new Clothing(
@@ -50,23 +54,27 @@ public class MockedCloset {
             new Palette(new Color(1.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
             Material.NOT_APPLICABLE));
 
-    closet.add(
-        new Clothing(
-            5,
-            Category.ACCESSORY,
-            Subcategory.HEADWEAR,
-            Formality.FLEX,
-            new Palette(new Color(0.7, 0.7, 0.0), new Color(0.0, 0.0, 0.0)),
-            Material.WOOL_COTTON));
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              5,
+              Category.ACCESSORY,
+              Subcategory.HEADWEAR,
+              Formality.FLEX,
+              new Palette(new Color(0.7, 0.7, 0.0), new Color(0.0, 0.0, 0.0)),
+              Material.WOOL_COTTON));
+    }
 
-    closet.add(
-        new Clothing(
-            6,
-            Category.OUTERWEAR,
-            Subcategory.JACKET,
-            Formality.FLEX,
-            new Palette(new Color(0.2, 0.2, 0.2), new Color(0.0, 0.0, 0.0)),
-            Material.PLASTIC_NYLON));
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              6,
+              Category.OUTERWEAR,
+              Subcategory.JACKET,
+              Formality.FLEX,
+              new Palette(new Color(0.2, 0.2, 0.2), new Color(0.0, 0.0, 0.0)),
+              Material.PLASTIC_NYLON));
+    }
 
     closet.add(
         new Clothing(
