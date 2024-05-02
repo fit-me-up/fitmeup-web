@@ -6,7 +6,7 @@ import {
   determineWeatherIcon,
   mapToImage,
 } from "../pages/HomePage";
-import { PageType } from "../../items/enums";
+import { PageType } from "../items/enums";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -38,25 +38,25 @@ export default function NavBar() {
   const [currentCloud, setCurrentCloud] = useState(0);
   const [currentSnow, setCurrentSnow] = useState(0);
 
-   useEffect(() => {
-     async function fetchWeatherData(lat: number, long: number) {
-       let json = await getWeatherData(lat, long);
-       setLowTemp(json.temperature.low);
-       setHighTemp(json.temperature.high);
-       setCurrentTemp(json.temperature.current);
-       setCurrentCloud(json.temperature.cloud);
-       setCurrentRain(json.temperature.rain);
-       setCurrentSnow(json.temperature.snowFall);
-     }
+  useEffect(() => {
+    async function fetchWeatherData(lat: number, long: number) {
+      let json = await getWeatherData(lat, long);
+      setLowTemp(json.temperature.low);
+      setHighTemp(json.temperature.high);
+      setCurrentTemp(json.temperature.current);
+      setCurrentCloud(json.temperature.cloud);
+      setCurrentRain(json.temperature.rain);
+      setCurrentSnow(json.temperature.snowFall);
+    }
 
-     if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition((position) => {
-         fetchWeatherData(position.coords.latitude, position.coords.longitude);
-       });
-     } else {
-       console.log("Geolocation is not supported by this browser.");
-     }
-   }, []);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        fetchWeatherData(position.coords.latitude, position.coords.longitude);
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
   return (
     <div className="navbar">

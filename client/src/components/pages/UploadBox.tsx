@@ -1,11 +1,10 @@
 import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
 import "../../styles/uploadbox.scss";
-import { Category, Formality, Material, Subcategory } from "../../items/enums";
+import { Category, Formality, Material, Subcategory } from "../items/enums";
 import { closebutton, success } from "../../icons/icons";
-import { ClothingItem } from "../../items/ClothingItem";
+import { ClothingItem } from "../items/ClothingItem";
 import { addClothingItem, listClothing } from "../pages/HomePage";
 import { RgbColor, RgbColorPicker } from "react-colorful";
-
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
@@ -13,11 +12,10 @@ export interface UploadBoxProps {
   listofClothes: ClothingItem[];
 }
 
-
 /**
  * Defines the upload box component that allows users to add new items of clothing
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
 export default function UploadBox(props: UploadBoxProps) {
   const clothingItem = props.clothingItem;
@@ -25,7 +23,7 @@ export default function UploadBox(props: UploadBoxProps) {
   const [clothingType, setClothingType] = useState<number>();
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Subcategory][]>([]); // list of tuples for [label, enum]
-  
+
   /**
    * Handles behavior for the x being pressed to close the upload box
    */
@@ -48,7 +46,7 @@ export default function UploadBox(props: UploadBoxProps) {
     if (activeShapeButton[0]) {
       activeShapeButton[0].className = "inactive";
     }
-    
+
     if (category === clothingType && showShapes) {
       setShowShapes(false);
       clothingItem.category = -1;
@@ -122,18 +120,18 @@ export default function UploadBox(props: UploadBoxProps) {
       activeButton[0].className = "inactive";
     }
     if (clothingItem.subcategory === subcategory) {
-        clothingItem.subcategory = -1;
+      clothingItem.subcategory = -1;
     } else {
-        clothingItem.subcategory = subcategory;
-        const buttonName = "shape " + subcategory.toString();
-        const pressedButton = document.getElementById(buttonName);
-        if (pressedButton !== null) {
-          pressedButton.className = "shape-active";
-        }
+      clothingItem.subcategory = subcategory;
+      const buttonName = "shape " + subcategory.toString();
+      const pressedButton = document.getElementById(buttonName);
+      if (pressedButton !== null) {
+        pressedButton.className = "shape-active";
+      }
     }
   }
 
-  const [color, setColor] = useState<RgbColor>({r: 0, g: 0, b: 0});
+  const [color, setColor] = useState<RgbColor>({ r: 0, g: 0, b: 0 });
   const [colorString, setColorString] = useState<string>("");
   const [colorSelect, setColorSelect] = useState<string>("Select");
 
@@ -145,11 +143,11 @@ export default function UploadBox(props: UploadBoxProps) {
     setColor(color);
     setColorString(`rgb(${color.r}, ${color.g}, ${color.b})`);
     setColorSelect("Select");
-  }
+  };
 
   /**
    * Function to handle color selection and set the clothing item's fields.
-   * @param color the selected RGB color 
+   * @param color the selected RGB color
    */
   function handleColorSelection(color: RgbColor) {
     clothingItem.primary = rgbToHex(color.r, color.g, color.b);
@@ -162,7 +160,7 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
-  function rgbToHex(r : number, g : number, b : number) : string {
+  function rgbToHex(r: number, g: number, b: number): string {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
   }
 
@@ -212,7 +210,13 @@ export default function UploadBox(props: UploadBoxProps) {
   const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
   async function handleSubmit() {
-    if (clothingItem.subcategory === -1 || clothingItem.category === -1 || !clothingItem.primary || clothingItem.material === -1 || clothingItem.formality === -1) {
+    if (
+      clothingItem.subcategory === -1 ||
+      clothingItem.category === -1 ||
+      !clothingItem.primary ||
+      clothingItem.material === -1 ||
+      clothingItem.formality === -1
+    ) {
       setIncompleteFields(true);
     } else {
       setNotSubmitted(false);
@@ -220,38 +224,58 @@ export default function UploadBox(props: UploadBoxProps) {
       setColorSelect("Select");
       setColorString("");
       setShowShapes(false);
-      let secondary : string = "#000000";
+      let secondary: string = "#000000";
       // define these local variables because reset doesn't work after the await
       const category = clothingItem.category;
       const subcategory = clothingItem.subcategory;
       const formality = clothingItem.formality;
       const primary = clothingItem.primary;
       const material = clothingItem.material;
-      console.log(category + "category")
+      console.log(category + "category");
       console.log(subcategory + "subcategory");
       clothingItem.reset();
-  
-      await addClothing(category, subcategory, formality, primary, secondary, material);
+
+      await addClothing(
+        category,
+        subcategory,
+        formality,
+        primary,
+        secondary,
+        material
+      );
     }
   }
 
-  async function addClothing(category: number, subcategory : number, formality : number, primary : string, secondary : string, material: number) {
-    var index : number;
+  async function addClothing(
+    category: number,
+    subcategory: number,
+    formality: number,
+    primary: string,
+    secondary: string,
+    material: number
+  ) {
+    var index: number;
     if (props.listofClothes.length == 0) {
       index = 0;
     } else {
       let max = 0;
-      props.listofClothes.forEach((id => {
-        if (id.id > max)
-          max = id.id;
-      }))
+      props.listofClothes.forEach((id) => {
+        if (id.id > max) max = id.id;
+      });
       index = max + 1;
     }
-    
-    await addClothingItem(2, index , category, subcategory, formality, primary, secondary, material);
 
+    await addClothingItem(
+      2,
+      index,
+      category,
+      subcategory,
+      formality,
+      primary,
+      secondary,
+      material
+    );
   }
-
 
   return notSubmitted ? (
     // prettier-ignore
@@ -323,16 +347,23 @@ export default function UploadBox(props: UploadBoxProps) {
   ) : (
     <div className="add-box">
       <div className="close-button-container">
-        <img className="close-button" src={closebutton} onClick={handleBoxClose} aria-label="Close" />
+        <img
+          className="close-button"
+          src={closebutton}
+          onClick={handleBoxClose}
+          aria-label="Close"
+        />
       </div>
       <h1 className="success-message"> Successfully added item!</h1>
       <button className="newitem-button" onClick={() => setNotSubmitted(true)}>
         Add another item
       </button>
       <br></br>
-      <button className="closet-button" onClick={handleBoxClose}>Back to closet</button>
+      <button className="closet-button" onClick={handleBoxClose}>
+        Back to closet
+      </button>
       <br></br>
       <img className="success-icon" src={success} />
     </div>
-  ); 
+  );
 }

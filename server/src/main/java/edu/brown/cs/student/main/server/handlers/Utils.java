@@ -52,7 +52,6 @@ public class Utils {
    */
   public static Clothing fromStringClothing(String clothing) {
     String[] parts = clothing.split(",");
-
     int id = Integer.parseInt(parts[0]);
     Category cat = Category.values()[Integer.parseInt(parts[1])];
     Subcategory subcat = Subcategory.values()[Integer.parseInt(parts[2])];

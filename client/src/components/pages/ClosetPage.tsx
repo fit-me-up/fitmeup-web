@@ -13,28 +13,32 @@ import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import UploadBox from "./UploadBox";
 import { addClothingItem, listClothing } from "../pages/HomePage";
 import { determineCategory } from "../../utils/determineImage";
-import { ClothingItem } from "../../items/ClothingItem";
+import { ClothingItem } from "../items/ClothingItem";
 
 export default function ClosetPage() {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
-  const [clothingDisplay, setClothingDisplay] = useState<[string, string][]>([]);
-
-
+  const [clothingDisplay, setClothingDisplay] = useState<[string, string][]>(
+    []
+  );
 
   useEffect(() => {
-    listClothing("2").then((clothing : {clothing : ClothingItem[]}) => {
+    listClothing("2").then((clothing: { clothing: ClothingItem[] }) => {
       let clothes = clothing.clothing;
-      let display : [string, string][] = [];
+      let display: [string, string][] = [];
       setClothes(clothes);
-      clothes.forEach((clothe => {
-        let img = determineCategory(clothe.category,clothe.subcategory,clothe.material,clothe.formality);
-        display.push([img,clothe.primary]);
-      }));
+      clothes.forEach((clothe) => {
+        let img = determineCategory(
+          clothe.category,
+          clothe.subcategory,
+          clothe.material,
+          clothe.formality
+        );
+        display.push([img, clothe.primary]);
+      });
       setClothingDisplay(display);
-    });  
-  }, [])
-
+    });
+  }, []);
 
   return (
     <body>
@@ -52,22 +56,25 @@ export default function ClosetPage() {
         </button>
       </div>
       {showAddBox && (
-        // <div className="overlay">
         <UploadBox
           setShowAddBox={setShowAddBox}
           clothingItem={new ClothingItem()}
           listofClothes={clothes}
-
         />
-        // </div>
       )}
       {!showAddBox && (
         <div className="closet-container">
-              {clothingDisplay.map((img, index) => (
-                <div className="box">
-                  <img key={index} src={img[0]} alt="Marker" className={"img"} style={{backgroundColor: img[1]}}/>
-                </div>
-              ))}
+          {clothingDisplay.map((img, index) => (
+            <div className="box">
+              <img
+                key={index}
+                src={img[0]}
+                alt="Marker"
+                className={"img"}
+                style={{ backgroundColor: img[1] }}
+              />
+            </div>
+          ))}
         </div>
       )}
     </body>
