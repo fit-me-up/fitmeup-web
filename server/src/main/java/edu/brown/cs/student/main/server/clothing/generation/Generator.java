@@ -79,11 +79,7 @@ public class Generator {
   private boolean useJacket(WeatherData weatherData) {
     // Get a weighted average of the day's temperature
     double temp =
-        ((double)
-                (weatherData.high()
-                    + weatherData.low()
-                    + 2 * weatherData.current()))
-            / 4.0;
+        ((double) (weatherData.high() + weatherData.low() + 2 * weatherData.current())) / 4.0;
 
     // Constrain it between 0 and 100, and then scale to 0-1
     temp = Math.max(temp, 0.0);
