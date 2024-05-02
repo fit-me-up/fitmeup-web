@@ -1,32 +1,42 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
 public enum Subcategory {
-  LONG_SLEEVE(0),
-  SHORT_SLEEVE(1),
-  NO_SLEEVE(2),
-  SKIRT(3),
-  PANTS(4),
-  SHORTS(5),
-  SNEAKER(6),
-  BOOT(7),
-  SANDAL(8),
-  DRESS(9),
-  SUIT(10),
-  ROMPER(11),
-  SWEATSHIRT(12),
-  JACKET(13),
-  CARDIGAN(14),
-  HEADWEAR(15),
-  SCARF(16),
-  BAG(17);
+  LONG_SLEEVE(0, 60.0),
+  SHORT_SLEEVE(1, 60.0),
+  NO_SLEEVE(2, 70.0),
+  SKIRT(3, 70.0),
+  PANTS(4, 60.0),
+  SHORTS(5, 65.0),
+  SNEAKER(6, -1.0),
+  BOOT(7, -1.0),
+  SANDAL(8, 70.0),
+  DRESS(9, 70.0),
+  SUIT(10, 60.0),
+  ROMPER(11, 60.0),
+  SWEATSHIRT(12, 50.0),
+  JACKET(13, 40.0),
+  CARDIGAN(14, 45.0),
+  HEADWEAR(15, -1.0),
+  SCARF(16, 40.0),
+  BAG(17, 60.0);
 
   private final int index;
+  private final double weather;
 
-  Subcategory(int id) {
+  Subcategory(int id, double weather) {
     this.index = id;
+    this.weather = weather;
   }
 
   public int getIndex() {
     return this.index;
+  }
+
+  /**
+   * The ideal temperature for the item, -1 means doesn't matter.
+   * @return the weather value.
+   */
+  public double getWeather() {
+    return this.weather;
   }
 }

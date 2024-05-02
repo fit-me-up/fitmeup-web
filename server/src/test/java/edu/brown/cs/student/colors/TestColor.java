@@ -15,7 +15,7 @@ public class TestColor {
 
     CompatibilityUtils comp = new CompatibilityUtils();
 
-    Assert.assertTrue(comp.colorValueComp(pink, lightRed) > comp.colorValueComp(pink, darkGreen));
+    Assert.assertTrue(comp.colorDif(pink, lightRed) > comp.colorDif(pink, darkGreen));
   }
 
   @Test
@@ -26,6 +26,6 @@ public class TestColor {
 
     CompatibilityUtils comp = new CompatibilityUtils();
 
-    Assert.assertTrue(comp.colorBaseComp(pink, lightRed) > comp.colorBaseComp(pink, darkGreen));
+    Assert.assertTrue(comp.shadeDif(pink, lightRed) > comp.shadeDif(pink, darkGreen));
   }
 }
