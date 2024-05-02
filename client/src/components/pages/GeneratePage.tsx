@@ -1,6 +1,6 @@
 import NavBar from "../navigation/NavBar";
 import { generateOutfit } from "../../utils/api";
-import { OutfitItem } from "../../items/OutfitItem";
+import { OutfitItem } from "../items/OutfitItem";
 import { Dispatch, useState, SetStateAction } from "react";
 
 async function generateNewOutfit(setOutfit: Dispatch<SetStateAction<OutfitItem>>) {
