@@ -18,9 +18,8 @@ public class Generator {
   }
 
   public Outfit generateOutfit(WeatherData weatherData, Formality formality) {
+    // Tracking current outfit for compatibility
     ArrayList<Clothing> selectedItems = new ArrayList<>();
-
-    boolean isFull = useFullBody(formality);
 
     Clothing full = null;
     Clothing top = null;
@@ -29,21 +28,28 @@ public class Generator {
     Clothing accessory = null;
     Clothing shoe;
 
+    // Decide if it will be a full body outfit
+    boolean isFull = useFullBody(formality);
+
+    // Pick the full body or top and bottom
     if (isFull) {
-      full = this.addItem(formality, weatherData, selectedItems, Category.FULL_BODY, 1);
+      full = this.addItem(formality, weatherData, selectedItems, Category.FULL_BODY);
     } else {
-      top = this.addItem(formality, weatherData, selectedItems, Category.TOP, 1);
-      bot = this.addItem(formality, weatherData, selectedItems, Category.BOTTOM, 10);
+      top = this.addItem(formality, weatherData, selectedItems, Category.TOP);
+      bot = this.addItem(formality, weatherData, selectedItems, Category.BOTTOM);
     }
 
-    shoe = this.addItem(formality, weatherData, selectedItems, Category.SHOE, 5);
+    // Add a shoe
+    shoe = this.addItem(formality, weatherData, selectedItems, Category.SHOE);
 
+    // Decide if jacket needed and pick one
     if (this.useJacket(weatherData)) {
-      outerwear = this.addItem(formality, weatherData, selectedItems, Category.OUTERWEAR, 10);
+      outerwear = this.addItem(formality, weatherData, selectedItems, Category.OUTERWEAR);
     }
 
+    // Decide if accessory needed and pick one
     if (this.useAccessory()) {
-      accessory = this.addItem(formality, weatherData, selectedItems, Category.ACCESSORY, 5);
+      accessory = this.addItem(formality, weatherData, selectedItems, Category.ACCESSORY);
     }
 
     return new Outfit(isFull, top, bot, shoe, outerwear, full, accessory);
@@ -53,10 +59,14 @@ public class Generator {
       Formality formality,
       WeatherData weather,
       ArrayList<Clothing> selectedItems,
-      Category category,
-      int n) {
+      Category category) {
+
     Clothing item;
-    ArrayList<Clothing> accessoryOptions = this.closet.getRandItem(formality, category, n);
+
+    // Get the list of possible options
+    ArrayList<Clothing> accessoryOptions = this.closet.getRandItem(formality, category);
+
+    // If there are options, pick the best one and add to list
     if (!accessoryOptions.isEmpty()) {
       item = this.comper.pickBest(accessoryOptions, selectedItems, weather);
       selectedItems.add(item);
@@ -67,23 +77,28 @@ public class Generator {
   }
 
   private boolean useJacket(WeatherData weatherData) {
+    // Get a weighted average of the day's temperature
     double temp =
         ((double)
                 (weatherData.high()
                     + weatherData.low()
-                    + weatherData.current()
-                    + weatherData.current()))
+                    + 2 * weatherData.current()))
             / 4.0;
+
+    // Constrain it between 0 and 100, and then scale to 0-1
     temp = Math.max(temp, 0.0);
     temp = Math.min(temp, 100.0);
     double scaled = temp / 100.0;
 
     // Hard limits
-    if (scaled < 0.3) {
+    if (scaled < 0.4) {
+      // Yes jacket if below 40
       return true;
-    } else if (scaled > 0.7) {
+    } else if (scaled > 0.76) {
+      // No jacket if above 76
       return false;
     } else {
+      // Else, the probability of a jacket is the inverse of the temperature
       double chance = Math.random();
       return chance > scaled;
     }
@@ -96,6 +111,8 @@ public class Generator {
 
   private boolean useFullBody(Formality formality) {
     double fullRatio;
+
+    // fullRatio is the number of full body items / total full body and tops
     if ((fullRatio = this.closet.hasFullBody(formality)) > 0) {
       double chance = Math.random();
       return chance < fullRatio;

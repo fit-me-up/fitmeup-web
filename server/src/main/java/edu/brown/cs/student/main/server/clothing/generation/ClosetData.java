@@ -10,7 +10,7 @@ import java.util.Random;
 public class ClosetData {
 
   private HashMap<Category, HashMap<Formality, HashMap<Integer, Clothing>>> closet;
-  private ArrayList<Clothing> clothingList;
+  private ArrayList<Clothing> clothingList; // Contains all the clothing
 
   public ClosetData(ArrayList<Clothing> clothingList) {
     this.clothingList = clothingList;
@@ -18,6 +18,9 @@ public class ClosetData {
     this.loadCloset();
   }
 
+  /**
+   * Initialize all the hashmaps.
+   */
   private void initializeCloset() {
     this.closet = new HashMap<>();
 
@@ -35,6 +38,9 @@ public class ClosetData {
     }
   }
 
+  /**
+   * Places all the clothing items into their hashmaps.
+   */
   private void loadCloset() {
     for (Clothing item : this.clothingList) {
       this.closet.get(item.category()).get(item.formality()).put(item.id(), item);
@@ -46,15 +52,30 @@ public class ClosetData {
     }
   }
 
-  public ArrayList<Clothing> getRandItem(Formality formality, Category category, int n) {
+  /**
+   * This method randomly selects roughly half of the items in a category.
+   *
+   * @param formality is the specified formality.
+   * @param category is the specified category.
+   * @return a list of the items.
+   */
+  public ArrayList<Clothing> getRandItem(Formality formality, Category category) {
     ArrayList<Clothing> randList = new ArrayList<>();
     HashMap<Integer, Clothing> items = this.closet.get(category).get(formality);
+
+    // Number of items in closet
     int numItems = items.size();
+
     if (numItems > 0) {
+      // Take half of the items randomly
+      int n = numItems / 2;
+      n = Math.max(1, n);
+
       for (int i = 0; i < n; i++) {
         Random random = new Random();
         int randomIndex = random.nextInt(numItems);
 
+        // Go through the items until you get to the random index
         int counter = 0;
         for (Clothing item : items.values()) {
           if (counter == randomIndex) {
@@ -67,6 +88,13 @@ public class ClosetData {
     return randList;
   }
 
+  /**
+   * Returns a ratio of the number of full body items to the number of full
+   * body items and tops combined.
+   *
+   * @param formality is the formality to consider.
+   * @return a ratio of full body to full body plus tops.
+   */
   public double hasFullBody(Formality formality) {
     double numFull = this.closet.get(Category.FULL_BODY).get(formality).size();
     double numTops = this.closet.get(Category.TOP).get(formality).size();

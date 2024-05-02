@@ -4,130 +4,128 @@ import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Color;
 import edu.brown.cs.student.main.server.clothing.records.Palette;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CompatibilityUtils {
 
   public CompatibilityUtils() {}
 
-  public double colorBaseComp(Color option, Color existing) {
-    double comp = 0;
+  /*
+  Start with a list of clothing items, and a list of existing items.
 
-    // Here we will try to decide whether the color is similar by ratios.
-    double r1 = option.r();
-    double g1 = option.g();
-    double b1 = option.b();
-    double discount1 = r1 + g1 + b1;
+  First check color compatibility.
+  For a given item, if there is one color in the existing items...
+  - it can be any color and the same shade
+  - it can be the same color by any shade
+  If there are multiple colors in the outfit
+  - it must be the same shade and same as one of the colors
+  If there are multiple shades in the outfit
+  - it must be the same color as all the rest
 
-    // Normalize the values.
-    r1 = r1 / discount1;
-    g1 = g1 / discount1;
-    b1 = b1 / discount1;
+  Function to get a list of all the existing colors in the outfit
+  Function to calculate the number of different shades and colors in the outfit
+  Calculate the compatibility values like above, and remove the worst (1/2)(floored)
 
-    double r2 = existing.r();
-    double g2 = existing.g();
-    double b2 = existing.b();
-    double discount2 = r2 + g2 + b2;
+  Then check weather compatibility
+  Calculate the compatibility values, add them to the color, and remove the worst (1/3)(floored)
 
-    r2 = r2 / discount2;
-    g2 = g2 / discount2;
-    b2 = b2 / discount2;
+  Then check the material compatibility
+  Function to get a list of all the existing materials
+  Calculate the material compatibility, at to existing values, and remove the worst (1/3)(floored)
 
-    double err = (Math.abs(r1 - r2) + Math.abs(b1 - b2) + Math.abs(g1 - g2)) / 3;
-    comp = 1.0 - err;
+  Return the remaining item with the highest color score
+  */
 
-    if (comp < 0.4) {
-      return 0;
-    } else return comp;
-  }
+  /**
+   * Algorithmically decide the best item out of the options given the existing items
+   * and the weather data.
+   *
+   * @param options is the set of items to pick from.
+   * @param existing is the list of current items.
+   * @param weather is the current weather.
+   * @return the best item.
+   */
+  public Clothing pickBest(
+          ArrayList<Clothing> options, ArrayList<Clothing> existing, WeatherData weather) {
+    // Default to the first option
+    Clothing best = options.get(0);
 
-  public double colorValueComp(Color option, Color existing) {
-    double comp = 0;
+    // Initialize the current compatibility scores
+    double bestScore = 0;
+    double currScore;
 
-    // Here, we will be taking effectively the saturation of the color.
-    double r1 = option.r();
-    double g1 = option.g();
-    double b1 = option.b();
-    double sat1 = (r1 + g1 + b1) / 3.0;
-
-    double r2 = existing.r();
-    double g2 = existing.g();
-    double b2 = existing.b();
-    double sat2 = (r2 + g2 + b2) / 3.0;
-
-    double diff = Math.abs(sat1 - sat2);
-    comp = 1 - diff;
-
-    if (comp < 0.6) {
-      return 0;
-    } else return comp;
-  }
-
-  public double paletteComp(Palette option, Palette existing) {
-    // Compatibility with primary color.
-    int numComps = 0;
-    double pToP = 0;
-    double pToS = 0;
-    double sToP = 0;
-    double sToS = 0;
-
-    pToP =
-        colorBaseComp(option.primary(), existing.primary())
-            + colorValueComp(option.primary(), existing.primary());
-    numComps++;
-
-    if (existing.accent() != null) {
-      pToS =
-          colorBaseComp(option.primary(), existing.accent())
-              + colorValueComp(option.primary(), existing.accent());
-      numComps++;
-    }
-
-    if (option.accent() != null) {
-      sToP =
-          colorBaseComp(option.accent(), existing.primary())
-              + colorValueComp(option.accent(), existing.primary());
-      numComps++;
-    }
-
-    if (option.accent() != null && existing.accent() != null) {
-      sToS =
-          colorBaseComp(option.accent(), existing.accent())
-              + colorValueComp(option.accent(), existing.accent());
-      numComps++;
-    }
-
-    // Return an average.
-    return (pToP + pToS + sToS + sToP) / numComps;
-  }
-
-  private double colorComp(Clothing option, ArrayList<Clothing> existing) {
-    double n = existing.size();
-    boolean penalty = false;
-
-    if (n == 0) {
-      return 1;
-    }
-
-    double agg = 0;
-    for (Clothing test : existing) {
-      double colorCompat = paletteComp(option.colors(), test.colors());
-
-      // Penalty if any specific item compatibility is too low.
-      if (colorCompat < 0.5) {
-        penalty = true;
+    // Get compatibility for all options, updating the best one
+    for (Clothing option : options) {
+      if ((currScore = this.getCompatibility(option, existing, weather)) > bestScore) {
+        bestScore = currScore;
+        best = option;
       }
-      agg += colorCompat;
     }
-
-    // If it has a color compat of less than 0.5 with any of the existing clothing items...
-    if (penalty) {
-      return (agg / n) / 2;
-    }
-
-    return (agg / n);
+    return best;
   }
 
+  /**
+   * Uses helper functions to get weather, material, and color compatibility, and returns a
+   * weighted average.
+   *
+   * @param option is the item to test.
+   * @param existing is the existing items.
+   * @param weather is the current weather.
+   * @return a compatibility value between 0 and 10.
+   */
+  private double getCompatibility(
+          Clothing option, ArrayList<Clothing> existing, WeatherData weather) {
+
+    // All values will be between zero and one
+    double weatherComp = this.weatherComp(option, weather);
+    double materialComp = this.materialComp(option, existing);
+    double colorComp = this.colorComp(option, existing);
+
+    // Return a weighted average
+    return (3.0 * weatherComp) + materialComp + (6.0 * colorComp);
+  }
+
+  //////////////// WEATHER COMPATIBILITY ////////////////
+
+  /**
+   * Calculates how compatible the item is with the current weather.
+   *
+   * @param option is the item to test.
+   * @param weatherData is the given weather stats.
+   * @return a compatibility value between zero and 1.
+   */
+  private double weatherComp(Clothing option, WeatherData weatherData) {
+    if (option.subcategory().getWeather() == -1.0){
+      return 1.0;
+    }
+
+    double temp =
+            ((double)
+                    (weatherData.high()
+                            + weatherData.low()
+                            + 2.0 * weatherData.current()))
+                    / 4.0;
+
+    temp = Math.max(0.0, temp);
+    temp = Math.min(temp, 100.0);
+    temp = temp / 100.0;
+
+    double itemVal = option.subcategory().getWeather() / 100.0;
+
+    return 1.0 - (Math.abs(temp - itemVal));
+  }
+
+  //////////////// MATERIAL COMPATIBILITY ////////////////
+
+  /**
+   * Calculates the material compatibility with an existing list.
+   *
+   * @param option is the item to test.
+   * @param existing is the list to test against.
+   * @return the compatibility of material from 0 to 1.
+   */
   private double materialComp(Clothing option, ArrayList<Clothing> existing) {
     double n = existing.size();
 
@@ -142,31 +140,298 @@ public class CompatibilityUtils {
     return (agg / n);
   }
 
-  private double weatherComp(Clothing option, WeatherData weather) {
-    return 1;
-  }
+  //////////////// COLOR COMPATIBILITY ////////////////
 
-  public Clothing pickBest(
-      ArrayList<Clothing> options, ArrayList<Clothing> existing, WeatherData weather) {
-    Clothing best = options.get(0);
+  /**
+   * Calculates the color compatibility between an item of clothing and an existing set.
+   *
+   * @param option is the clothing to test.
+   * @param existing is the existing set.
+   * @return a value from zero to 1 for compatibility.
+   */
+  private double colorComp(Clothing option, ArrayList<Clothing> existing) {
 
-    double bestScore = 0;
-    double currScore;
-    for (Clothing option : options) {
-      if ((currScore = this.getCompatibility(option, existing, weather)) > bestScore) {
-        bestScore = currScore;
-        best = option;
+    ArrayList<Color> existingColors = getColors(existing);
+    Color colorOne = option.colors().primary();
+    Color colorTwo = option.colors().accent();
+
+    int numColors = numColors(existingColors);
+    int numShades = numShades(existingColors);
+
+    if (numColors == 1 && numShades == 1){
+      // If the color is compatible the shade doesn't matter, if the shade is compatible, the color doesn't matter.
+      // So set compatibility to the max of the two
+      double primary = Math.max(shadeCompat(colorOne, existingColors), colorCompat(colorOne, existingColors));
+
+      if (colorTwo == null){
+        return primary;
+      }
+      else{
+        double secondary = Math.max(shadeCompat(colorTwo, existingColors), colorCompat(colorTwo, existingColors));
+        return (0.6 * primary) + (0.4 * secondary);
       }
     }
-    return best;
+
+    else if (numColors > 1){
+      // Need to be compatible with the shade
+      double primary = shadeCompat(colorOne, existingColors);
+
+      if (colorTwo == null){
+        return primary;
+      }
+      else{
+        double secondary = shadeCompat(colorTwo, existingColors);
+        return (0.6 * primary) + (0.4 * secondary);
+      }
+    }
+
+    else { // numShades > 1
+      // Need to be compatible with color
+      double primary = colorCompat(colorOne, existingColors);
+
+      if (colorTwo == null){
+        return primary;
+      }
+      else{
+        double secondary = colorCompat(colorTwo, existingColors);
+        return (0.6 * primary) + (0.4 * secondary);
+      }
+    }
   }
 
-  private double getCompatibility(
-      Clothing option, ArrayList<Clothing> existing, WeatherData weather) {
-    double weatherComp = this.weatherComp(option, weather);
-    double materialComp = this.materialComp(option, existing);
-    double colorComp = this.colorComp(option, existing);
+  /**
+   * Gets the approximate number of unique colors.
+   * @param colors is the full set of colors.
+   * @return the number of unique ones.
+   */
+  private int numColors(ArrayList<Color> colors){
+    ArrayList<Color> uniques = new ArrayList<>();
 
-    return weatherComp + materialComp + (3 * colorComp);
+    for (Color color : colors){
+      // If it's the first color add it
+      if (uniques.isEmpty()){
+        uniques.add(color);
+      }
+      else {
+        // Get the color value of the current one
+        Color true1 = trueColor(color);
+
+        // Default it to being unique
+        boolean isUnique = true;
+
+        // If it's similar to any of the current unique colors, it isn't unique
+        for (Color unique : uniques){
+          Color true2 = trueColor(unique);
+          double diff = Math.abs(true1.r() - true2.r()) + Math.abs(true1.g() - true2.g())
+                  + Math.abs(true1.b() - true2.b());
+          if (diff < 0.2){
+            isUnique = false;
+          }
+        }
+        if (isUnique){
+          uniques.add(color);
+        }
+      }
+    }
+    return uniques.size();
+  }
+
+  /**
+   * Returns the approximate number of different Shades in the list.
+   * @param colors is the list of colors.
+   * @return the number of Shades.
+   */
+  private int numShades(ArrayList<Color> colors){
+    ArrayList<Color> uniques = new ArrayList<>();
+
+    for (Color color : colors){
+      // If it's the first color add it
+      if (uniques.isEmpty()){
+        uniques.add(color);
+      }
+      else {
+        // Get the color value of the current one
+        double whiteness1 = whiteness(color);
+        double blackness1 = blackness(color);
+
+        // Default it to being unique
+        boolean isUnique = true;
+
+        // If it's similar to any of the current unique colors, it isn't unique
+        for (Color unique : uniques){
+          double whiteness2 = whiteness(unique);
+          double blackness2 = blackness(unique);
+
+          // Calculate difference in whiteness and blackness
+          double diffW = Math.abs(whiteness1 - whiteness2);
+          double diffB = Math.abs(blackness1 - blackness2);
+
+          if (diffW < 0.1 && diffB < 0.1){
+            isUnique = false;
+          }
+        }
+        if (isUnique){
+          uniques.add(color);
+        }
+      }
+    }
+    return uniques.size();
+  }
+
+  /**
+   * Return a list of the individual colors in the list of clothing items.
+   * @param items is a list of clothes.
+   * @return a list of colors.
+   */
+  private ArrayList<Color> getColors(ArrayList<Clothing> items){
+    ArrayList<Color> colors = new ArrayList<>();
+
+    for (Clothing item : items){
+      if (item.colors().primary() != null){
+        colors.add(item.colors().primary());
+      }
+      if (item.colors().accent() != null){
+        colors.add(item.colors().primary());
+      }
+    }
+
+    return colors;
+  }
+
+  /**
+   * Gets the compatibility of a color with a set of colors in terms of hue.
+   *
+   * @param color is the color to be tested.
+   * @param existing are the colors to test against.
+   * @return the compatibility average.
+   */
+  private double colorCompat(Color color, ArrayList<Color> existing){
+    double num = existing.size();
+    double sum = 0.0;
+
+    for (Color exist : existing){
+      double dif = colorDif(color, exist);
+
+      // if the compatibility is less than 0.5, give a penalty
+      if (dif < 0.5){
+        dif = -0.5;
+      }
+      sum += dif;
+    }
+    return sum / num;
+  }
+
+  /**
+   * Gets the compatibility of a color with a set of colors in terms of shade.
+   *
+   * @param color is the color to test.
+   * @param existing are the existing colors.
+   * @return the average compatibility, plus a penalty.
+   */
+  private double shadeCompat(Color color, ArrayList<Color> existing){
+    double num = existing.size();
+    double sum = 0.0;
+
+    for (Color exist : existing){
+      double dif = shadeDif(color, exist);
+
+      // if the compatibility is less than 0.5, give a penalty
+      if (dif < 0.5){
+        dif = -0.5;
+      }
+      sum += dif;
+    }
+    return sum / num;
+  }
+
+  /**
+   * Finds the color compatibility between two hues.
+   *
+   * @param one is first color.
+   * @param two is second color.
+   * @return the compatibility.
+   */
+  public double colorDif(Color one, Color two){
+    Color true1 = trueColor(one);
+    Color true2 = trueColor(two);
+
+    double diff = Math.abs(true1.r() - true2.r()) + Math.abs(true1.g() - true2.g())
+            + Math.abs(true1.b() - true2.b());
+    return 1.0 - diff;
+  }
+
+  /**
+   * Finds the compatibility between two shades.
+   *
+   * @param one is first color.
+   * @param two is second color.
+   * @return the compatibility.
+   */
+  public double shadeDif(Color one, Color two){
+    double whiteness1 = whiteness(one);
+    double blackness1 = blackness(one);
+    double whiteness2 = whiteness(two);
+    double blackness2 = blackness(two);
+
+    // Calculate difference in whiteness and blackness
+    double diffW = Math.abs(whiteness1 - whiteness2);
+    double diffB = Math.abs(blackness1 - blackness2);
+
+    return 1.0 - diffB - diffW;
+  }
+
+  /**
+   * Normalized the color to extract its true value.
+   * @param color is the original color.
+   * @return the true color without shade.
+   */
+  private Color trueColor(Color color){
+    double r = color.r();
+    double g = color.g();
+    double b = color.b();
+
+    double max = Math.max(Math.max(color.r(), color.b()), color.g());
+    double min = Math.min(Math.min(color.r(), color.b()), color.g());
+    double range = max - min;
+
+    if (range == 0){
+      return new Color(r, g, b);
+    }
+
+    double tr = (r - min) / range;
+    double tg = (g - min) / range;
+    double tb = (b - min) / range;
+
+    return new Color(tr, tg, tb);
+  }
+
+  /**
+   * Calculates a higher number for less white values, and a number close to zero for white values.
+   *
+   * @param color is the original color.
+   * @return the variance of r, g, b.
+   */
+  private double whiteness(Color color){
+    double r = color.r();
+    double g = color.g();
+    double b = color.b();
+
+    double mean = (r + g + b) / 3.0;
+
+    double max = Math.max(Math.max(color.r(), color.b()), color.g());
+    double min = Math.min(Math.min(color.r(), color.b()), color.g());
+    double range = max - min;
+
+    return (range / mean) / 3; // Max value is 3, so will be 0 to 1
+  }
+
+  /**
+   * Calculates the rough blackness of an image. A number close to zero for black values.
+   *
+   * @param color is the original color.
+   * @return the maximum value of r, g, and b.
+   */
+  private double blackness(Color color){
+    return Math.max(Math.max(color.r(), color.b()), color.g());
   }
 }
