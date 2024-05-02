@@ -11,8 +11,6 @@ export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
   clothingItem: ClothingItem;
   listofClothes: ClothingItem[];
-  setUpdateClothes: Dispatch<SetStateAction<boolean>>;
-  updateClothes: boolean;
 }
 
 
@@ -214,7 +212,7 @@ export default function UploadBox(props: UploadBoxProps) {
   const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
   async function handleSubmit() {
-    if (clothingItem.subcategory === -1 || clothingItem.category === -1 || !clothingItem.primary || clothingItem.material === -1 || clothingItem.formality === -1) {
+    if (clothingItem.subcategory === -1 || clothingItem.category === -1 || colorSelect === "Select" || clothingItem.material === -1 || clothingItem.formality === -1) {
       setIncompleteFields(true);
     } else {
       setNotSubmitted(false);
@@ -248,7 +246,6 @@ export default function UploadBox(props: UploadBoxProps) {
       index = (max + 1);
     }
     await addClothingItem(index , category, subcategory, formality, primary, secondary, material);
-    props.setUpdateClothes(!props.updateClothes);
   }
 
 
@@ -262,14 +259,14 @@ export default function UploadBox(props: UploadBoxProps) {
       <div className="types-container">
         <h3 className="clothing-type-header"> Clothing Type:</h3>
         <div className="row1">
-          <button id="type 0" className="inactive" onClick={() => handleTypePress(Category.Top)}>Top</button>
-          <button id="type 1" className="inactive" onClick={() => handleTypePress(Category.Bottom)}>Bottom</button>
-          <button id="type 2" className="inactive" onClick={() => handleTypePress(Category.FullBody)}>Full Body</button>
+          <button id={"type " + Category.Top.toString()} className="inactive" onClick={() => handleTypePress(Category.Top)}>Top</button>
+          <button id={"type " + Category.Bottom.toString()} className="inactive" onClick={() => handleTypePress(Category.Bottom)}>Bottom</button>
+          <button id={"type " + Category.FullBody.toString()} className="inactive" onClick={() => handleTypePress(Category.FullBody)}>Full Body</button>
         </div> 
         <div className="row2">
-          <button id="type 3" className="inactive" onClick={() => handleTypePress(Category.Shoe)}>Shoe</button>
-          <button id="type 4" className="inactive" onClick={() => handleTypePress(Category.Outerwear)}>Outerwear</button>
-          <button id="type 5" className="inactive" onClick={() => handleTypePress(Category.Accessory)}>Accessory</button>
+          <button id={"type " + Category.Shoe.toString()} className="inactive" onClick={() => handleTypePress(Category.Shoe)}>Shoe</button>
+          <button id={"type " + Category.Outerwear.toString()} className="inactive" onClick={() => handleTypePress(Category.Outerwear)}>Outerwear</button>
+          <button id={"type " + Category.Accessory.toString()} className="inactive" onClick={() => handleTypePress(Category.Accessory)}>Accessory</button>
         </div>
       </div>
       {showShapes && (
@@ -297,23 +294,23 @@ export default function UploadBox(props: UploadBoxProps) {
       <div className="material-container">
         <h3>Material:</h3>
         <div className="material-container row1" >
-          <button id="material 0" className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
-          <button id="material 1" className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
-          <button id="material 2" className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
-          <button id="material 3" className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
+          <button id={"material " + Material.WoolCotton.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
+          <button id={"material " + Material.PlasticNylon.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
+          <button id={"material " + Material.Leather.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
+          <button id={"material " + Material.Denim.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
         </div>
         <div className="material-container row2" >
-          <button id="material 4" className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
-          <button id="material 5" className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
-          <button id="material 6" className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
+          <button id={"material " + Material.SoftFur.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.SoftFur)}>Fur</button>
+          <button id={"material " + Material.StretchySpandex.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.StretchySpandex)}>Spandex</button>
+          <button id={"material " + Material.Other.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.Other)}>Other</button>
         </div>
       </div>
       <div className="formality-container">
         <h3 > Formality: </h3>
         <div className="button-container">
-          <button id="formality 0" className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
-          <button id="formality 1" className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
-          <button id="formality 2" className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
+          <button id={"formality " + Formality.Formal.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
+          <button id={"formality " + Formality.Informal.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
+          <button id={"formality " + Formality.Flex.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
         </div>
       </div>
       <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
@@ -322,14 +319,21 @@ export default function UploadBox(props: UploadBoxProps) {
   ) : (
     <div className="add-box">
       <div className="close-button-container">
-        <img className="close-button" src={closebutton} onClick={handleBoxClose} aria-label="Close" />
+        <img
+          className="close-button"
+          src={closebutton}
+          onClick={handleBoxClose}
+          aria-label="Close"
+        />
       </div>
       <h1 className="success-message"> Successfully added item!</h1>
       <button className="newitem-button" onClick={() => setNotSubmitted(true)}>
         Add another item
       </button>
       <br></br>
-      <button className="closet-button" onClick={handleBoxClose}>Back to closet</button>
+      <button className="closet-button" onClick={handleBoxClose}>
+        Back to closet
+      </button>
       <br></br>
       <img className="success-icon" src={success} />
     </div>

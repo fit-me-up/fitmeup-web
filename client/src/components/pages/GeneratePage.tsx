@@ -4,17 +4,16 @@ import { OutfitItem } from "../../items/OutfitItem";
 import { Dispatch, useState, SetStateAction } from "react";
 
 async function generateNewOutfit(setOutfit: Dispatch<SetStateAction<OutfitItem>>) {
-  generateOutfit(1).then((outfit: { outfit: OutfitItem }) => {
-    console.log(outfit.outfit);
+  // Pick random formality for now (0 or 1)
+  let formality = Math.floor(Math.random() * 2);
+  generateOutfit(formality).then((outfit: { outfit: OutfitItem }) => {
     setOutfit(outfit.outfit);
   });
 }
 
 export interface GenerationProps {
-  clothes: Map<string, [string, string]>;
+  clothes: Map<string, [string, string, string]>;
 }
-
-
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());

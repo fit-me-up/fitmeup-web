@@ -17,31 +17,27 @@ import { ClothingItem } from "../../items/ClothingItem";
 import { Category } from "../../items/enums";
 
 export interface ClosetProps {
-  setClothes: Dispatch<SetStateAction<Map<string, [string, string]>>>;
+  setClothes: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
+  clothes: Map<string, [string, string, string]>;
 }
 
 export default function ClosetPage(props: ClosetProps) {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
-  const [clothingDisplay, setClothingDisplay] = useState<[string, string, string][]>([]);
-  const [updateClothes, setUpdateClothes] = useState<boolean>(false);
   const [clothingFilter, setClothingFilter] = useState<string>("-1");
 
   useEffect(() => {
     listClothing().then((clothing : {clothing : ClothingItem[]}) => {
       let clothes = clothing.clothing;
-      let display : [string, string, string][] = [];
-      let clothesMap = new Map<string, [string, string]>();
+      let clothesMap = new Map<string, [string, string, string]>();
       setClothes(clothes);
       clothes.forEach((clothe => {
         let img = determineCategory(clothe.category,clothe.subcategory,clothe.material,clothe.formality);
-        display.push([img,clothe.primary, clothe.category.toString()]);
-        clothesMap.set(clothe.id.toString(), [img, clothe.primary]);
+        clothesMap.set(clothe.id.toString(), [img, clothe.primary, clothe.category.toString()]);
       }));
-      setClothingDisplay(display);
       props.setClothes(clothesMap);
     });  
-  }, []);
+  }, [props.clothes, props.setClothes, setClothes, setClothingFilter, clothes]);
 
   return (
     <body>
@@ -99,24 +95,23 @@ export default function ClosetPage(props: ClosetProps) {
           setShowAddBox={setShowAddBox}
           clothingItem={new ClothingItem()}
           listofClothes={clothes}
-          updateClothes={updateClothes}
-          setUpdateClothes={setUpdateClothes}
         />
       )}
       {!showAddBox && (
         <div className="closet-container">
-          {clothingDisplay.map((img, index) => (
-            clothingFilter === "-1" || img[2] === clothingFilter ?
-            <div className="box">
-              <img
-                key={index}
-                src={img[0]}
-                alt="Marker"
-                className={"img"}
-                style={{ backgroundColor: img[1] }}
-              />
-            </div> : null
-          ))}
+          {Array.from(props.clothes.values()).map((img, index) =>
+            clothingFilter === "-1" || img[2] === clothingFilter ? (
+              <div className="box">
+                <img
+                  key={index}
+                  src={img[0]}
+                  alt="Marker"
+                  className={"img"}
+                  style={{ backgroundColor: img[1] }}
+                />
+              </div>
+            ) : null
+          )}
         </div>
       )}
     </body>

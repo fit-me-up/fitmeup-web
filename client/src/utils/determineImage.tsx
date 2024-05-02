@@ -22,23 +22,30 @@ import {
   suit,
   sweatshirt,
 } from "../icons/clothes/clothes";
+import { Subcategory, Formality, Category, Material } from "../items/enums";
 
 function determineBottom(shape: number, material: number, formality: number) {
   switch (shape?.toString()) {
-    case "3":
+    case Subcategory.Skirt.toString():
       return skirt;
-    case "4":
-      if (formality.toString() == "0") {
+    case Subcategory.Pants.toString():
+      if (formality.toString() == Formality.Formal.toString()) {
         return dresspants;
       } else {
-        if (material.toString() == "3" || material.toString() == "2") {
+        if (
+          material.toString() == Material.Denim.toString() ||
+          material.toString() == Material.Leather.toString()
+        ) {
           return jeans;
         } else {
           return sweatpants;
         }
       }
-    case "5":
-      if (material.toString() == "3" || material.toString() == "2") {
+    case Subcategory.Shorts.toString():
+      if (
+        material.toString() == Material.Denim.toString() ||
+        material.toString() == Material.Leather.toString()
+      ) {
         return jeanshorts;
       } else {
         return shorts;
@@ -52,59 +59,59 @@ function determineTOP(
   formality: number
 ) {
   switch (subcategory.toString()) {
-    case "0":
-      if (formality.toString() == "0") {
+    case Subcategory.LongSleeve.toString():
+      if (formality.toString() == Formality.Formal.toString()) {
         return buttondown;
       } else {
         return longsleeve;
       }
-    case "1":
+    case Subcategory.ShortSleeve.toString():
       return shortsleeve;
-    case "2":
+    case Subcategory.NoSleeve.toString():
       return nosleeve;
   }
 }
 
 function determineFullBody(subcategory: number) {
   switch (subcategory.toString()) {
-    case "9":
+    case Subcategory.Dress.toString():
       return dress;
-    case "10":
+    case Subcategory.Suit.toString():
       return suit;
-    case "11":
+    case Subcategory.Romper.toString():
       return romper;
   }
 }
 
 function determineShoe(subcategory: number) {
   switch (subcategory.toString()) {
-    case "6":
+    case Subcategory.Sneaker.toString():
       return sneakers;
-    case "7":
+    case Subcategory.Boot.toString():
       return boots;
-    case "8":
+    case Subcategory.Sandal.toString():
       return sandals;
   }
 }
 
 function determineOuterwear(subcategory: number) {
   switch (subcategory.toString()) {
-    case "12":
+    case Subcategory.Sweatshirt.toString():
       return sweatshirt;
-    case "13":
+    case Subcategory.Jacket.toString():
       return jacket;
-    case "14":
+    case Subcategory.Cardigan.toString():
       return cardigan;
   }
 }
 
 function determineAccessory(subcategory: number) {
   switch (subcategory.toString()) {
-    case "15":
+    case Subcategory.Headwear.toString():
       return hat;
-    case "16":
+    case Subcategory.Scarf.toString():
       return scarf;
-    case "17":
+    case Subcategory.Bag.toString():
       return bag;
   }
 }
@@ -116,17 +123,17 @@ export function determineCategory(
   formality: number
 ) {
   switch (category.toString()) {
-    case "0":
+    case Category.Top.toString():
       return determineTOP(subcategory, material, formality);
-    case "1":
+    case Category.Bottom.toString():
       return determineBottom(subcategory, material, formality);
-    case "2":
+    case Category.Shoe.toString():
       return determineShoe(subcategory);
-    case "3":
+    case Category.FullBody.toString():
       return determineFullBody(subcategory);
-    case "4":
+    case Category.Outerwear.toString():
       return determineOuterwear(subcategory);
-    case "5":
+    case Category.Accessory.toString():
       return determineAccessory(subcategory);
     default:
       console.log("Unknown or undefined category:", category);
