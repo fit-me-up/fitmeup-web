@@ -31,9 +31,9 @@ export default function ClosetPage(props: ClosetProps) {
       let clothes = clothing.clothing;
       let clothesMap = new Map<string, [string, string, string]>();
       setClothes(clothes);
-      clothes.forEach((clothe => {
-        let img = determineCategory(clothe.category,clothe.subcategory,clothe.material,clothe.formality);
-        clothesMap.set(clothe.id.toString(), [img, clothe.primary, clothe.category.toString()]);
+      clothes.forEach((item => {
+        let img = determineCategory(item.category,item.subcategory,item.material,item.formality);
+        clothesMap.set(item.id.toString(), [img, item.primary, item.category.toString()]);
       }));
       props.setClothes(clothesMap);
     });  

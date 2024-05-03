@@ -4,7 +4,7 @@ import { Category, Formality, Material, Subcategory } from "../items/enums";
 import { closebutton, success } from "../../icons/icons";
 import { ClothingItem } from "../items/ClothingItem";
 import { addClothingItem } from "../../utils/api";
-import { RgbColor, RgbColorPicker } from "react-colorful";
+import { HexColorPicker } from "react-colorful";
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
@@ -23,14 +23,14 @@ export default function UploadBox(props: UploadBoxProps) {
   const [clothingType, setClothingType] = useState<number>();
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Subcategory][]>([]); // list of tuples for [label, enum]
+  const [showSecondaryColor, setShowSecondaryColor] = useState<boolean>(false);
 
   /**
    * Handles behavior for the x being pressed to close the upload box
    */
   const handleBoxClose = () => {
-    props.setShowAddBox(false);
     clothingItem.reset();
-    setNotSubmitted(true);
+    window.location.reload();
   };
   /**
    * Handles behavior for when a type button is pressed
@@ -131,42 +131,56 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
-  const [color, setColor] = useState<RgbColor>({ r: 0, g: 0, b: 0 });
-  const [colorString, setColorString] = useState<string>("");
-  const [colorSelect, setColorSelect] = useState<string>("Select");
+  const [mainColor, setMainColor] = useState<string>("#ffffff");
+  const [secondaryColor, setSecondaryColor] = useState<string>("#ffffff");
+  const [mainColorSelect, setMainColorSelect] = useState<string>("Select");
+  const [secondaryColorSelect, setSecondaryColorSelect] = useState<string>("Select");
 
   /**
    * Handles behavior for when the color slider is moved
    * @param color the RGB color the slider is currently on
    */
-  const handleColorChange = (color: RgbColor) => {
-    setColor(color);
-    setColorString(`rgb(${color.r}, ${color.g}, ${color.b})`);
-    setColorSelect("Select");
+  function handleColorChange(color: string, type: 'main' | 'secondary') {
+    if (type === 'main') {
+      setMainColor(color);
+      setMainColorSelect("Select");
+    } else {
+      setSecondaryColor(color);
+      setSecondaryColorSelect("Select");
+    }
   };
 
   /**
    * Function to handle color selection and set the clothing item's fields.
    * @param color the selected RGB color
    */
-  function handleColorSelection(color: RgbColor) {
-    clothingItem.primary = rgbToHex(color.r, color.g, color.b);
-    if (colorSelect === "Select") {
-      clothingItem.primary = rgbToHex(color.r, color.g, color.b);
-      setColorSelect("Selected!");
+  function handleColorSelection(color: string, type: 'main' | 'secondary') {
+    console.log(color);
+    if (type === 'main') {
+      if (mainColorSelect === "Select") {
+        clothingItem.primary = color;
+        setMainColorSelect("Selected!");
+        setShowSecondaryColor(true);
+      } else {
+        clothingItem.primary = "";
+        setMainColorSelect("Select");
+        setShowSecondaryColor(false);
+      }
     } else {
-      clothingItem.primary = "";
-      setColorSelect("Select");
+      if (secondaryColorSelect === "Select") {
+        clothingItem.secondary = color;
+        setSecondaryColorSelect("Selected!");
+      } else {
+        clothingItem.primary = "";
+        setSecondaryColorSelect("Select");
+      }
     }
   }
 
-  function rgbToHex(r: number, g: number, b: number): string {
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-  }
-
-  function toHex(c: number): string {
-    const hex = c.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
+  const handleNoSecondary =() => {
+    setShowSecondaryColor(false);
+    setSecondaryColorSelect("Select");
+    clothingItem.secondary = "null";
   }
 
   /**
@@ -210,20 +224,23 @@ export default function UploadBox(props: UploadBoxProps) {
   const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
   async function handleSubmit() {
-    if (clothingItem.subcategory === -1 || clothingItem.category === -1 || colorSelect === "Select" || clothingItem.material === -1 || clothingItem.formality === -1) {
+    console.log(clothingItem);
+    if (clothingItem.subcategory === -1 || clothingItem.category === -1 || clothingItem.primary === "" || clothingItem.material === -1 || clothingItem.formality === -1) {
       setIncompleteFields(true);
     } else {
       setNotSubmitted(false);
       setIncompleteFields(false);
-      setColorSelect("Select");
-      setColorString("");
+      setMainColorSelect("Select");
+      setMainColor("");
+      setSecondaryColorSelect("Select");
+      setSecondaryColor("");
       setShowShapes(false);
-      let secondary: string = "#000000";
       // define these local variables because reset doesn't work after the await
       const category = clothingItem.category;
       const subcategory = clothingItem.subcategory;
       const formality = clothingItem.formality;
       const primary = clothingItem.primary;
+      const secondary = clothingItem.secondary;
       const material = clothingItem.material;
       console.log(category + "category");
       console.log(subcategory + "subcategory");
@@ -286,15 +303,28 @@ export default function UploadBox(props: UploadBoxProps) {
         </div>
       )}
       <div className="color-container">
-        <h3>Color:</h3>
+        <h3>Main Color:</h3>
         <div className="picker-container">
-          <RgbColorPicker color={color} onChange={handleColorChange}/>
+          <HexColorPicker color={mainColor} onChange={(mainColor) => handleColorChange(mainColor, 'main')}/>
           <div className="color-display">
-            <div className="color-box" style={{backgroundColor: colorString}}/>
-            <button onClick={() => handleColorSelection(color)}>{colorSelect}</button>
+            <div className="color-box" style={{backgroundColor: mainColor}}/>
+            <button onClick={() => handleColorSelection(mainColor, 'main')}>{mainColorSelect}</button>
           </div>
         </div>
       </div>
+      {showSecondaryColor && (
+        <div className="color-container">
+          <h3>Secondary Color:</h3>
+          <div className="picker-container">
+            <HexColorPicker color={secondaryColor} onChange={(secondaryColor) => handleColorChange(secondaryColor, 'secondary')}/>
+            <div className="color-display">
+              <div className="color-box" style={{backgroundColor: secondaryColor}}/>
+              <button onClick={() => handleColorSelection(secondaryColor, 'secondary')}>{secondaryColorSelect}</button>
+              <button style={{backgroundColor: "#3f6492", color: "white"}} onClick={handleNoSecondary}>None</button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="material-container">
         <h3>Material:</h3>
         <div className="material-container row1" >
