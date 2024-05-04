@@ -9,6 +9,14 @@ export function addLoginCookie(uid: string): void {
 }
 
 /**
+ * Function that adds a user's first name.
+ * @param name 
+ */
+export function addNameCookie(name: string): void {
+  Cookies.set("name", name);
+}
+
+/**
  * Function that removes the login cookie for a user.
  */
 export function removeLoginCookie(): void {
@@ -21,4 +29,12 @@ export function removeLoginCookie(): void {
  */
 export function getLoginCookie(): string | undefined {
   return Cookies.get("uid");;
+}
+
+/**
+ * Function that gets the user's name
+ * @returns 
+ */
+export function getNameCookie(): string | undefined {
+  return Cookies.get("name");;
 }

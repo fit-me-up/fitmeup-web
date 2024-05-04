@@ -1,6 +1,6 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React from "react";
-import { addLoginCookie, removeLoginCookie } from "../../utils/cookie";
+import { addLoginCookie, addNameCookie, removeLoginCookie } from "../../utils/cookie";
 import logo from "../../styles/images/logo.png";
 import "../../styles/loginlogout.scss";
 
@@ -19,6 +19,9 @@ const Login: React.FunctionComponent<ILoginPageProps> = (props) => {
     try {
       const response = await signInWithPopup(auth, new GoogleAuthProvider());
       addLoginCookie(response.user.uid);
+      if (response.user.displayName) {
+        addNameCookie(response.user.displayName.split(" ")[0]);
+      }
       props.setLogin(true);
     } catch (error) {
       console.log(error);
