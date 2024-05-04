@@ -18,7 +18,7 @@ export interface UploadBoxProps {
  * @returns
  */
 export default function UploadBox(props: UploadBoxProps) {
-  const clothingItem = props.clothingItem;
+  const [clothingItem, setClothingItem] = useState<ClothingItem>(props.clothingItem);
   const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
   const [clothingType, setClothingType] = useState<number>();
   const [showShapes, setShowShapes] = useState<boolean>(false);
@@ -54,6 +54,7 @@ export default function UploadBox(props: UploadBoxProps) {
       setClothingType(category);
       setShowShapes(true);
       clothingItem.category = category;
+      console.log(clothingItem)
 
       // selects active button visually
       const buttonName = "type " + category.toString();
@@ -196,6 +197,8 @@ export default function UploadBox(props: UploadBoxProps) {
       clothingItem.material = -1;
     } else {
       clothingItem.material = material;
+      console.log(material);
+      console.log(clothingItem)
       const buttonName = "material " + material.toString();
       const pressedButton = document.getElementById(buttonName);
       if (pressedButton !== null) {
