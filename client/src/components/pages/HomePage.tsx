@@ -55,7 +55,7 @@ export default function HomePage() {
       return "Morning";
     } else if (currHour >= 12 && currHour < 18) {
       return "Afternoon";
-    } else if (currHour >= 18 && currHour < 22) {
+    } else if (currHour >= 18 && currHour < 24) {
       return "Evening";
     } else {
       setShowTimeOfDay(false);
@@ -66,7 +66,7 @@ export default function HomePage() {
   const getWelcomeMessage = () => {
     if (showTimeOfDay) {
       if (showName) {
-        return `Good ${getTimeOfDay()}, ${name}!`;
+        return `Good ${getTimeOfDay()}, ${name}! :D`;
       } else {
         return `Good ${getTimeOfDay()}!`;
       }
@@ -74,7 +74,7 @@ export default function HomePage() {
       if (showName) {
         return `Hello ${name}!`;
       } else {
-        return `Hello!`;
+        return `Hello! :D`;
       }
     }
   }
