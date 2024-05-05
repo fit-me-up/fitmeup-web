@@ -34,6 +34,7 @@ public enum Subcategory {
 
   /**
    * The ideal temperature for the item, -1 means doesn't matter.
+   *
    * @return the weather value.
    */
   public double getWeather() {
