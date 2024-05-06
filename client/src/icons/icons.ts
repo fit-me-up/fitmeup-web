@@ -8,3 +8,4 @@ export { default as accessories } from "./accessories.png";
 export { default as closebutton } from "./close-button.png";
 export { default as success } from "./successfully-added.png";
 export { default as trash } from "./trashcan.png";
+export { default as dresser } from "./dresser.png";

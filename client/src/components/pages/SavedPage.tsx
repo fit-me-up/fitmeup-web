@@ -1,9 +1,13 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 import NavBar from "../navigation/NavBar";
 import "../../styles/savedpage.scss";
+import { generateOutfit } from "../../utils/api";
 
 
 export default function SavedPage() {
+
+
+
 
   return (
     <body>
