@@ -9,9 +9,10 @@ export default function NavBar() {
   const [highTemp, setHighTemp] = useState("");
   const [lowTemp, setLowTemp] = useState("");
   const [currentTemp, setCurrentTemp] = useState("");
-  const [currentRain, setCurrentRain] = useState(0);
-  const [currentCloud, setCurrentCloud] = useState(0);
-  const [currentSnow, setCurrentSnow] = useState(0);
+  const [currentRain, setCurrentRain] = useState(-1);
+  const [currentCloud, setCurrentCloud] = useState(-1);
+  const [currentSnow, setCurrentSnow] = useState(-1);
+  const [showWeather, setShowWeather] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,6 +36,16 @@ export default function NavBar() {
     }
   };
 
+  // const getWeatherIcon =() => {
+  //   console.log(currentCloud, currentRain, currentSnow);
+
+  // return mapToImage(determineWeatherIcon(currentCloud, currentRain, currentSnow))
+  //   } else {
+  //     setShowWeather(false);
+  //     return "";
+  //   }
+  // }
+
   useEffect(() => {
     async function fetchWeatherData() {
       if (navigator.geolocation) {
@@ -49,9 +60,11 @@ export default function NavBar() {
           setCurrentCloud(json.temperature.cloud);
           setCurrentRain(json.temperature.rain);
           setCurrentSnow(json.temperature.snowFall);
+          setShowWeather(true);
         });
       } else {
         console.log("Geolocation is not supported by this browser.");
+        setShowWeather(false);
       }
     }
     fetchWeatherData();
@@ -60,19 +73,19 @@ export default function NavBar() {
 
   return (
     <div className="navbar">
-      <div className="temp-container">
-        <div className="temp-numbers">
-          <h3 className="temptitle temp"> {highTemp}˚</h3>
-          <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
-          <h3 className="temptitle temp"> {lowTemp}˚</h3>
+      {showWeather && (
+        <div className="temp-container">
+          <div className="temp-numbers">
+            <h3 className="temptitle temp"> {highTemp}˚</h3>
+            <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
+            <h3 className="temptitle temp"> {lowTemp}˚</h3>
+          </div>
+          <img
+            className="weather-icon"
+            src={mapToImage(determineWeatherIcon(currentCloud, currentRain, currentSnow))}
+          />
         </div>
-        <img
-          className="weather-icon"
-          src={mapToImage(
-            determineWeatherIcon(currentCloud, currentRain, currentSnow)
-          )}
-        />
-      </div>
+      )}
       <div className="titles-container">
         <h3
           className="pagetitle home"

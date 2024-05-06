@@ -1,6 +1,6 @@
 .homepage {
     width: 100%;
-    min-height: 47em;
+    min-height: 40em;
     position: absolute;
     top: 80px;
     justify-content: center;
@@ -14,21 +14,21 @@
     text-align: center;
     margin-top: 100px;
     margin-bottom: 10px;
-    top: 15%;
-    left: 0%;
     letter-spacing: 1px;
 }
 
 .positive-message {
-    position: relative;
+    width: 100vw;
+    text-align: center;
+
     font-size: 35px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     margin-bottom: 50px;
     color: #2d2d2d
 }
 
 .nav-buttons {
-    width: 100%;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
