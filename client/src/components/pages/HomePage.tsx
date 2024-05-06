@@ -101,7 +101,7 @@ export default function HomePage() {
       case 0:
         return "It's nice to see you!";
       case 1:
-        return "You look great today!";
+        return "You're looking great!";
       case 2: 
         return "Excited to see what look you’ll rock today!"
       case 3:

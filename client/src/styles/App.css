@@ -4,7 +4,8 @@ Styling of App components.
 
 .App {
   text-align: center;
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
   background-image: url('background.png');
   background-size: cover;
   background-position: center;
