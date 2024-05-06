@@ -1,14 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import "../../styles/navbar.scss";
 import { useState, useEffect } from "react";
-import {
-  determineWeatherIcon,
-  mapToImage,
-} from "../pages/HomePage";
+import { determineWeatherIcon, mapToImage } from "../pages/HomePage";
 import { PageType } from "../items/enums";
 import { getWeatherData } from "../../utils/api";
 
 export default function NavBar() {
+  const [highTemp, setHighTemp] = useState("");
+  const [lowTemp, setLowTemp] = useState("");
+  const [currentTemp, setCurrentTemp] = useState("");
+  const [currentRain, setCurrentRain] = useState(0);
+  const [currentCloud, setCurrentCloud] = useState(0);
+  const [currentSnow, setCurrentSnow] = useState(0);
+
   const navigate = useNavigate();
 
   const changePage = (page: PageType) => {
@@ -31,32 +35,28 @@ export default function NavBar() {
     }
   };
 
-  const [highTemp, setHighTemp] = useState("");
-  const [lowTemp, setLowTemp] = useState("");
-  const [currentTemp, setCurrentTemp] = useState("");
-  const [currentRain, setCurrentRain] = useState(0);
-  const [currentCloud, setCurrentCloud] = useState(0);
-  const [currentSnow, setCurrentSnow] = useState(0);
-
   useEffect(() => {
-    async function fetchWeatherData(lat: number, long: number) {
-      let json = await getWeatherData(lat, long);
-      setLowTemp(json.temperature.low);
-      setHighTemp(json.temperature.high);
-      setCurrentTemp(json.temperature.current);
-      setCurrentCloud(json.temperature.cloud);
-      setCurrentRain(json.temperature.rain);
-      setCurrentSnow(json.temperature.snowFall);
+    async function fetchWeatherData() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+          let json = await getWeatherData(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          setLowTemp(json.temperature.low);
+          setHighTemp(json.temperature.high);
+          setCurrentTemp(json.temperature.current);
+          setCurrentCloud(json.temperature.cloud);
+          setCurrentRain(json.temperature.rain);
+          setCurrentSnow(json.temperature.snowFall);
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
     }
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        fetchWeatherData(position.coords.latitude, position.coords.longitude);
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
+    fetchWeatherData();
   }, []);
+
 
   return (
     <div className="navbar">
@@ -90,13 +90,11 @@ export default function NavBar() {
         </h3>
       </div>
       <div className="temp-container">
-        <h3 className="temptitle temp"> {highTemp}˚</h3>
-        <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
         <h3 className="temptitle temp"> {lowTemp}˚</h3>
+        <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
+        <h3 className="temptitle temp"> {highTemp}˚</h3>
         <img
-          src={mapToImage(
-            determineWeatherIcon(currentCloud, currentRain, currentSnow)
-          )}
+          src={mapToImage(determineWeatherIcon(currentCloud,currentRain,currentSnow))}
         />
       </div>
     </div>

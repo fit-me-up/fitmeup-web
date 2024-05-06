@@ -34,7 +34,6 @@ export default function GeneratePage(props: GenerationProps) {
 
   return (
     <body>
-      <NavBar />
       <div className="selection-bar">
         <button onClick={async () => generateNewOutfit(setOutfit)}>
           {"Generate"}

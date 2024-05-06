@@ -1,6 +1,7 @@
 import { getLoginCookie } from "./cookie";
 
 const HOST = "http://localhost:3232";
+let cache: any;
 
 /**
  * Function that queries backend API.
@@ -20,7 +21,7 @@ async function queryAPI(
   }
   return response.json();
 }
-
+console.log(getLoginCookie());
 /**
  * Function that clears the data associated with each user.
  * @param uid the user's id.
@@ -33,10 +34,14 @@ export async function clearUser() {
 }
 
 export async function getWeatherData(lat: number, lon: number) {
-  return await queryAPI("weather", {
-    lat: lat.toString(),
-    lon: lon.toString(),
-  });
+  if (!cache) {
+    console.log("weather!");
+    cache = await queryAPI("weather", {
+      lat: lat.toString(),
+      lon: lon.toString(),
+    });
+  } 
+  return cache;
 }
 
 export async function addClothingItem(
@@ -73,5 +78,12 @@ export async function generateOutfit(formality: number) {
     lon: "-71.41888",
     id: "0",
     formality: formality.toString(),
+  });
+}
+
+export async function removeClothing(id:number) {
+  return await queryAPI("remove-clothing", {
+    uid: getLoginCookie() || "",
+    id: id.toString()
   });
 }

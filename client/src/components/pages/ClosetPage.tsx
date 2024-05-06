@@ -1,4 +1,3 @@
-import NavBar from "../navigation/NavBar";
 import {
   all,
   tops,
@@ -6,12 +5,12 @@ import {
   fullbody,
   shoes,
   outerwear,
-  accessories,
+  accessories, trash
 } from "../../icons/icons";
 import "../../styles/closetpage.scss";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import UploadBox from "./UploadBox";
-import { listClothing } from "../../utils/api";
+import { listClothing, removeClothing } from "../../utils/api";
 import { determineCategory } from "../../utils/determineImage";
 import { ClothingItem } from "../items/ClothingItem";
 import { Category } from "../items/enums";
@@ -41,7 +40,6 @@ export default function ClosetPage(props: ClosetProps) {
 
   return (
     <body>
-      <NavBar />
       <div className="selection-bar">
         <img
           onClick={() => setClothingFilter("-1")}
@@ -108,6 +106,7 @@ export default function ClosetPage(props: ClosetProps) {
                   className={"img"}
                   style={{ backgroundColor: img[1] }}
                 />
+                <img className ="img-trash" src={trash} onClick={() => removeClothing(index)}/>
               </div>
             ) : null
           )}

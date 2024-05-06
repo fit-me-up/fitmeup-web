@@ -64,6 +64,7 @@ public class WeatherHandler implements Route {
 
     // Generate the reply
     try {
+
       double lat_double = Double.parseDouble(lat);
       double lon_double = Double.parseDouble(lon);
       Geolocation loc = new Geolocation(lat_double, lon_double);

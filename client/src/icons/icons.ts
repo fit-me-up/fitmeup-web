@@ -7,3 +7,4 @@ export { default as tops } from "./tops.png";
 export { default as accessories } from "./accessories.png";
 export { default as closebutton } from "./close-button.png";
 export { default as success } from "./successfully-added.png";
+export { default as trash } from "./trashcan.png";

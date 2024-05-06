@@ -57,7 +57,8 @@ public class Utils {
     Category cat = Category.values()[Integer.parseInt(parts[1])];
     Subcategory subcat = Subcategory.values()[Integer.parseInt(parts[2])];
     Formality formality = Formality.values()[Integer.parseInt(parts[3])];
-    Palette palette = new Palette(hexToRGB(parts[4]), hexToRGB(parts[5]));
+    Palette palette =
+        new Palette(hexToRGB(parts[4]), (!parts[5].equals("null")) ? hexToRGB(parts[5]) : null);
     Material material = Material.values()[Integer.parseInt(parts[6])];
 
     return new Clothing(id, cat, subcat, formality, palette, material);
@@ -73,7 +74,7 @@ public class Utils {
     Color prim = clothing.colors().primary();
     Color sec = clothing.colors().accent();
     String primary = rgbToHex(prim.r(), prim.g(), prim.b());
-    String secondary = rgbToHex(sec.r(), sec.g(), sec.b());
+    String secondary = (sec != null) ? rgbToHex(sec.r(), sec.g(), sec.b()) : "null";
     return clothing.id()
         + ","
         + clothing.category().ordinal()
@@ -97,10 +98,12 @@ public class Utils {
             clothing.colors().primary().g(),
             clothing.colors().primary().b());
     String hexColor2 =
-        rgbToHex(
-            clothing.colors().accent().r(),
-            clothing.colors().accent().g(),
-            clothing.colors().accent().b());
+        (clothing.colors().accent() != null)
+            ? rgbToHex(
+                clothing.colors().accent().r(),
+                clothing.colors().accent().g(),
+                clothing.colors().accent().b())
+            : "null";
     map.put("id", Integer.toString(clothing.id()));
     map.put("category", Integer.toString(clothing.category().ordinal()));
     map.put("subcategory", Integer.toString(clothing.subcategory().ordinal()));

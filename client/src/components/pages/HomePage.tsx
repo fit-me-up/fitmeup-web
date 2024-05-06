@@ -7,6 +7,9 @@ import rainylogo from "../../styles/images/rainyfitmeup.png"
 import cloudylogo from "../../styles/images/cloudyfitmeup.png"
 import { getNameCookie } from "../../utils/cookie";
 import "../../styles/homepage.scss";
+import { getWeatherData } from "../../utils/api";
+
+let cache = null;
 
 export enum WeatherType {
   SNOW = 'snow',
@@ -80,7 +83,6 @@ export default function HomePage() {
   }
   return (
     <body>
-      <NavBar />
       <div className="homepage">
         <h1 className="hello-message">{getWelcomeMessage()}</h1>
       </div>
