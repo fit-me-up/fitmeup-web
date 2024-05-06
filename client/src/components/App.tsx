@@ -33,9 +33,12 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 function App() {
-  // Stores clothes in a map with the key being the id of the clothing item, and the 
+  // Stores clothes in a map with the key being the id of the clothing item, and the
   // value being an array of the image url, primary color, and category of the clothing item.
-  const [clothes, setClothes] = useState<Map<string, [string, string, string]>>(new Map());
+  const [clothes, setClothes] = useState<Map<string, [string, string, string]>>(
+    new Map()
+  );
+  const navBar = <NavBar />;
 
   return (
     <div className="App">
@@ -43,24 +46,76 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={<AuthRoute gatedContent={<HomePage />} />}
+            element={
+              <AuthRoute
+                gatedContent={
+                  <div>
+                    {navBar} <HomePage />
+                  </div>
+                }
+              />
+            }
           />
-          <Route path="/" element={<AuthRoute gatedContent={<HomePage />} />} />
+          <Route
+            path="/"
+            element={
+              <AuthRoute
+                gatedContent={
+                  <div>
+                    {navBar} <HomePage />
+                  </div>
+                }
+              />
+            }
+          />
           <Route
             path="/home"
-            element={<AuthRoute gatedContent={<HomePage />} />}
+            element={
+              <AuthRoute
+                gatedContent={
+                  <div>
+                    {navBar} <HomePage />
+                  </div>
+                }
+              />
+            }
           />
           <Route
             path="/saved"
-            element={<AuthRoute gatedContent={<SavedPage />} />}
+            element={
+              <AuthRoute
+                gatedContent={
+                  <div>
+                    {navBar} <SavedPage />
+                  </div>
+                }
+              />
+            }
           />
           <Route
             path="/closet"
-            element={<AuthRoute gatedContent={<ClosetPage clothes={clothes} setClothes={setClothes}/>} />}
+            element={
+              <AuthRoute
+                gatedContent={
+                  <div>
+                    {navBar}
+                    <ClosetPage clothes={clothes} setClothes={setClothes} />
+                  </div>
+                }
+              />
+            }
           />
           <Route
             path="/generate"
-            element={<AuthRoute gatedContent={<GeneratePage clothes={clothes}/>} />}
+            element={
+              <AuthRoute
+                gatedContent={
+                  <div>
+                    {navBar} <GeneratePage clothes={clothes} />
+                  </div>
+                }
+              />
+            }
           />
         </Routes>
       </BrowserRouter>

@@ -18,9 +18,7 @@ public class ClosetData {
     this.loadCloset();
   }
 
-  /**
-   * Initialize all the hashmaps.
-   */
+  /** Initialize all the hashmaps. */
   private void initializeCloset() {
     this.closet = new HashMap<>();
 
@@ -38,9 +36,7 @@ public class ClosetData {
     }
   }
 
-  /**
-   * Places all the clothing items into their hashmaps.
-   */
+  /** Places all the clothing items into their hashmaps. */
   private void loadCloset() {
     for (Clothing item : this.clothingList) {
       this.closet.get(item.category()).get(item.formality()).put(item.id(), item);
@@ -89,8 +85,8 @@ public class ClosetData {
   }
 
   /**
-   * Returns a ratio of the number of full body items to the number of full
-   * body items and tops combined.
+   * Returns a ratio of the number of full body items to the number of full body items and tops
+   * combined.
    *
    * @param formality is the formality to consider.
    * @return a ratio of full body to full body plus tops.

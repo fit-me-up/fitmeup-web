@@ -8,6 +8,9 @@ import cloudylogo from "../../styles/images/cloudyfitmeup.png"
 import { getNameCookie } from "../../utils/cookie";
 import "../../styles/homepage.scss";
 import { useNavigate } from "react-router-dom";
+import { getWeatherData } from "../../utils/api";
+
+let cache = null;
 
 export enum WeatherType {
   SNOW = 'snow',
