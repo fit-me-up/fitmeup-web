@@ -60,6 +60,19 @@ export default function NavBar() {
 
   return (
     <div className="navbar">
+      <div className="temp-container">
+        <div className="temp-numbers">
+          <h3 className="temptitle temp"> {highTemp}˚</h3>
+          <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
+          <h3 className="temptitle temp"> {lowTemp}˚</h3>
+        </div>
+        <img
+          className="weather-icon"
+          src={mapToImage(
+            determineWeatherIcon(currentCloud, currentRain, currentSnow)
+          )}
+        />
+      </div>
       <div className="titles-container">
         <h3
           className="pagetitle home"
@@ -88,14 +101,6 @@ export default function NavBar() {
         >
           {"Closet"}
         </h3>
-      </div>
-      <div className="temp-container">
-        <h3 className="temptitle temp"> {lowTemp}˚</h3>
-        <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
-        <h3 className="temptitle temp"> {highTemp}˚</h3>
-        <img
-          src={mapToImage(determineWeatherIcon(currentCloud,currentRain,currentSnow))}
-        />
       </div>
     </div>
   );

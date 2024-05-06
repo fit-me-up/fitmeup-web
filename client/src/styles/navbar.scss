@@ -1,41 +1,46 @@
 
 .navbar {
+    display: flex;
     height: 80px;
     width: 100%;
     box-shadow: 4px 0px 15px rgb(208, 205, 194);
     position: fixed;
-    display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
-
-    img {
-    width: 35px;
-    height: 35px;
-    position: absolute;
-    right: 86%;
-    bottom: 30%;
-}
+    background-color: #fafaf5;
+    overflow-x: scroll;
 }
 
 .titles-container {
     width: 80%;
     display: grid;
     grid-auto-flow: column;
+    gap: 12px;
     justify-content: space-evenly;
-    left: 9%;
     align-items: center;
     vertical-align: middle;
-    position: fixed;
+    overflow-x:scroll;
 }
 
 .temp-container {
-    width: 2.5%;
-    padding-right: 90%;
-    padding-bottom: 1%;
-    display: grid;
-    grid-auto-flow: column;
-    align-items: center;
-    vertical-align: middle;
+    width: 10%;
+    display: flex;
+    flex-direction: row;
+    overflow-x:scroll;
+    .temp-numbers {
+        width: 80px;
+        padding-bottom: 1%;
+        display: grid;
+        grid-auto-flow: column;
+        align-items: center;
+        vertical-align: middle;
+        grid-template-columns: repeat(4,minmax);
+        
+    }
+
+    .weather-icon {
+        width: 40px;
+    }
 }
 
 .pagetitle {
