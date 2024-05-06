@@ -24,6 +24,8 @@ export default function ClosetPage(props: ClosetProps) {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
   const [clothingFilter, setClothingFilter] = useState<string>("-1");
+  const [opacity, setOpacity] = useState(0.4);
+  const [activeButton, setActiveButton] = useState("");
 
   useEffect(() => {
     listClothing().then((clothing : {clothing : ClothingItem[]}) => {
@@ -38,50 +40,61 @@ export default function ClosetPage(props: ClosetProps) {
     });  
   }, [props.clothes, props.setClothes, setClothes, setClothingFilter, clothes]);
 
+  const getButtonOpacity = (category : string) => {
+      return activeButton === category.toString() ? 1 : 0.4; // Full opacity for active button, reduced opacity for others
+    };
+
   return (
     <body>
       <div className="selection-bar">
         <img
-          onClick={() => setClothingFilter("-1")}
+          onClick={() => {setClothingFilter("-1"); setOpacity(1); setActiveButton("-1");}}
           draggable={false}
           src={all}
           alt="Show all clothes"
+          style={{opacity : getButtonOpacity("-1")}}
         />
         <img
-          onClick={() => setClothingFilter(Category.Top.toString())}
+          onClick={() => {setClothingFilter(Category.Top.toString()); setOpacity(1); setActiveButton(Category.Top.toString())}}
           draggable={false}
           src={tops}
           alt="Show all tops"
+          style={{opacity : getButtonOpacity(Category.Top.toString())}}
         />
         <img
-          onClick={() => setClothingFilter(Category.Bottom.toString())}
+          onClick={() => {setClothingFilter(Category.Bottom.toString());setOpacity(1); setActiveButton(Category.Bottom.toString());}}
           draggable={false}
           src={bottoms}
           alt="Show all bottoms"
+          style={{opacity : getButtonOpacity(Category.Bottom.toString())}}
         />
         <img
-          onClick={() => setClothingFilter(Category.FullBody.toString())}
+          onClick={() => {setClothingFilter(Category.FullBody.toString());setOpacity(1); setActiveButton(Category.FullBody.toString());}}
           draggable={false}
           src={fullbody}
           alt="Show full body items"
+          style={{opacity : getButtonOpacity(Category.FullBody.toString())}}
         />
         <img
-          onClick={() => setClothingFilter(Category.Shoe.toString())}
+          onClick={() => {setClothingFilter(Category.Shoe.toString()); setOpacity(1); setActiveButton(Category.Shoe.toString());}}
           draggable={false}
           src={shoes}
           alt="Show all shoes"
+          style={{opacity : getButtonOpacity(Category.Shoe.toString())}}
         />
         <img
-          onClick={() => setClothingFilter(Category.Outerwear.toString())}
+          onClick={() => {setClothingFilter(Category.Outerwear.toString());setOpacity(1); setActiveButton(Category.Outerwear.toString());}}
           draggable={false}
           src={outerwear}
           alt="Show all outerwear"
+          style ={{opacity : getButtonOpacity(Category.Outerwear.toString())}}
         />
         <img
-          onClick={() => setClothingFilter(Category.Accessory.toString())}
+          onClick={() => {setClothingFilter(Category.Accessory.toString());setOpacity(1); setActiveButton(Category.Accessory.toString());}}
           draggable={false}
           src={accessories}
           alt="Show all accessories"
+          style={{opacity : getButtonOpacity(Category.Accessory.toString())}}
         />
         <button onClick={() => setShowAddBox(true)} aria-label="Add item">
           + Add
