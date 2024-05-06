@@ -1,18 +1,23 @@
 import { useState, Dispatch, SetStateAction } from "react";
 import NavBar from "../navigation/NavBar";
+import "../../styles/savedpage.scss";
 
-// interface SavedPageProps {
-//     setSaved: Dispatch<SetStateAction<boolean>>;
-// }
 
 export default function SavedPage() {
-  //  const handleClick = () => {
-  //    props.setSaved(false);
-  //  };
 
   return (
-      <body>
-        <NavBar />
-      </body>
+    <body>
+      <NavBar />
+      <h1 className="header">Saved Outfits</h1>
+      <div className="saved-page">
+        {/* will map saved outfits from backend, just temporary for test */}
+        <div className="outfit-box"></div>
+        <div className="outfit-box"></div>
+        <div className="outfit-box"></div>
+        <div className="outfit-box"></div>
+        <div className="outfit-box"></div>
+        <div className="outfit-box"></div>
+      </div>
+    </body>
   );
 }
