@@ -7,7 +7,7 @@
     margin-top: 10px;
     justify-content: center;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     grid-auto-rows: 400px;
     gap: 25px;
     overflow-y:scroll;
@@ -22,6 +22,7 @@
     font-size: 40px;
     letter-spacing: 1px;
 }
+
 .outfit-box {
     width: 100%;
     height: 100%;

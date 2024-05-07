@@ -3,9 +3,10 @@
   display: grid;
   grid-auto-flow: column;
   position: absolute;
-  width: 80%;
+  width: 80vw;
+  min-width: 80vw;
   left: 10%;
-  top: 11%;
+  top: 90px;
   align-items: center;
   overflow-x: scroll;
 
@@ -41,7 +42,7 @@
 
 .closet-container {
   margin: auto;
-  width: 90%;
+  width: 90vw;
   height: 70%;
   position: relative;
   display: grid;
@@ -51,7 +52,7 @@
   overflow-y:scroll;
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
-  top: 27%;
+  top: 230px;
   background-color: #d2708943;
   border-radius: 20px;
 

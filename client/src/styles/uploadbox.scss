@@ -4,13 +4,14 @@ h3 {
 }
 
 .add-box {
+    margin: auto;
+    position: relative;
     padding-bottom: 2%;
-    position: absolute;
     overflow: scroll;
     width: 46%;
-    left: 26%;
+    min-width: 500px;
     height: 68%;
-    top: 27%;
+    top: 220px;
     border-radius: 30px;
     background-color: #e2dee6;
     text-align: center;
