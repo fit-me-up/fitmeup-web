@@ -7,7 +7,6 @@ export default function SavedPage() {
 
   return (
     <body>
-      <NavBar />
       <h1 className="header">Saved Outfits</h1>
       <div className="saved-page">
         {/* will map saved outfits from backend, just temporary for test */}
