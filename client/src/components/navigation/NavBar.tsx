@@ -36,16 +36,6 @@ export default function NavBar() {
     }
   };
 
-  // const getWeatherIcon =() => {
-  //   console.log(currentCloud, currentRain, currentSnow);
-
-  // return mapToImage(determineWeatherIcon(currentCloud, currentRain, currentSnow))
-  //   } else {
-  //     setShowWeather(false);
-  //     return "";
-  //   }
-  // }
-
   useEffect(() => {
     async function fetchWeatherData() {
       if (navigator.geolocation) {
