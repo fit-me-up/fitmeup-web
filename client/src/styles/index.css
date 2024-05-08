@@ -7,6 +7,9 @@ body, #root {
   -moz-osx-font-smoothing: grayscale;
   background-color: #FAFAF5;
   height: 100vh;
+  width: 100vw;
+  /* min-width: 1400px; */
+  overflow-x: show;
 }
 
 code {

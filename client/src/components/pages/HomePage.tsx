@@ -8,9 +8,7 @@ import cloudylogo from "../../styles/images/cloudyfitmeup.png"
 import { getNameCookie } from "../../utils/cookie";
 import "../../styles/homepage.scss";
 import { useNavigate } from "react-router-dom";
-import { getWeatherData } from "../../utils/api";
 
-let cache = null;
 
 export enum WeatherType {
   SNOW = 'snow',
@@ -101,7 +99,7 @@ export default function HomePage() {
       case 0:
         return "It's nice to see you!";
       case 1:
-        return "You look great today!";
+        return "You're looking great!";
       case 2: 
         return "Excited to see what look you’ll rock today!"
       case 3:
@@ -113,7 +111,6 @@ export default function HomePage() {
 
   return (
     <body style={{ backgroundColor: "#f9e8d0 "}}>
-      <NavBar />
       <div className="homepage">
         <h1 className="hello-message">{getWelcomeMessage()}</h1>
         <h3 className="positive-message">{generatePositiveMessage()}</h3>

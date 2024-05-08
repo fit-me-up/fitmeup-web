@@ -41,7 +41,7 @@ export default function ClosetPage(props: ClosetProps) {
   }, [props.clothes, props.setClothes, setClothes, setClothingFilter, clothes]);
 
   const getButtonOpacity = (category : string) => {
-      return activeButton === category.toString() ? 1 : 0.4; // Full opacity for active button, reduced opacity for others
+      return activeButton === category.toString() ? 1 : 0.4; 
     };
 
   return (
