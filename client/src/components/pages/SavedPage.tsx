@@ -1,39 +1,34 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, useEffect } from "react";
 import NavBar from "../navigation/NavBar";
 import "../../styles/savedpage.scss";
+import { listOutfits } from "../../utils/api";
+import { OutfitItem } from "../items/OutfitItem";
 
 
-export default function SavedPage() {
+export interface SavedPageProps {
+  setOutfits: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
+  outfits: Map<string, [string, string, string]>;
+}
 
-  // useEffect(() => {
-  //   listClothing().then((clothing: { clothing: ClothingItem[] }) => {
-  //     let clothes = clothing.clothing;
-  //     let clothesMap = new Map<string, [string, string, string]>();
-  //     setClothes(clothes);
-  //     console.log("clohtes", clothes);
-  //     clothes.forEach((item) => {
-  //       console.log(item);
-  //       let img = determineCategory(
-  //         item.category,
-  //         item.subcategory,
-  //         item.material,
-  //         item.formality
-  //       );
-  //       clothesMap.set(item.id.toString(), [
-  //         img,
-  //         item.primary,
-  //         item.category.toString(),
-  //       ]);
-  //     });
-  //     props.setClothes(clothesMap);
-  //   });
-  // }, [
-  //   props.clothes,
-  //   props.setClothes,
-  //   setClothes,
-  //   setClothingFilter,
-  //   clothes,
-  // ]);
+export default function SavedPage(props: SavedPageProps) {
+  const [outfits, setOutfits] = useState<OutfitItem[]>([]);
+
+  useEffect(() => {
+    listOutfits().then((outfit: { outfit: OutfitItem[] }) => {
+      let outfits = outfit.outfit;
+      let outfitsMap = new Map<string, [string, string, string]>();
+      setOutfits(outfits);
+      outfits.forEach((outfit) => {
+        console.log(outfit);
+      });
+      props.setOutfits(outfitsMap);
+    });
+  }, [
+    props.outfits,
+    props.setOutfits,
+    setOutfits,,
+    outfits,
+  ]);
 
   return (
     <body>
