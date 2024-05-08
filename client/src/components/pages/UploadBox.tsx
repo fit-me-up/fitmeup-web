@@ -332,7 +332,7 @@ export default function UploadBox(props: UploadBoxProps) {
         <h3>Material:</h3>
         <div className="material-container row1" >
           <button id={"material " + Material.WoolCotton.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
-          <button id={"material " + Material.PlasticNylon.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Nylon/Polyester</button>
+          <button id={"material " + Material.PlasticNylon.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Synthetic</button>
           <button id={"material " + Material.Leather.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.Leather)}>Leather</button>
           <button id={"material " + Material.Denim.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.Denim)}>Denim</button>
         </div>

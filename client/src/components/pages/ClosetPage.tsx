@@ -25,14 +25,16 @@ export default function ClosetPage(props: ClosetProps) {
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
   const [clothingFilter, setClothingFilter] = useState<string>("-1");
   const [opacity, setOpacity] = useState(0.4);
-  const [activeButton, setActiveButton] = useState("");
+  const [activeButton, setActiveButton] = useState("All");
 
   useEffect(() => {
     listClothing().then((clothing : {clothing : ClothingItem[]}) => {
       let clothes = clothing.clothing;
       let clothesMap = new Map<string, [string, string, string]>();
       setClothes(clothes);
+      console.log("clohtes", clothes)
       clothes.forEach((item => {
+        console.log(item)
         let img = determineCategory(item.category,item.subcategory,item.material,item.formality);
         clothesMap.set(item.id.toString(), [img, item.primary, item.category.toString()]);
       }));
@@ -48,11 +50,11 @@ export default function ClosetPage(props: ClosetProps) {
     <body>
       <div className="selection-bar">
         <img
-          onClick={() => {setClothingFilter("-1"); setOpacity(1); setActiveButton("-1");}}
+          onClick={() => {setClothingFilter("All"); setOpacity(1); setActiveButton("All");}}
           draggable={false}
           src={all}
           alt="Show all clothes"
-          style={{opacity : getButtonOpacity("-1")}}
+          style={{opacity : getButtonOpacity("All")}}
         />
         <img
           onClick={() => {setClothingFilter(Category.Top.toString()); setOpacity(1); setActiveButton(Category.Top.toString())}}

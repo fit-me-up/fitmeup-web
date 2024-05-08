@@ -71,6 +71,12 @@ export async function listClothing() {
   });
 }
 
+export async function listOutfits() {
+  return await queryAPI("list-outfits", {
+    uid: getLoginCookie() || "",
+  });
+}
+
 export async function generateOutfit(formality: number) {
   return await queryAPI("generate-outfit", {
     uid: getLoginCookie() || "",
