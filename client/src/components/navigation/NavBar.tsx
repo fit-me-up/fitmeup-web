@@ -44,13 +44,17 @@ export default function NavBar() {
             position.coords.latitude,
             position.coords.longitude
           );
-          setLowTemp(json.temperature.low);
-          setHighTemp(json.temperature.high);
-          setCurrentTemp(json.temperature.current);
-          setCurrentCloud(json.temperature.cloud);
-          setCurrentRain(json.temperature.rain);
-          setCurrentSnow(json.temperature.snowFall);
-          setShowWeather(true);
+          if (json === undefined) {
+            setShowWeather(false);
+          } else {
+            setLowTemp(json.temperature.low);
+            setHighTemp(json.temperature.high);
+            setCurrentTemp(json.temperature.current);
+            setCurrentCloud(json.temperature.cloud);
+            setCurrentRain(json.temperature.rain);
+            setCurrentSnow(json.temperature.snowFall);
+            setShowWeather(true);
+          }
         });
       } else {
         console.log("Geolocation is not supported by this browser.");

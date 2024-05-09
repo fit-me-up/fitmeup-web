@@ -8,7 +8,7 @@ import { HexColorPicker } from "react-colorful";
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
-  clothingItem: ClothingItem;
+  // clothingItem: ClothingItem;
   listofClothes: ClothingItem[];
 }
 
@@ -18,18 +18,21 @@ export interface UploadBoxProps {
  * @returns
  */
 export default function UploadBox(props: UploadBoxProps) {
-  const [clothingItem, setClothingItem] = useState<ClothingItem>(props.clothingItem);
+  // const [clothingItem, setClothingItem] = useState<ClothingItem>(props.clothingItem);
   const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
-  const [clothingType, setClothingType] = useState<number>();
+  const [clothingType, setClothingType] = useState<number>(-1);
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Subcategory][]>([]); // list of tuples for [label, enum]
   const [showSecondaryColor, setShowSecondaryColor] = useState<boolean>(false);
+
+  const [subcategory, setSubcategory] = useState<number>(-1)
+  const [material, setMaterial] = useState<number>(-1);
+  const [formality, setFormality] = useState<number>(-1);
 
   /**
    * Handles behavior for the x being pressed to close the upload box
    */
   const handleBoxClose = () => {
-    clothingItem.reset();
     window.location.reload();
   };
   /**
@@ -49,12 +52,11 @@ export default function UploadBox(props: UploadBoxProps) {
 
     if (category === clothingType && showShapes) {
       setShowShapes(false);
-      clothingItem.category = -1;
+      setClothingType(-1);
     } else {
       setClothingType(category);
       setShowShapes(true);
-      clothingItem.category = category;
-      console.log(clothingItem)
+      setClothingType(category);
 
       // selects active button visually
       const buttonName = "type " + category.toString();
@@ -115,16 +117,16 @@ export default function UploadBox(props: UploadBoxProps) {
    * Handles behavior for when a shape button is pressed
    * @param shape enum for shape
    */
-  function handleShapeSelection(subcategory: Subcategory) {
+  function handleSubcategorySelection(sub: Subcategory) {
     const activeButton = document.getElementsByClassName("shape-active");
     if (activeButton[0]) {
       activeButton[0].className = "inactive";
     }
-    if (clothingItem.subcategory === subcategory) {
-      clothingItem.subcategory = -1;
+    if (subcategory === sub) {
+      setSubcategory(-1);
     } else {
-      clothingItem.subcategory = subcategory;
-      const buttonName = "shape " + subcategory.toString();
+      setSubcategory(sub);
+      const buttonName = "shape " + sub.toString();
       const pressedButton = document.getElementById(buttonName);
       if (pressedButton !== null) {
         pressedButton.className = "shape-active";
@@ -132,8 +134,8 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
-  const [mainColor, setMainColor] = useState<string>("#ffffff");
-  const [secondaryColor, setSecondaryColor] = useState<string>("#ffffff");
+  const [mainColor, setMainColor] = useState<string>("null");
+  const [secondaryColor, setSecondaryColor] = useState<string>("null");
   const [mainColorSelect, setMainColorSelect] = useState<string>("Select");
   const [secondaryColorSelect, setSecondaryColorSelect] = useState<string>("Select");
 
@@ -159,47 +161,47 @@ export default function UploadBox(props: UploadBoxProps) {
     console.log(color);
     if (type === 'main') {
       if (mainColorSelect === "Select") {
-        clothingItem.primary = color;
+        mainColor === "null" ? setMainColor("#ffffff") : setMainColor(color);
         setMainColorSelect("Selected!");
         setShowSecondaryColor(true);
       } else {
-        clothingItem.primary = "";
         setMainColorSelect("Select");
         setShowSecondaryColor(false);
       }
     } else {
       if (secondaryColorSelect === "Select") {
-        clothingItem.secondary = color;
+        secondaryColor === "null" ? setSecondaryColor("#ffffff") : setSecondaryColor(color);
         setSecondaryColorSelect("Selected!");
       } else {
-        clothingItem.primary = "";
+        setSecondaryColor("null");
         setSecondaryColorSelect("Select");
       }
     }
   }
 
+  /**
+   * Defines behavior for if a user presses "none" to secondary color
+   */
   const handleNoSecondary =() => {
     setShowSecondaryColor(false);
     setSecondaryColorSelect("Select");
-    clothingItem.secondary = "null";
+    setSecondaryColor("null");
   }
 
   /**
    * Handles behavior for when a material type is selected
-   * @param material The material selected
+   * @param m The material selected
    */
-  function handleMaterialSelection(material: Material) {
+  function handleMaterialSelection(m: Material) {
     const activeButton = document.getElementsByClassName("material-active");
     if (activeButton[0]) {
       activeButton[0].className = "inactive";
     }
-    if (clothingItem.material === material) {
-      clothingItem.material = -1;
+    if (material === m) {
+      setMaterial(-1);
     } else {
-      clothingItem.material = material;
-      console.log(material);
-      console.log(clothingItem)
-      const buttonName = "material " + material.toString();
+      setMaterial(m);
+      const buttonName = "material " + m.toString();
       const pressedButton = document.getElementById(buttonName);
       if (pressedButton !== null) {
         pressedButton.className = "material-active";
@@ -207,16 +209,16 @@ export default function UploadBox(props: UploadBoxProps) {
     }
   }
 
-  function handleFormalitySelection(formality: Formality) {
+  function handleFormalitySelection(f: Formality) {
     const activeButton = document.getElementsByClassName("formality-active");
     if (activeButton[0]) {
       activeButton[0].className = "inactive";
     }
-    if (clothingItem.formality === formality) {
-      clothingItem.formality = -1;
+    if (formality === f) {
+      setFormality(-1);
     } else {
-      clothingItem.formality = formality;
-      const buttonName = "formality " + formality.toString();
+      setFormality(f);
+      const buttonName = "formality " + f.toString();
       const pressedButton = document.getElementById(buttonName);
       if (pressedButton !== null) {
         pressedButton.className = "formality-active";
@@ -227,36 +229,36 @@ export default function UploadBox(props: UploadBoxProps) {
   const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
   async function handleSubmit() {
-    console.log(clothingItem);
-    if (clothingItem.subcategory === -1 || clothingItem.category === -1 || clothingItem.primary === "" || clothingItem.material === -1 || clothingItem.formality === -1) {
+    if (clothingType === -1 || subcategory === -1 || mainColor === "null" || material === -1 || formality === -1) {
       setIncompleteFields(true);
     } else {
+      const clothingItem = new ClothingItem();
+      clothingItem.category = clothingType;
+      clothingItem.subcategory = subcategory;
+      clothingItem.primary = mainColor;
+      clothingItem.secondary = secondaryColor;
+      clothingItem.material = material;
+      clothingItem.formality = formality;
+      console.log("adding item ", clothingItem);
+
       setNotSubmitted(false);
       setIncompleteFields(false);
       setMainColorSelect("Select");
-      setMainColor("");
       setSecondaryColorSelect("Select");
-      setSecondaryColor("");
       setShowShapes(false);
       // define these local variables because reset doesn't work after the await
-      const category = clothingItem.category;
-      const subcategory = clothingItem.subcategory;
-      const formality = clothingItem.formality;
-      const primary = clothingItem.primary;
-      const secondary = clothingItem.secondary;
-      const material = clothingItem.material;
-      console.log(category + "category");
-      console.log(subcategory + "subcategory");
-      clothingItem.reset();
+
+      // clothingItem.reset();
 
       await addClothing(
-        category,
+        clothingType,
         subcategory,
         formality,
-        primary,
-        secondary,
+        mainColor,
+        secondaryColor,
         material
       );
+      console.log(mainColor, secondaryColor);
     }
   }
 
@@ -271,6 +273,13 @@ export default function UploadBox(props: UploadBoxProps) {
       index = (max + 1);
     }
     await addClothingItem(index , category, subcategory, formality, primary, secondary, material);
+  }
+
+  const addAnotherItem = () => {
+    setNotSubmitted(true);
+    setMainColor("ffffff");
+    setSecondaryColor("null");
+    console.log("main color", mainColor)
   }
 
   return notSubmitted ? (
@@ -298,7 +307,7 @@ export default function UploadBox(props: UploadBoxProps) {
           <h3 className="shapes-header"> Subcategory: </h3>
           <div className="button-container">
             {shapeLabels.map((label) => (
-              <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleShapeSelection(label[1])}>
+              <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleSubcategorySelection(label[1])}>
                 {label[0]}
               </button>
             ))}
@@ -364,7 +373,7 @@ export default function UploadBox(props: UploadBoxProps) {
         />
       </div>
       <h1 className="success-message"> Successfully added item!</h1>
-      <button className="newitem-button" onClick={() => setNotSubmitted(true)}>
+      <button className="newitem-button" onClick={addAnotherItem}>
         Add another item
       </button>
       <br></br>

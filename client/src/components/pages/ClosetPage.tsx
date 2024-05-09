@@ -32,9 +32,7 @@ export default function ClosetPage(props: ClosetProps) {
       let clothes = clothing.clothing;
       let clothesMap = new Map<string, [string, string, string]>();
       setClothes(clothes);
-      console.log("clohtes", clothes)
       clothes.forEach((item => {
-        console.log(item)
         let img = determineCategory(item.category,item.subcategory,item.material,item.formality);
         clothesMap.set(item.id.toString(), [img, item.primary, item.category.toString()]);
       }));
@@ -105,7 +103,6 @@ export default function ClosetPage(props: ClosetProps) {
       {showAddBox && (
         <UploadBox
           setShowAddBox={setShowAddBox}
-          clothingItem={new ClothingItem()}
           listofClothes={clothes}
         />
       )}

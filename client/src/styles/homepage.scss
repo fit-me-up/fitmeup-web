@@ -1,6 +1,7 @@
 .homepage {
     width: 100%;
-    min-height: 40em;
+    height: 90vh;
+    min-height: 750px;
     position: absolute;
     top: 80px;
     justify-content: center;
@@ -12,18 +13,18 @@
     color: #2d2d2d;
     font-size: 80px;
     text-align: center;
-    margin-top: 100px;
-    margin-bottom: 10px;
+    margin-top: 8%;
+    margin-bottom: 1%;
     letter-spacing: 1px;
 }
 
 .positive-message {
-    width: 100vw;
+    width: 99vw;
     text-align: center;
 
     font-size: 35px;
     letter-spacing: 1px;
-    margin-bottom: 50px;
+    margin-bottom: 4%;
     color: #2d2d2d
 }
 
@@ -35,7 +36,7 @@
     flex-direction: column;
 
     button {
-        margin: 10px;
+        margin: 0.7%;
         width: 500px;
         height: 60px;
         font-family: 'Playfair-Display';

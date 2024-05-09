@@ -35,13 +35,17 @@ export async function clearUser() {
 
 export async function getWeatherData(lat: number, lon: number) {
   if (!cache) {
-    console.log("weather!");
     cache = await queryAPI("weather", {
       lat: lat.toString(),
       lon: lon.toString(),
     });
   } 
-  return cache;
+  if (cache.response_type == 'error') {
+    console.log("Weather data currently unavailable");
+    return undefined;
+  } else {
+    return cache;
+  }
 }
 
 export async function addClothingItem(

@@ -110,31 +110,29 @@ export default function HomePage() {
   }
 
   return (
-    <body style={{ backgroundColor: "#f9e8d0 "}}>
-      <div className="homepage">
-        <h1 className="hello-message">{getWelcomeMessage()}</h1>
-        <h3 className="positive-message">{generatePositiveMessage()}</h3>
-        <div className="nav-buttons">
-          <button
-            onClick={() => navigate("/generate")}
-            style={{ backgroundColor: "#d27088" }}
-          >
-            Generate Today's Outfit{" "}
-          </button>
-          <button
-            onClick={() => navigate("/saved")}
-            style={{ backgroundColor: "#846a95" }}
-          >
-            View Saved Outfits{" "}
-          </button>
-          <button
-            onClick={() => navigate("/closet")}
-            style={{ backgroundColor: "#3f6492" }}
-          >
-            View My Closet{" "}
-          </button>
-        </div>
+    <div className="homepage">
+      <h1 className="hello-message">{getWelcomeMessage()}</h1>
+      <h3 className="positive-message">{generatePositiveMessage()}</h3>
+      <div className="nav-buttons">
+        <button
+          onClick={() => navigate("/generate")}
+          style={{ backgroundColor: "#d27088" }}
+        >
+          Generate Today's Outfit{" "}
+        </button>
+        <button
+          onClick={() => navigate("/saved")}
+          style={{ backgroundColor: "#846a95" }}
+        >
+          View Saved Outfits{" "}
+        </button>
+        <button
+          onClick={() => navigate("/closet")}
+          style={{ backgroundColor: "#3f6492" }}
+        >
+          View My Closet{" "}
+        </button>
       </div>
-    </body>
+    </div>
   );
 }
