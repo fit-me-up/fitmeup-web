@@ -68,6 +68,7 @@ export default function GeneratePage(props: GenerationProps) {
         {determineBox(outfit.fullbody)}
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
+        
           <div className="outerwear-box" >{showClothing(outfit.outerwear)}</div>
           <div className="bag-box">{showClothing(outfit.accessory)}</div>
         </div>
