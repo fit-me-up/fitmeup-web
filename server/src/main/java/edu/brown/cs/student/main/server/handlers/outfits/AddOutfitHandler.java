@@ -15,6 +15,7 @@ import spark.Route;
 public class AddOutfitHandler implements Route {
 
   public StorageInterface storageHandler;
+  private int lastID = 0;
 
   public AddOutfitHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
@@ -33,7 +34,8 @@ public class AddOutfitHandler implements Route {
     try {
       // Collect parameters from the request to build a clothing item.
       String uid = request.queryParams("uid");
-      String id = request.queryParams("id");
+      String id = Integer.toString(this.lastID + 1);
+      this.lastID ++;
       String topID = request.queryParams("top");
       String bottomID = request.queryParams("bottom");
       String shoeID = request.queryParams("shoe");

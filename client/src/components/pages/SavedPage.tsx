@@ -13,22 +13,15 @@ export interface SavedPageProps {
 export default function SavedPage(props: SavedPageProps) {
   const [outfits, setOutfits] = useState<OutfitItem[]>([]);
 
+  /**
+   * Called to get each saved outfit from the backend and set it into the outfits list.
+   */
   useEffect(() => {
-    listOutfits().then((outfit: { outfit: OutfitItem[] }) => {
-      let outfits = outfit.outfit;
-      let outfitsMap = new Map<string, [string, string, string]>();
+    listOutfits().then((json) => {
+      const outfits: OutfitItem[] = json.clothing;
       setOutfits(outfits);
-      outfits.forEach((outfit) => {
-        console.log(outfit);
-      });
-      props.setOutfits(outfitsMap);
     });
-  }, [
-    props.outfits,
-    props.setOutfits,
-    setOutfits,,
-    outfits,
-  ]);
+  }, []);
 
   return (
     <body>
