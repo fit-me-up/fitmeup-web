@@ -109,7 +109,7 @@ export default function ClosetPage(props: ClosetProps) {
       {!showAddBox && (
         <div className="closet-container">
           {Array.from(props.clothes.entries()).map((img, index) =>
-            clothingFilter === "-1" || img[1][2] === clothingFilter ? (
+            clothingFilter === "All" || img[1][2] === clothingFilter ? (
               <div className="box">
                 <img
                   key={index}
