@@ -5,14 +5,10 @@ import SavedPage from "./pages/SavedPage";
 import NavBar from "./navigation/NavBar";
 import {
   BrowserRouter,
-  Navigate,
   Route,
-  Router,
   Routes,
 } from "react-router-dom";
 import { useState } from "react";
-import { getLoginCookie } from "../utils/cookie";
-import LoginLogout from "./auth/LoginLogout";
 import AuthRoute from "./auth/AuthRoute";
 import ClosetPage from "./pages/ClosetPage";
 import GeneratePage from "./pages/GeneratePage";
@@ -86,7 +82,7 @@ function App() {
               <AuthRoute
                 gatedContent={
                   <div>
-                    {navBar} <SavedPage />
+                    {navBar} <SavedPage clothing={clothes} setClothing={setClothes}/>
                   </div>
                 }
               />

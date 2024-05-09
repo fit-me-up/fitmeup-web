@@ -6,8 +6,8 @@ import { OutfitItem } from "../items/OutfitItem";
 
 
 export interface SavedPageProps {
-  setOutfits: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
-  outfits: Map<string, [string, string, string]>;
+  setClothing: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
+  clothing: Map<string, [string, string, string]>;
 }
 
 export default function SavedPage(props: SavedPageProps) {
@@ -22,6 +22,8 @@ export default function SavedPage(props: SavedPageProps) {
       setOutfits(outfits);
     });
   }, []);
+
+  console.log(outfits);
 
   return (
     <body>

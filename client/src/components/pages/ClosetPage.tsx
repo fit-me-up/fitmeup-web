@@ -108,17 +108,17 @@ export default function ClosetPage(props: ClosetProps) {
       )}
       {!showAddBox && (
         <div className="closet-container">
-          {Array.from(props.clothes.values()).map((img, index) =>
-            clothingFilter === "-1" || img[2] === clothingFilter ? (
+          {Array.from(props.clothes.entries()).map((img, index) =>
+            clothingFilter === "-1" || img[1][2] === clothingFilter ? (
               <div className="box">
                 <img
                   key={index}
-                  src={img[0]}
+                  src={img[1][0]}
                   alt="Marker"
                   className={"img"}
-                  style={{ backgroundColor: img[1] }}
+                  style={{ backgroundColor: img[1][1] }}
                 />
-                <img className ="img-trash" src={trash} onClick={() => removeClothing(index)}/>
+                <img className ="img-trash" src={trash} onClick={() => removeClothing(parseInt(img[0]))}/>
               </div>
             ) : null
           )}
