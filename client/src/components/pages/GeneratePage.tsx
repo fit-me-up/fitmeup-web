@@ -1,5 +1,5 @@
 import NavBar from "../navigation/NavBar";
-import { generateOutfit } from "../../utils/api";
+import { generateOutfit, addOutfit } from "../../utils/api";
 import { OutfitItem } from "../items/OutfitItem";
 import { Dispatch, useState, SetStateAction } from "react";
 import { dresser } from "../../icons/icons";
@@ -11,10 +11,11 @@ async function generateNewOutfit(
   // Pick random formality for now (0 or 1)
   let formality = Math.floor(Math.random() * 2);
   generateOutfit(formality).then((outfit: { outfit: OutfitItem }) => {
+    console.log("generatedOutfit", outfit.outfit);
     setOutfit(outfit.outfit);
-    console.log(outfit);
   });
 }
+
 
 export interface GenerationProps {
   clothes: Map<string, [string, string, string]>;
@@ -22,6 +23,14 @@ export interface GenerationProps {
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
+  const [outfits, setOutfits] = useState<OutfitItem[]>([]);
+
+  /**
+   * Calls on the api from the frontend, passing in the newly generated outfit's details
+   */
+  async function saveOutfit() {
+    await addOutfit(outfit.id, outfit.top, outfit.bottom, outfit.shoe, outfit.outerwear, outfit.fullbody, outfit.accessory)
+  }
 
   function showClothing(item: string) {
     return item !== "-1" ? (
@@ -56,20 +65,21 @@ export default function GeneratePage(props: GenerationProps) {
         </div>
       );
     }
-
   }
 
   return (
     <body>
       <div className="outfit-container">
         <button onClick={async () => generateNewOutfit(setOutfit)}>
-          {"Generate"}
+          Generate
+        </button>
+        <button onClick={async () => saveOutfit()}>
+          Save
         </button>
         {determineBox(outfit.fullbody)}
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
-        
-          <div className="outerwear-box" >{showClothing(outfit.outerwear)}</div>
+          <div className="outerwear-box">{showClothing(outfit.outerwear)}</div>
           <div className="bag-box">{showClothing(outfit.accessory)}</div>
         </div>
       </div>

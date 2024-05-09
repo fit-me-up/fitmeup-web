@@ -81,6 +81,20 @@ export async function listOutfits() {
   });
 }
 
+export async function addOutfit(id: string, top: string, bottom: string, shoe: string,
+  outerwear: string, fullbody: string, accessory: string) {
+  return await queryAPI("add-outfit", {
+    uid: getLoginCookie() || "",
+    id: id.toString(),
+    top: top.toString(),
+    bottom: bottom.toString(),
+    shoe: shoe.toString(),
+    outerwear: outerwear.toString(),
+    fullbody: fullbody.toString(),
+    accessory: accessory.toString()
+  });
+}
+
 export async function generateOutfit(formality: number) {
   return await queryAPI("generate-outfit", {
     uid: getLoginCookie() || "",

@@ -8,7 +8,6 @@ import { HexColorPicker } from "react-colorful";
 
 export interface UploadBoxProps {
   setShowAddBox: Dispatch<SetStateAction<boolean>>;
-  // clothingItem: ClothingItem;
   listofClothes: ClothingItem[];
 }
 
@@ -18,7 +17,6 @@ export interface UploadBoxProps {
  * @returns
  */
 export default function UploadBox(props: UploadBoxProps) {
-  // const [clothingItem, setClothingItem] = useState<ClothingItem>(props.clothingItem);
   const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
   const [clothingType, setClothingType] = useState<number>(-1);
   const [showShapes, setShowShapes] = useState<boolean>(false);
@@ -232,15 +230,6 @@ export default function UploadBox(props: UploadBoxProps) {
     if (clothingType === -1 || subcategory === -1 || mainColor === "null" || material === -1 || formality === -1) {
       setIncompleteFields(true);
     } else {
-      const clothingItem = new ClothingItem();
-      clothingItem.category = clothingType;
-      clothingItem.subcategory = subcategory;
-      clothingItem.primary = mainColor;
-      clothingItem.secondary = secondaryColor;
-      clothingItem.material = material;
-      clothingItem.formality = formality;
-      console.log("adding item ", clothingItem);
-
       setNotSubmitted(false);
       setIncompleteFields(false);
       setMainColorSelect("Select");
@@ -248,7 +237,6 @@ export default function UploadBox(props: UploadBoxProps) {
       setShowShapes(false);
       // define these local variables because reset doesn't work after the await
 
-      // clothingItem.reset();
 
       await addClothing(
         clothingType,
