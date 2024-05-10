@@ -1,8 +1,8 @@
 import { useState, Dispatch, SetStateAction, useEffect, useCallback } from "react";
-import NavBar from "../navigation/NavBar";
 import "../../styles/savedpage.scss";
 import { listOutfits } from "../../utils/api";
 import { OutfitItem } from "../items/OutfitItem";
+import { showClothing } from "../pages/GeneratePage";
 
 
 export interface SavedPageProps {
@@ -25,17 +25,16 @@ export default function SavedPage(props: SavedPageProps) {
       const outfits: OutfitItem[] = json.clothing;
       setOutfitList(outfits.map((outfit) => (
         <div className="outfit-box">
-          {(parseInt(outfit.fullbody) > -1) && <div className="fullbody-box"> fullbody </div> }
-          {(parseInt(outfit.top) > -1) && <div className="top-box"> top </div> }
-          {(parseInt(outfit.bottom) > -1) && <div className="bottom-box"> bottom </div> }
-          {(parseInt(outfit.shoe) > -1) && <div className="shoe-box"> shoe </div> }
-          {(parseInt(outfit.outerwear) > -1) && <div className="outerwear-box"> outerwear </div> }
-          {(parseInt(outfit.accessory) > -1) && <div className="accessory-box"> accessory </div> }
+          {(parseInt(outfit.fullbody) > -1) && <div className="fullbody-box"> {showClothing(outfit.fullbody, props.clothing)} </div> }
+          {(parseInt(outfit.top) > -1) && <div className="top-box"> {showClothing(outfit.top, props.clothing)} </div> }
+          {(parseInt(outfit.bottom) > -1) && <div className="bottom-box"> {showClothing(outfit.bottom, props.clothing)} </div> }
+          {(parseInt(outfit.shoe) > -1) && <div className="shoe-box"> {showClothing(outfit.shoe, props.clothing)} </div> }
+          {(parseInt(outfit.outerwear) > -1) && <div className="outerwear-box"> {showClothing(outfit.outerwear, props.clothing)} </div> }
+          {(parseInt(outfit.accessory) > -1) && <div className="accessory-box"> {showClothing(outfit.accessory, props.clothing)} </div> }
         </div>
       )));
     });
   }, []);
-
 
   return (
     <body>

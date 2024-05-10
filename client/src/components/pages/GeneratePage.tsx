@@ -8,6 +8,23 @@ export interface GenerationProps {
   clothes: Map<string, [string, string, string]>;
 }
 
+export function showClothing(
+  item: string,
+  props: Map<string, [string, string, string]>
+) {
+  return item !== "-1" ? (
+    <div>
+      <img
+        className="img-outfit"
+        key={0}
+        src={props.get(item)?.[0]}
+        alt="Marker"
+        style={{ backgroundColor: props.get(item)?.[1] }}
+      />
+    </div>
+  ) : null;
+}
+
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
   const [outfits, setOutfits] = useState<OutfitItem[]>([]);
@@ -44,36 +61,21 @@ export default function GeneratePage(props: GenerationProps) {
     );
   }
 
-  function showClothing(item: string) {
-    return item !== "-1" ? (
-      <div>
-        <img
-          className="img-outfit"
-          key={0}
-          src={props.clothes.get(item)?.[0]}
-          alt="Marker"
-          style={{ backgroundColor: props.clothes.get(item)?.[1] }}
-        />
-      </div>
-    ) : null;
-  }
-
-
   function determineBox(category: string) {
     if (category != "-1") {
       return (
         <div>
-          <div className="fullbody-box">{showClothing(outfit.fullbody)}</div>
-          <div className="shoe-box">{showClothing(outfit.shoe)}</div>
+          <div className="fullbody-box">{showClothing(outfit.fullbody, props.clothes)}</div>
+          <div className="shoe-box">{showClothing(outfit.shoe, props.clothes)}</div>
         </div>
       );
     } else {
       return (
         <div>
-          <div className="top-box">{showClothing(outfit.top)}</div>
-          <div className="bottom-box">{showClothing(outfit.bottom)}</div>
+          <div className="top-box">{showClothing(outfit.top, props.clothes)}</div>
+          <div className="bottom-box">{showClothing(outfit.bottom, props.clothes)}</div>
           <div className="shoe-box" style={{ top: "72%", left: "64.5%" }}>
-            {showClothing(outfit.shoe)}
+            {showClothing(outfit.shoe, props.clothes)}
           </div>
         </div>
       );
@@ -95,8 +97,8 @@ export default function GeneratePage(props: GenerationProps) {
         {determineBox(outfit.fullbody)}
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
-          <div className="outerwear-box">{showClothing(outfit.outerwear)}</div>
-          <div className="accessory-box">{showClothing(outfit.accessory)}</div>;
+          <div className="outerwear-box">{showClothing(outfit.outerwear, props.clothes)}</div>
+          <div className="accessory-box">{showClothing(outfit.accessory, props.clothes)}</div>;
         </div>
       </div>
     </body>
