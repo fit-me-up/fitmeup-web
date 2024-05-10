@@ -5,12 +5,12 @@ import { dresser } from "../../icons/icons";
 import "../../styles/generatepage.scss";
 
 export interface GenerationProps {
-  clothes: Map<string, [string, string, string]>;
+  clothes: Map<string, [string, string, string, string]>;
 }
 
 export function showClothing(
   item: string,
-  props: Map<string, [string, string, string]>
+  props: Map<string, [string, string, string, string]>
 ) {
   return item !== "-1" ? (
     <div>
