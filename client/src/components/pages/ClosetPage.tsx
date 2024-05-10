@@ -136,7 +136,7 @@ export default function ClosetPage(props: ClosetProps) {
           {Array.from(props.clothes.entries()).map((img, index) =>
             clothingFilter === "All" || img[1][2] === clothingFilter ? (
               <div className="box" onMouseEnter={() => setHoverIndex(img[0])} onMouseLeave={() => setHoverIndex("-1")}>
-                {(hoverIndex === img[0] ? <div className="description">{img[1][3]}</div> : 
+                {((hoverIndex === img[0] && img[1][3] !== "") ? <div className="description">{img[1][3]}</div> : 
                 <img
                   key={index}
                   src={img[1][0]}
