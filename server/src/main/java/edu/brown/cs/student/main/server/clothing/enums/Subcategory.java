@@ -2,7 +2,7 @@ package edu.brown.cs.student.main.server.clothing.enums;
 
 public enum Subcategory {
   LONG_SLEEVE(0, 60.0),
-  SHORT_SLEEVE(1, 60.0),
+  SHORT_SLEEVE(1, 70.0),
   NO_SLEEVE(2, 70.0),
   SKIRT(3, 70.0),
   PANTS(4, 60.0),
@@ -14,10 +14,10 @@ public enum Subcategory {
   SUIT(10, 60.0),
   ROMPER(11, 60.0),
   SWEATSHIRT(12, 50.0),
-  JACKET(13, 40.0),
-  CARDIGAN(14, 45.0),
+  JACKET(13, 30.0),
+  CARDIGAN(14, 30.0),
   HEADWEAR(15, -1.0),
-  SCARF(16, 40.0),
+  SCARF(16, 30.0),
   BAG(17, 60.0);
 
   private final int index;

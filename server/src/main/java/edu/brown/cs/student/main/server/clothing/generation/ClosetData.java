@@ -63,9 +63,8 @@ public class ClosetData {
     int numItems = items.size();
 
     if (numItems > 0) {
-      // Take half of the items randomly
-      int n = numItems / 2;
-      n = Math.max(1, n);
+
+      double n = (double) numItems * 1.5;
 
       for (int i = 0; i < n; i++) {
         Random random = new Random();

@@ -12,6 +12,10 @@ import { useState } from "react";
 import AuthRoute from "./auth/AuthRoute";
 import ClosetPage from "./pages/ClosetPage";
 import GeneratePage from "./pages/GeneratePage";
+import { listClothing } from "../utils/api";
+import { ClothingItem } from "./items/ClothingItem";
+import { Description } from "./items/Description";
+import { determineCategory } from "../utils/determineImage";
 
 /**
  * App class that starts everything!
@@ -31,10 +35,39 @@ initializeApp(firebaseConfig);
 function App() {
   // Stores clothes in a map with the key being the id of the clothing item, and the
   // value being an array of the image url, primary color, and category of the clothing item.
-  const [clothes, setClothes] = useState<Map<string, [string, string, string]>>(
+  const [clothes, setClothes] = useState<Map<string, [string, string, string, string]>>(
     new Map()
   );
   const navBar = <NavBar />;
+
+  listClothing().then(
+    (clothing: { clothing: ClothingItem[]; descriptions: Description[] }) => {
+      let clothes = clothing.clothing;
+      let descriptions = clothing.descriptions;
+      let clothesMap = new Map<string, [string, string, string, string]>();
+      clothes.forEach((item) => {
+        let img = determineCategory(
+          item.category,
+          item.subcategory,
+          item.material,
+          item.formality
+        );
+        let description = "";
+        descriptions.forEach((desc) => {
+          if (desc.id === item.id.toString()) {
+            description = desc.desc;
+          }
+        });
+        clothesMap.set(item.id.toString(), [
+          img,
+          item.primary,
+          item.category.toString(),
+          description,
+        ]);
+      });
+      setClothes(clothesMap);
+    }
+  );
 
   return (
     <div className="App">

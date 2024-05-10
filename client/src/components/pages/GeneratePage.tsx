@@ -5,31 +5,37 @@ import { dresser } from "../../icons/icons";
 import "../../styles/generatepage.scss";
 
 export interface GenerationProps {
-  clothes: Map<string, [string, string, string]>;
+  clothes: Map<string, [string, string, string, string]>;
 }
 
 export function showClothing(
   item: string,
-  props: Map<string, [string, string, string]>
+  props: Map<string, [string, string, string, string]>,
+  hoverIndex: string,
+  outfitID: boolean
 ) {
+  let img = props.get(item);
+  console.log("img", img);
   return item !== "-1" ? (
     <div>
+      {((hoverIndex === item && img?.[3] !== "" && outfitID) ? <div className="description">{img?.[3]}</div> : 
+                
       <img
         className="img-outfit"
         key={0}
         src={props.get(item)?.[0]}
         alt="Marker"
         style={{ backgroundColor: props.get(item)?.[1] }}
-      />
+      />)}
     </div>
   ) : null;
 }
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
-  const [outfits, setOutfits] = useState<OutfitItem[]>([]);
   const [text, setText] = useState(0);
   const texts = ["Formal", "Informal", "Flex"];
+  const [hov, setHov] = useState("-1");
 
   const toggleText = () => {
     setText((text + 1) % texts.length);
@@ -63,17 +69,46 @@ export default function GeneratePage(props: GenerationProps) {
     if (category != "-1") {
       return (
         <div>
-          <div className="fullbody-box">{showClothing(outfit.fullbody, props.clothes)}</div>
-          <div className="shoe-box">{showClothing(outfit.shoe, props.clothes)}</div>
+          <div
+            className="fullbody-box"
+            onMouseEnter={() => setHov(outfit.fullbody)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.fullbody, props.clothes, hov, true)}
+          </div>
+          <div
+            className="shoe-box"
+            onMouseEnter={() => setHov(outfit.shoe)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.shoe, props.clothes, hov, true)}
+          </div>
         </div>
       );
     } else {
       return (
         <div>
-          <div className="top-box">{showClothing(outfit.top, props.clothes)}</div>
-          <div className="bottom-box">{showClothing(outfit.bottom, props.clothes)}</div>
-          <div className="shoe-box">
-            {showClothing(outfit.shoe, props.clothes)}
+          <div
+            className="top-box"
+            onMouseEnter={() => setHov(outfit.top)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.top, props.clothes, hov, true)}
+          </div>
+          <div
+            className="bottom-box"
+            onMouseEnter={() => setHov(outfit.bottom)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.bottom, props.clothes, hov, true)}
+          </div>
+          <div
+            className="shoe-box"
+            style={{ top: "72%", left: "64.5%" }}
+            onMouseEnter={() => setHov(outfit.shoe)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.shoe, props.clothes, hov, true)}
           </div>
         </div>
       );
@@ -97,13 +132,20 @@ export default function GeneratePage(props: GenerationProps) {
         {determineBox(outfit.fullbody)}
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
-          <div className="outerwear-box">
-            {showClothing(outfit.outerwear, props.clothes)}
+          <div
+            className="outerwear-box"
+            onMouseEnter={() => setHov(outfit.outerwear)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.outerwear, props.clothes, hov, true)}
           </div>
-          <div className="accessory-box">
-            {showClothing(outfit.accessory, props.clothes)}
+          <div
+            className="accessory-box"
+            onMouseEnter={() => setHov(outfit.accessory)}
+            onMouseLeave={() => setHov("-1")}
+          >
+            {showClothing(outfit.accessory, props.clothes, hov, true)}
           </div>
-          ;
         </div>
       </div>
     </body>

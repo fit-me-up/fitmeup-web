@@ -21,7 +21,7 @@ async function queryAPI(
   }
   return response.json();
 }
-console.log(getLoginCookie());
+
 /**
  * Function that clears the data associated with each user.
  * @param uid the user's id.
@@ -55,8 +55,10 @@ export async function addClothingItem(
   formality: number,
   primary: string,
   secondary: string,
-  material: number
+  material: number,
+  description: string
 ) {
+  console.log(description);
   return await queryAPI("add-clothing", {
     uid: getLoginCookie() || "",
     id: id.toString(),
@@ -66,6 +68,7 @@ export async function addClothingItem(
     primary: primary,
     secondary: secondary,
     material: material.toString(),
+    description: description,
   });
 }
 

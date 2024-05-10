@@ -22,8 +22,9 @@ export default function UploadBox(props: UploadBoxProps) {
   const [showShapes, setShowShapes] = useState<boolean>(false);
   const [shapeLabels, setShapeLabels] = useState<[string, Subcategory][]>([]); // list of tuples for [label, enum]
   const [showSecondaryColor, setShowSecondaryColor] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>("");
 
-  const [subcategory, setSubcategory] = useState<number>(-1)
+  const [subcategory, setSubcategory] = useState<number>(-1);
   const [material, setMaterial] = useState<number>(-1);
   const [formality, setFormality] = useState<number>(-1);
 
@@ -135,29 +136,30 @@ export default function UploadBox(props: UploadBoxProps) {
   const [mainColor, setMainColor] = useState<string>("null");
   const [secondaryColor, setSecondaryColor] = useState<string>("null");
   const [mainColorSelect, setMainColorSelect] = useState<string>("Select");
-  const [secondaryColorSelect, setSecondaryColorSelect] = useState<string>("Select");
+  const [secondaryColorSelect, setSecondaryColorSelect] =
+    useState<string>("Select");
 
   /**
    * Handles behavior for when the color slider is moved
    * @param color the RGB color the slider is currently on
    */
-  function handleColorChange(color: string, type: 'main' | 'secondary') {
-    if (type === 'main') {
+  function handleColorChange(color: string, type: "main" | "secondary") {
+    if (type === "main") {
       setMainColor(color);
       setMainColorSelect("Select");
     } else {
       setSecondaryColor(color);
       setSecondaryColorSelect("Select");
     }
-  };
+  }
 
   /**
    * Function to handle color selection and set the clothing item's fields.
    * @param color the selected RGB color
    */
-  function handleColorSelection(color: string, type: 'main' | 'secondary') {
+  function handleColorSelection(color: string, type: "main" | "secondary") {
     console.log(color);
-    if (type === 'main') {
+    if (type === "main") {
       if (mainColorSelect === "Select") {
         mainColor === "null" ? setMainColor("#ffffff") : setMainColor(color);
         setMainColorSelect("Selected!");
@@ -168,7 +170,9 @@ export default function UploadBox(props: UploadBoxProps) {
       }
     } else {
       if (secondaryColorSelect === "Select") {
-        secondaryColor === "null" ? setSecondaryColor("#ffffff") : setSecondaryColor(color);
+        secondaryColor === "null"
+          ? setSecondaryColor("#ffffff")
+          : setSecondaryColor(color);
         setSecondaryColorSelect("Selected!");
       } else {
         setSecondaryColor("null");
@@ -180,11 +184,11 @@ export default function UploadBox(props: UploadBoxProps) {
   /**
    * Defines behavior for if a user presses "none" to secondary color
    */
-  const handleNoSecondary =() => {
+  const handleNoSecondary = () => {
     setShowSecondaryColor(false);
     setSecondaryColorSelect("Select");
     setSecondaryColor("null");
-  }
+  };
 
   /**
    * Handles behavior for when a material type is selected
@@ -227,7 +231,13 @@ export default function UploadBox(props: UploadBoxProps) {
   const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
 
   async function handleSubmit() {
-    if (clothingType === -1 || subcategory === -1 || mainColor === "null" || material === -1 || formality === -1) {
+    if (
+      clothingType === -1 ||
+      subcategory === -1 ||
+      mainColor === "null" ||
+      material === -1 ||
+      formality === -1
+    ) {
       setIncompleteFields(true);
     } else {
       setNotSubmitted(false);
@@ -235,8 +245,9 @@ export default function UploadBox(props: UploadBoxProps) {
       setMainColorSelect("Select");
       setSecondaryColorSelect("Select");
       setShowShapes(false);
+      console.log(description)
+      setDescription("");
       // define these local variables because reset doesn't work after the await
-
 
       await addClothing(
         clothingType,
@@ -244,31 +255,52 @@ export default function UploadBox(props: UploadBoxProps) {
         formality,
         mainColor,
         secondaryColor,
-        material
+        material,
+        description
       );
       console.log(mainColor, secondaryColor);
     }
   }
 
-  async function addClothing(category: number, subcategory : number, formality : number, primary : string, secondary : string, material: number) {
-    let index : number = 0;
+  async function addClothing(
+    category: number,
+    subcategory: number,
+    formality: number,
+    primary: string,
+    secondary: string,
+    material: number,
+    description: string
+  ) {
+    let index: number = 0;
     if (props.listofClothes.length > 0) {
-      let max : number = 0;
-      props.listofClothes.forEach((id => {
-        if (id.id > max)
-          max = parseInt(id.id.toString());
-      }))
-      index = (max + 1);
+      let max: number = 0;
+      props.listofClothes.forEach((id) => {
+        if (id.id > max) max = parseInt(id.id.toString());
+      });
+      index = max + 1;
     }
-    await addClothingItem(index , category, subcategory, formality, primary, secondary, material);
+    // Remove everything but letters from description:
+    description = description.replace(/[^a-zA-Z ]/g, "");
+    // Capitalize first letter of each word in description:
+    description = description.replace(/\b\w/g, (char) => char.toUpperCase());
+
+    await addClothingItem(
+      index,
+      category,
+      subcategory,
+      formality,
+      primary,
+      secondary,
+      material,
+      description
+    );
   }
 
-  const addAnotherItem = () => {
+  const addAnotherItem = () => { 
     setNotSubmitted(true);
-    setMainColor("ffffff");
+    setMainColor("#ffffff");
     setSecondaryColor("null");
-    console.log("main color", mainColor)
-  }
+  };
 
   return notSubmitted ? (
     // prettier-ignore
@@ -346,6 +378,12 @@ export default function UploadBox(props: UploadBoxProps) {
           <button id={"formality " + Formality.Informal.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
           <button id={"formality " + Formality.Flex.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Flex)}>Flex</button>
         </div>
+      </div>
+      <div className="description-container">
+        <h3> Optional Description: </h3>
+        <textarea className="description-box" placeholder="No special characters!"
+        onChange={(ev) => setDescription(ev.target.value)} value={description}>
+        </textarea>
       </div>
       <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
       { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}

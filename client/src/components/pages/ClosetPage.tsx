@@ -14,10 +14,11 @@ import { listClothing, removeClothing } from "../../utils/api";
 import { determineCategory } from "../../utils/determineImage";
 import { ClothingItem } from "../items/ClothingItem";
 import { Category } from "../items/enums";
+import { Description } from "../items/Description";
 
 export interface ClosetProps {
-  setClothes: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
-  clothes: Map<string, [string, string, string]>;
+  setClothes: Dispatch<SetStateAction<Map<string, [string, string, string, string]>>>;
+  clothes: Map<string, [string, string, string, string]>;
 }
 
 export default function ClosetPage(props: ClosetProps) {
@@ -26,23 +27,47 @@ export default function ClosetPage(props: ClosetProps) {
   const [clothingFilter, setClothingFilter] = useState<string>("All");
   const [opacity, setOpacity] = useState(0.4);
   const [activeButton, setActiveButton] = useState("All");
+  const [hoverIndex, setHoverIndex] = useState("-1");
 
   useEffect(() => {
-    listClothing().then((clothing : {clothing : ClothingItem[]}) => {
-      let clothes = clothing.clothing;
-      let clothesMap = new Map<string, [string, string, string]>();
-      setClothes(clothes);
-      clothes.forEach((item => {
-        let img = determineCategory(item.category,item.subcategory,item.material,item.formality);
-        clothesMap.set(item.id.toString(), [img, item.primary, item.category.toString()]);
-      }));
-      props.setClothes(clothesMap);
-    });  
+    updateClothing();
   }, []);
 
   const getButtonOpacity = (category : string) => {
       return activeButton === category.toString() ? 1 : 0.4; 
-    };
+  };
+
+  const updateClothing = () => {
+    listClothing().then(
+      (clothing: { clothing: ClothingItem[]; descriptions: Description[] }) => {
+        let clothes = clothing.clothing;
+        let descriptions = clothing.descriptions;
+        let clothesMap = new Map<string, [string, string, string, string]>();
+        setClothes(clothes);
+        clothes.forEach((item) => {
+          let img = determineCategory(
+            item.category,
+            item.subcategory,
+            item.material,
+            item.formality
+          );
+          let description = "";
+          descriptions.forEach((desc) => {
+            if (desc.id === item.id.toString()) {
+              description = desc.desc;
+            }
+          });
+          clothesMap.set(item.id.toString(), [
+            img,
+            item.primary,
+            item.category.toString(),
+            description,
+          ]);
+        });
+        props.setClothes(clothesMap);
+      }
+    );  
+  };
 
   return (
     <body>
@@ -110,14 +135,16 @@ export default function ClosetPage(props: ClosetProps) {
         <div className="closet-container">
           {Array.from(props.clothes.entries()).map((img, index) =>
             clothingFilter === "All" || img[1][2] === clothingFilter ? (
-              <div className="box">
+              <div className="box" onMouseEnter={() => setHoverIndex(img[0])} onMouseLeave={() => setHoverIndex("-1")}>
+                {((hoverIndex === img[0] && img[1][3] !== "") ? <div className="description">{img[1][3]}</div> : 
                 <img
                   key={index}
                   src={img[1][0]}
                   alt="Marker"
                   className={"img"}
                   style={{ backgroundColor: img[1][1] }}
-                />
+                  onClick={() => console.log(img[1][3])}
+                />)}
                 <img className ="img-trash" src={trash} onClick={() => removeClothing(parseInt(img[0]))}/>
               </div>
             ) : null

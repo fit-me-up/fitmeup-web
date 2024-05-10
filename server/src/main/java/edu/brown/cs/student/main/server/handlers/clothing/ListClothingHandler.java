@@ -3,6 +3,7 @@ package edu.brown.cs.student.main.server.handlers.clothing;
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.handlers.Utils;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,28 @@ public class ListClothingHandler implements Route {
       List<Map<String, String>> clothingMaps =
           clothingConverted.stream().map(Utils::clothingToHashMap).toList();
 
+      // Get all of the clothing descriptions
+      List<Map<String, Object>> descriptions =
+          this.storageHandler.getCollection(uid, "clothing-description");
+
+      // Convert to list of Strings
+      List<String> descriptionList =
+          descriptions.stream()
+              .map(description -> description.get("description").toString())
+              .toList();
+
+      List<Map<String, String>> descriptionMap = new ArrayList<>();
+      for (String description : descriptionList) {
+        String[] parts = description.split(",");
+        Map<String, String> clothingDescription = new HashMap<>();
+        clothingDescription.put("id", parts[1].split("-")[1]);
+        clothingDescription.put("desc", parts[0]);
+        descriptionMap.add(clothingDescription);
+      }
+
       responseMap.put("response_type", "success");
       responseMap.put("clothing", clothingMaps);
+      responseMap.put("descriptions", descriptionMap);
     } catch (Exception e) {
       e.printStackTrace();
       // Error likely occurred in the storage handler.
