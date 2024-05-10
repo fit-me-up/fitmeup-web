@@ -30,6 +30,23 @@ public class RemoveClothingHandler implements Route {
       this.storageHandler.deleteDocument(
           this.storageHandler.getDocumentReference(uid, "clothing-description", "clothing-" + id));
 
+      // Get all outfits, and remove any outfits with the clothing item.
+      List<Map<String, Object>> outfits = this.storageHandler.getCollection(uid, "outfits");
+      List<String> outfitStrings =
+          outfits.stream().map(outfit -> outfit.get("outfit").toString()).toList();
+
+      for (String outfit : outfitStrings) {
+        // Split the outfit string into its parts, and remove outfit if it includes the clothing item.
+        String[] parts = outfit.split("-");
+        for (int i = 1; i < parts.length; i++) {
+          if (parts[i].equals(id)) {
+            this.storageHandler.deleteDocument(
+                this.storageHandler.getDocumentReference(uid, "outfits", "outfit-" + parts[0]));
+            break;
+          }
+        }
+      }
+
       List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "clothing");
 
       List<String> clothingList =
