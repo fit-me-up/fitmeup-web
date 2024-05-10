@@ -6,8 +6,8 @@ import { showClothing } from "../pages/GeneratePage";
 
 
 export interface SavedPageProps {
-  setClothing: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
-  clothing: Map<string, [string, string, string]>;
+  setClothing: Dispatch<SetStateAction<Map<string, [string, string, string, string]>>>;
+  clothing: Map<string, [string, string, string, string]>;
 }
 
 export default function SavedPage(props: SavedPageProps) {
