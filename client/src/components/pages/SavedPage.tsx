@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { useState, Dispatch, SetStateAction, useEffect, useCallback } from "react";
 import NavBar from "../navigation/NavBar";
 import "../../styles/savedpage.scss";
 import { listOutfits } from "../../utils/api";
@@ -6,36 +6,44 @@ import { OutfitItem } from "../items/OutfitItem";
 
 
 export interface SavedPageProps {
-  setOutfits: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
-  outfits: Map<string, [string, string, string]>;
+  setClothing: Dispatch<SetStateAction<Map<string, [string, string, string]>>>;
+  clothing: Map<string, [string, string, string]>;
 }
 
 export default function SavedPage(props: SavedPageProps) {
-  const [outfits, setOutfits] = useState<OutfitItem[]>([]);
+  const [outfitList, setOutfitList] = useState<JSX.Element[]>([]);
+  // const [outfitList, setOutfitList] = useState<Set<JSX.Element>>(
+  //   new Set<JSX.Element>()
+  // );
 
   /**
    * Called to get each saved outfit from the backend and set it into the outfits list.
    */
-  useEffect(() => {
+  useEffect(() => { 
+    console.log("using callback");
     listOutfits().then((json) => {
       const outfits: OutfitItem[] = json.clothing;
-      setOutfits(outfits);
+      setOutfitList(outfits.map((outfit) => (
+        <div className="outfit-box">
+          {(parseInt(outfit.fullbody) > -1) && <div className="fullbody-box"> fullbody </div> }
+          {(parseInt(outfit.top) > -1) && <div className="top-box"> top </div> }
+          {(parseInt(outfit.bottom) > -1) && <div className="bottom-box"> bottom </div> }
+          {(parseInt(outfit.shoe) > -1) && <div className="shoe-box"> shoe </div> }
+          {(parseInt(outfit.outerwear) > -1) && <div className="outerwear-box"> outerwear </div> }
+          {(parseInt(outfit.accessory) > -1) && <div className="accessory-box"> accessory </div> }
+        </div>
+      )));
     });
   }, []);
-
 
 
   return (
     <body>
       <h1 className="header">Saved Outfits</h1>
       <div className="saved-page">
-        {/* will map saved outfits from backend, just temporary for test */}
-        <div className="outfit-box"></div>
-        <div className="outfit-box"></div>
-        <div className="outfit-box"></div>
-        <div className="outfit-box"></div>
-        <div className="outfit-box"></div>
-        <div className="outfit-box"></div>
+        {outfitList.map((outfit: JSX.Element) => (
+          outfit
+        ))}
       </div>
     </body>
   );
