@@ -86,7 +86,7 @@ public class TestGen {
 
     Outfit empty = generator.generateOutfit(weather, Formality.FLEX);
 
-    Outfit emptyTrue = new Outfit(false, null, null, null, null, null, null);
+    Outfit emptyTrue = new Outfit(null, null, null, null, null, null);
 
     Assert.assertEquals(emptyTrue, empty);
   }
