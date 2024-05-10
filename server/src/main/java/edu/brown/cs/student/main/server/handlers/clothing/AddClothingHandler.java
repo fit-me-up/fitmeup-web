@@ -40,6 +40,7 @@ public class AddClothingHandler implements Route {
       String material = request.queryParams("material");
       String primary = request.queryParams("primary");
       String secondary = request.queryParams("secondary");
+      String description = request.queryParams("description");
 
       Map<String, Object> data = new HashMap<>();
       String clothing =
@@ -63,8 +64,14 @@ public class AddClothingHandler implements Route {
       // Use the storage handler to add the document to the database.
       this.storageHandler.addDocument(uid, "clothing", clothingId, data);
 
+      // Add the description to firebase separately.
+      HashMap<String, Object> descriptionData = new HashMap<>();
+      descriptionData.put("description", description + "," + clothingId);
+      this.storageHandler.addDocument(uid, "clothing-description", clothingId, descriptionData);
+
       responseMap.put("response_type", "success");
       responseMap.put("clothing", Utils.clothingToHashMap(Utils.fromStringClothing(clothing)));
+      responseMap.put("description", description);
     } catch (Exception e) {
       e.printStackTrace();
       // Error likely occurred in the storage handler.
