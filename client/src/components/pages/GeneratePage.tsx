@@ -11,13 +11,14 @@ export interface GenerationProps {
 export function showClothing(
   item: string,
   props: Map<string, [string, string, string, string]>,
-  hoverIndex: string
+  hoverIndex: string,
+  outfitID: boolean
 ) {
   let img = props.get(item);
   console.log("img", img);
   return item !== "-1" ? (
     <div>
-      {((hoverIndex === item && img?.[3] !== "") ? <div className="description">{img?.[3]}</div> : 
+      {((hoverIndex === item && img?.[3] !== "" && outfitID) ? <div className="description">{img?.[3]}</div> : 
                 
       <img
         className="img-outfit"
@@ -32,7 +33,6 @@ export function showClothing(
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
-  const [outfits, setOutfits] = useState<OutfitItem[]>([]);
   const [text, setText] = useState(0);
   const texts = ["Formal", "Informal", "Flex"];
   const [hov, setHov] = useState("-1");
@@ -74,14 +74,14 @@ export default function GeneratePage(props: GenerationProps) {
             onMouseEnter={() => setHov(outfit.fullbody)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.fullbody, props.clothes, hov)}
+            {showClothing(outfit.fullbody, props.clothes, hov, true)}
           </div>
           <div
             className="shoe-box"
             onMouseEnter={() => setHov(outfit.shoe)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.shoe, props.clothes, hov)}
+            {showClothing(outfit.shoe, props.clothes, hov, true)}
           </div>
         </div>
       );
@@ -93,14 +93,14 @@ export default function GeneratePage(props: GenerationProps) {
             onMouseEnter={() => setHov(outfit.top)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.top, props.clothes, hov)}
+            {showClothing(outfit.top, props.clothes, hov, true)}
           </div>
           <div
             className="bottom-box"
             onMouseEnter={() => setHov(outfit.bottom)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.bottom, props.clothes, hov)}
+            {showClothing(outfit.bottom, props.clothes, hov, true)}
           </div>
           <div
             className="shoe-box"
@@ -108,7 +108,7 @@ export default function GeneratePage(props: GenerationProps) {
             onMouseEnter={() => setHov(outfit.shoe)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.shoe, props.clothes, hov)}
+            {showClothing(outfit.shoe, props.clothes, hov, true)}
           </div>
         </div>
       );
@@ -135,14 +135,14 @@ export default function GeneratePage(props: GenerationProps) {
             onMouseEnter={() => setHov(outfit.outerwear)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.outerwear, props.clothes, hov)}
+            {showClothing(outfit.outerwear, props.clothes, hov, true)}
           </div>
           <div
             className="accessory-box"
             onMouseEnter={() => setHov(outfit.accessory)}
             onMouseLeave={() => setHov("-1")}
           >
-            {showClothing(outfit.accessory, props.clothes, hov)}
+            {showClothing(outfit.accessory, props.clothes, hov, true)}
           </div>
         </div>
       </div>
