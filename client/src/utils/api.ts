@@ -50,7 +50,6 @@ export async function getWeatherData(lat: number, lon: number) {
 }
 
 export async function addClothingItem(
-  id: number,
   category: number,
   subcategory: number,
   formality: number,
@@ -62,7 +61,6 @@ export async function addClothingItem(
   console.log(description);
   return await queryAPI("add-clothing", {
     uid: getLoginCookie() || "",
-    id: id.toString(),
     category: category.toString(),
     subcategory: subcategory.toString(),
     formality: formality.toString(),
@@ -85,11 +83,10 @@ export async function listOutfits() {
   });
 }
 
-export async function addOutfit(id: string, top: string, bottom: string, shoe: string,
+export async function addOutfit(top: string, bottom: string, shoe: string,
   outerwear: string, fullbody: string, accessory: string) {
   return await queryAPI("add-outfit", {
     uid: getLoginCookie() || "",
-    id: id.toString(),
     top: top.toString(),
     bottom: bottom.toString(),
     shoe: shoe.toString(),
@@ -100,11 +97,20 @@ export async function addOutfit(id: string, top: string, bottom: string, shoe: s
 }
 
 export async function generateOutfit(formality: number) {
+  // Default to Providence, RI
+  let lat = "41.824"
+  let lon = "-71.41888"
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      lat = position.coords.latitude.toString();
+      lon = position.coords.longitude.toString();
+    });
+  } 
+
   return await queryAPI("generate-outfit", {
     uid: getLoginCookie() || "",
-    lat: "41.824",
-    lon: "-71.41888",
-    id: "0",
+    lat: lat,
+    lon: lon,
     formality: formality.toString(),
   });
 }

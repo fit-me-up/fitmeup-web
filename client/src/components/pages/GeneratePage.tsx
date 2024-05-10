@@ -54,7 +54,6 @@ export default function GeneratePage(props: GenerationProps) {
    */
   async function saveOutfit() {
     await addOutfit(
-      outfit.id,
       outfit.top,
       outfit.bottom,
       outfit.shoe,

@@ -271,21 +271,12 @@ export default function UploadBox(props: UploadBoxProps) {
     material: number,
     description: string
   ) {
-    let index: number = 0;
-    if (props.listofClothes.length > 0) {
-      let max: number = 0;
-      props.listofClothes.forEach((id) => {
-        if (id.id > max) max = parseInt(id.id.toString());
-      });
-      index = max + 1;
-    }
     // Remove everything but letters from description:
     description = description.replace(/[^a-zA-Z ]/g, "");
     // Capitalize first letter of each word in description:
     description = description.replace(/\b\w/g, (char) => char.toUpperCase());
 
     await addClothingItem(
-      index,
       category,
       subcategory,
       formality,
