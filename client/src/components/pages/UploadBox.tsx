@@ -398,13 +398,13 @@ export default function UploadBox(props: UploadBoxProps) {
           aria-label="Close"
         />
       </div>
-      <h1 className="success-message"> Successfully added item!</h1>
+      <h1 className="success-message"> Successfully Added Item!</h1>
       <button className="newitem-button" onClick={addAnotherItem}>
-        Add another item
+        Add Another Item
       </button>
       <br></br>
       <button className="closet-button" onClick={handleBoxClose}>
-        Back to closet
+        Back To Closet
       </button>
       <br></br>
       <img className="success-icon" src={success} />

@@ -15,7 +15,6 @@ export function showClothing(
   outfitID: boolean
 ) {
   let img = props.get(item);
-  console.log("img", img);
   return item !== "-1" ? (
     <div>
       {((hoverIndex === item && img?.[3] !== "" && outfitID) ? <div className="description">{img?.[3]}</div> : 

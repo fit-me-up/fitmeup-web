@@ -13,6 +13,7 @@ async function queryAPI(
   endpoint: string,
   query_params: Record<string, string>
 ) {
+  console.log("Sending API!" + endpoint);
   const paramsString = new URLSearchParams(query_params).toString();
   const url = `${HOST}/${endpoint}?${paramsString}`;
   const response = await fetch(url);
