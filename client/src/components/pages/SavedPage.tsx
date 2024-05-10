@@ -23,6 +23,8 @@ export default function SavedPage(props: SavedPageProps) {
     });
   }, []);
 
+
+
   return (
     <body>
       <h1 className="header">Saved Outfits</h1>
