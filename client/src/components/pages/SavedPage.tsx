@@ -12,9 +12,6 @@ export interface SavedPageProps {
 
 export default function SavedPage(props: SavedPageProps) {
   const [outfitList, setOutfitList] = useState<JSX.Element[]>([]);
-  // const [outfitList, setOutfitList] = useState<Set<JSX.Element>>(
-  //   new Set<JSX.Element>()
-  // );
 
   /**
    * Called to get each saved outfit from the backend and set it into the outfits list.

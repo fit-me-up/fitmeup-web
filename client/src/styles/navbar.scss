@@ -27,14 +27,15 @@
 
 .temp-container {
     position: absolute;
+    top: 20px;
     left: 2vw;
     min-width: 185px;
     width: 12vw;
     display: flex;
     flex-direction: row;
     overflow-x:scroll;
+
     .temp-numbers {
-        padding-bottom: 1%;
         display: grid;
         grid-auto-flow: column;
         align-items: center;

@@ -38,8 +38,6 @@ export default function GeneratePage(props: GenerationProps) {
   async function generateNewOutfit(
     setOutfit: Dispatch<SetStateAction<OutfitItem>>
   ) {
-    // Pick random formality for now (0 or 1)
-    // let formality = Math.floor(Math.random() * 2);
     generateOutfit(text).then((outfit: { outfit: OutfitItem }) => {
       console.log("generatedOutfit", outfit.outfit);
       setOutfit(outfit.outfit);
@@ -74,7 +72,7 @@ export default function GeneratePage(props: GenerationProps) {
         <div>
           <div className="top-box">{showClothing(outfit.top, props.clothes)}</div>
           <div className="bottom-box">{showClothing(outfit.bottom, props.clothes)}</div>
-          <div className="shoe-box" style={{ top: "72%", left: "64.5%" }}>
+          <div className="shoe-box">
             {showClothing(outfit.shoe, props.clothes)}
           </div>
         </div>
@@ -85,20 +83,27 @@ export default function GeneratePage(props: GenerationProps) {
   return (
     <body>
       <div className="outfit-container">
-        <button onClick={async () => generateNewOutfit(setOutfit)}>
-          Generate
-        </button>
-        <button style={{ top: "23%" }} onClick={async () => saveOutfit()}>
-          Save
-        </button>
-        <button style={{ top: "29%" }} onClick={toggleText}>
-          {texts[text]}
-        </button>
+        <div className="button-container">
+          <button onClick={async () => generateNewOutfit(setOutfit)}>
+            Generate
+          </button>
+          <button onClick={async () => saveOutfit()}>
+            Save
+          </button>
+          <button onClick={toggleText}>
+            {texts[text]}
+          </button>
+        </div>
         {determineBox(outfit.fullbody)}
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
-          <div className="outerwear-box">{showClothing(outfit.outerwear, props.clothes)}</div>
-          <div className="accessory-box">{showClothing(outfit.accessory, props.clothes)}</div>;
+          <div className="outerwear-box">
+            {showClothing(outfit.outerwear, props.clothes)}
+          </div>
+          <div className="accessory-box">
+            {showClothing(outfit.accessory, props.clothes)}
+          </div>
+          ;
         </div>
       </div>
     </body>

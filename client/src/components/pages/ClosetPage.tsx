@@ -23,7 +23,7 @@ export interface ClosetProps {
 export default function ClosetPage(props: ClosetProps) {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
   const [clothes, setClothes] = useState<ClothingItem[]>([]);
-  const [clothingFilter, setClothingFilter] = useState<string>("-1");
+  const [clothingFilter, setClothingFilter] = useState<string>("All");
   const [opacity, setOpacity] = useState(0.4);
   const [activeButton, setActiveButton] = useState("All");
 
