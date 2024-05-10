@@ -36,6 +36,14 @@
   grid-template-rows: repeat(3, 1fr);
   gap: 10px;
 
+  .img-trash {
+    width: 11%;
+    height: 11%;
+    position: absolute;
+    left: 85%;
+    top: 7%;
+  }
+
   .top-box {
     background-color: #f8f1e3;
     border-radius: 20px;

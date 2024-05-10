@@ -119,6 +119,13 @@ export async function generateOutfit(formality: number) {
   });
 }
 
+export async function removeOutfit(id: string) {
+  return await queryAPI("remove-outfit", {
+    uid: getLoginCookie() || "",
+    id: id
+  });
+}
+
 export async function removeClothing(id:number) {
   return await queryAPI("remove-clothing", {
     uid: getLoginCookie() || "",
