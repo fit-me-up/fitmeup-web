@@ -36,8 +36,8 @@ public class RemoveClothingHandler implements Route {
           outfits.stream().map(outfit -> outfit.get("outfit").toString()).toList();
 
       for (String outfit : outfitStrings) {
-        // Split the outfit string into its parts, and remove outfit if it includes the clothing item.
-        String[] parts = outfit.split("-");
+        // Split the outfit string, and remove outfit if it includes clothing item.
+        String[] parts = outfit.split(",");
         for (int i = 1; i < parts.length; i++) {
           if (parts[i].equals(id)) {
             this.storageHandler.deleteDocument(
