@@ -11,11 +11,9 @@ import {
 import "../../styles/closetpage.scss";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import UploadBox from "./UploadBox";
-import { listClothing, removeClothing } from "../../utils/api";
-import { determineCategory } from "../../utils/determineImage";
-import { ClothingItem } from "../items/ClothingItem";
+import { removeClothing } from "../../utils/api";
 import { Category } from "../items/enums";
-import { Description } from "../items/Description";
+import { updateClothing } from "../../utils/api";
 
 export interface ClosetProps {
   setClothes: Dispatch<
@@ -24,55 +22,17 @@ export interface ClosetProps {
   clothes: Map<string, [string, string, string, string]>;
 }
 
-const updateClothing = (
-  setClothesProps: Dispatch<
-    SetStateAction<Map<string, [string, string, string, string]>>
-  >,
-  setClothes: Dispatch<SetStateAction<ClothingItem[]>>
-) => {
-  listClothing().then(
-    (clothing: { clothing: ClothingItem[]; descriptions: Description[] }) => {
-      let clothes = clothing.clothing;
-      let descriptions = clothing.descriptions;
-      let clothesMap = new Map<string, [string, string, string, string]>();
-      setClothes(clothes);
-      clothes.forEach((item) => {
-        let img = determineCategory(
-          item.category,
-          item.subcategory,
-          item.material,
-          item.formality
-        );
-        let description = "";
-        descriptions.forEach((desc) => {
-          if (desc.id === item.id.toString()) {
-            description = desc.desc;
-          }
-        });
-        clothesMap.set(item.id.toString(), [
-          img,
-          item.primary,
-          item.category.toString(),
-          description,
-        ]);
-      });
-      setClothesProps(clothesMap);
-    }
-  );
-};
-
 export default function ClosetPage(props: ClosetProps) {
   const [showAddBox, setShowAddBox] = useState<boolean>(false);
-  const [clothes, setClothes] = useState<ClothingItem[]>([]);
   const [clothingFilter, setClothingFilter] = useState<string>("All");
   const [opacity, setOpacity] = useState(0.4);
   const [activeButton, setActiveButton] = useState("All");
   const [hoverIndex, setHoverIndex] = useState("-1");
 
   useEffect(() => {
-    updateClothing(props.setClothes, setClothes);
+    updateClothing(props.setClothes);
   }, []);
-  
+
   const getButtonOpacity = (category: string) => {
     return activeButton === category.toString() ? 1 : 0.4;
   };
@@ -162,7 +122,7 @@ export default function ClosetPage(props: ClosetProps) {
         </button>
       </div>
       {showAddBox && (
-        <UploadBox setShowAddBox={setShowAddBox} listofClothes={clothes} />
+        <UploadBox/>
       )}
       {!showAddBox && (
         <div className="closet-container">

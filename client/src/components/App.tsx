@@ -8,14 +8,11 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import AuthRoute from "./auth/AuthRoute";
 import ClosetPage from "./pages/ClosetPage";
 import GeneratePage from "./pages/GeneratePage";
-import { listClothing } from "../utils/api";
-import { ClothingItem } from "./items/ClothingItem";
-import { Description } from "./items/Description";
-import { determineCategory } from "../utils/determineImage";
+import { updateClothing } from "../utils/api";
 
 /**
  * App class that starts everything!
@@ -42,34 +39,7 @@ function App() {
 
   // Use Effect
   useEffect(() => {
-    listClothing().then(
-      (clothing: { clothing: ClothingItem[]; descriptions: Description[] }) => {
-        let clothes = clothing.clothing;
-        let descriptions = clothing.descriptions;
-        let clothesMap = new Map<string, [string, string, string, string]>();
-        clothes.forEach((item) => {
-          let img = determineCategory(
-            item.category,
-            item.subcategory,
-            item.material,
-            item.formality
-          );
-          let description = "";
-          descriptions.forEach((desc) => {
-            if (desc.id === item.id.toString()) {
-              description = desc.desc;
-            }
-          });
-          clothesMap.set(item.id.toString(), [
-            img,
-            item.primary,
-            item.category.toString(),
-            description,
-          ]);
-        });
-        setClothes(clothesMap);
-      }
-    );
+    updateClothing(setClothes);
   }, []);
 
   

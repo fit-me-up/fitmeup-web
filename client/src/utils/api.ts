@@ -1,4 +1,8 @@
 import { getLoginCookie } from "./cookie";
+import { ClothingItem } from "../components/items/ClothingItem";
+import { Description } from "../components/items/Description";
+import { determineCategory } from "./determineImage";
+import { Dispatch, SetStateAction } from "react";
 
 const HOST = "http://localhost:3232";
 let cache: any;
@@ -121,3 +125,38 @@ export async function removeClothing(id:number) {
     id: id.toString()
   });
 }
+
+export const updateClothing = (
+  setClothesProps: Dispatch<
+    SetStateAction<Map<string, [string, string, string, string]>>
+  >
+) => {
+  listClothing().then(
+    (clothing: { clothing: ClothingItem[]; descriptions: Description[] }) => {
+      let clothes = clothing.clothing;
+      let descriptions = clothing.descriptions;
+      let clothesMap = new Map<string, [string, string, string, string]>();
+      clothes.forEach((item) => {
+        let img = determineCategory(
+          item.category,
+          item.subcategory,
+          item.material,
+          item.formality
+        );
+        let description = "";
+        descriptions.forEach((desc) => {
+          if (desc.id === item.id.toString()) {
+            description = desc.desc;
+          }
+        });
+        clothesMap.set(item.id.toString(), [
+          img,
+          item.primary,
+          item.category.toString(),
+          description,
+        ]);
+      });
+      setClothesProps(clothesMap);
+    }
+  );
+};

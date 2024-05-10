@@ -1,22 +1,16 @@
-import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useState } from "react";
 import "../../styles/uploadbox.scss";
 import { Category, Formality, Material, Subcategory } from "../items/enums";
 import { closebutton, success } from "../../icons/icons";
-import { ClothingItem } from "../items/ClothingItem";
 import { addClothingItem } from "../../utils/api";
 import { HexColorPicker } from "react-colorful";
-
-export interface UploadBoxProps {
-  setShowAddBox: Dispatch<SetStateAction<boolean>>;
-  listofClothes: ClothingItem[];
-}
 
 /**
  * Defines the upload box component that allows users to add new items of clothing
  * @param props
  * @returns
  */
-export default function UploadBox(props: UploadBoxProps) {
+export default function UploadBox() {
   const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
   const [clothingType, setClothingType] = useState<number>(-1);
   const [showShapes, setShowShapes] = useState<boolean>(false);
