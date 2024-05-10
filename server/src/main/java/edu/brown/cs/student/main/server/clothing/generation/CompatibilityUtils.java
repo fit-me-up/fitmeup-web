@@ -2,6 +2,7 @@ package edu.brown.cs.student.main.server.clothing.generation;
 
 import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Color;
+import edu.brown.cs.student.main.server.clothing.records.CompatibilityPair;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
 import java.util.ArrayList;
 
@@ -44,7 +45,7 @@ public class CompatibilityUtils {
    * @param weather is the current weather.
    * @return the best item.
    */
-  public Clothing pickBest(
+  public CompatibilityPair pickBest(
       ArrayList<Clothing> options, ArrayList<Clothing> existing, WeatherData weather) {
     // Default to the first option
     Clothing best = options.get(0);
@@ -60,7 +61,8 @@ public class CompatibilityUtils {
         best = option;
       }
     }
-    return best;
+
+    return new CompatibilityPair(best, bestScore);
   }
 
   /**
@@ -81,7 +83,7 @@ public class CompatibilityUtils {
     double colorComp = this.colorComp(option, existing);
 
     // Return a weighted average
-    return (3.0 * weatherComp) + materialComp + (6.0 * colorComp);
+    return (4.0 * weatherComp) + materialComp + (5.0 * colorComp);
   }
 
   //////////////// WEATHER COMPATIBILITY ////////////////
@@ -101,8 +103,8 @@ public class CompatibilityUtils {
     double temp =
         ((double) (weatherData.high() + weatherData.low() + 2.0 * weatherData.current())) / 4.0;
 
-    temp = Math.max(0.0, temp);
-    temp = Math.min(temp, 100.0);
+    temp = Math.max(30.0, temp);
+    temp = Math.min(temp, 70.0);
     temp = temp / 100.0;
 
     double itemVal = option.subcategory().getWeather() / 100.0;
@@ -154,26 +156,26 @@ public class CompatibilityUtils {
     if (numColors == 1 && numShades == 1) {
       // If the color is compatible the shade doesn't matter, if the shade is compatible, the color
       // doesn't matter.
-      // So set compatibility to the max of the two
+      // So prioritize color.
+      double primary = colorCompat(colorOne, existingColors);
+
+      if (colorTwo == null) {
+        return primary;
+      } else {
+        double secondary = colorCompat(colorTwo, existingColors);
+        return (0.7 * primary) + (0.3 * secondary);
+      }
+    } else if (numColors > 1) {
+      // Need to be compatible with the shade
       double primary =
-          Math.max(shadeCompat(colorOne, existingColors), colorCompat(colorOne, existingColors));
+          (shadeCompat(colorOne, existingColors) + colorCompat(colorOne, existingColors)) / 2.0;
 
       if (colorTwo == null) {
         return primary;
       } else {
         double secondary =
-            Math.max(shadeCompat(colorTwo, existingColors), colorCompat(colorTwo, existingColors));
-        return (0.6 * primary) + (0.4 * secondary);
-      }
-    } else if (numColors > 1) {
-      // Need to be compatible with the shade
-      double primary = shadeCompat(colorOne, existingColors);
-
-      if (colorTwo == null) {
-        return primary;
-      } else {
-        double secondary = shadeCompat(colorTwo, existingColors);
-        return (0.6 * primary) + (0.4 * secondary);
+            (shadeCompat(colorTwo, existingColors) + shadeCompat(colorTwo, existingColors)) / 2.0;
+        return (0.7 * primary) + (0.3 * secondary);
       }
     } else { // numShades > 1
       // Need to be compatible with color
@@ -183,7 +185,7 @@ public class CompatibilityUtils {
         return primary;
       } else {
         double secondary = colorCompat(colorTwo, existingColors);
-        return (0.6 * primary) + (0.4 * secondary);
+        return (0.7 * primary) + (0.3 * secondary);
       }
     }
   }
@@ -305,8 +307,8 @@ public class CompatibilityUtils {
       double dif = colorDif(color, exist);
 
       // if the compatibility is less than 0.5, give a penalty
-      if (dif < 0.5) {
-        dif = -0.5;
+      if (dif < 0.6) {
+        dif = -1;
       }
       sum += dif;
     }
