@@ -27,6 +27,8 @@ public class RemoveClothingHandler implements Route {
 
       this.storageHandler.deleteDocument(
           this.storageHandler.getDocumentReference(uid, "clothing", "clothing-" + id));
+      this.storageHandler.deleteDocument(
+          this.storageHandler.getDocumentReference(uid, "clothing-description", "clothing-" + id));
 
       List<Map<String, Object>> vals = this.storageHandler.getCollection(uid, "clothing");
 
