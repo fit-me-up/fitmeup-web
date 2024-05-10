@@ -31,7 +31,7 @@ initializeApp(firebaseConfig);
 function App() {
   // Stores clothes in a map with the key being the id of the clothing item, and the
   // value being an array of the image url, primary color, and category of the clothing item.
-  const [clothes, setClothes] = useState<Map<string, [string, string, string]>>(
+  const [clothes, setClothes] = useState<Map<string, [string, string, string, string]>>(
     new Map()
   );
   const navBar = <NavBar />;
