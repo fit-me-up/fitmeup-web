@@ -35,7 +35,7 @@ public class AddOutfitHandler implements Route {
       // Collect parameters from the request to build a clothing item.
       String uid = request.queryParams("uid");
       String id = Integer.toString(this.lastID + 1);
-      this.lastID ++;
+      this.lastID++;
       String topID = request.queryParams("top");
       String bottomID = request.queryParams("bottom");
       String shoeID = request.queryParams("shoe");
