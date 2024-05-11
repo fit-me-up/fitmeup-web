@@ -23,6 +23,7 @@ export default function SavedPage(props: SavedPageProps) {
     setOutfitList(
       outfits.map((outfit) => (
         <div className="outfit-box">
+                    
           {parseInt(outfit.fullbody) > -1 && (
             <div
               className="bottom-box"
@@ -35,14 +36,17 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
+                            
               {showClothing(
                 outfit.fullbody,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
+                          
             </div>
           )}
+                    
           {parseInt(outfit.top) > -1 && (
             <div
               className="top-box"
@@ -55,14 +59,17 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
+                            
               {showClothing(
                 outfit.top,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
+                          
             </div>
           )}
+                    
           {parseInt(outfit.bottom) > -1 && (
             <div
               className="bottom-box"
@@ -75,14 +82,17 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
+                            
               {showClothing(
                 outfit.bottom,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
+                          
             </div>
           )}
+                    
           {parseInt(outfit.shoe) > -1 && (
             <div
               className="shoe-box"
@@ -95,14 +105,17 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
+                            
               {showClothing(
                 outfit.shoe,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
+                          
             </div>
           )}
+                    
           {parseInt(outfit.outerwear) > -1 && (
             <div
               className="outerwear-box"
@@ -115,14 +128,17 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
+                            
               {showClothing(
                 outfit.outerwear,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
+                          
             </div>
           )}
+                    
           {parseInt(outfit.accessory) > -1 && (
             <div
               className="accessory-box"
@@ -135,14 +151,17 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
+                            
               {showClothing(
                 outfit.accessory,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
+                          
             </div>
           )}
+                    
           <img
             className="img-trash"
             src={trash}
@@ -152,6 +171,7 @@ export default function SavedPage(props: SavedPageProps) {
               setOutfits(newOutfits);
             }}
           />
+                  
         </div>
       ))
     );
@@ -168,10 +188,13 @@ export default function SavedPage(props: SavedPageProps) {
 
   return (
     <body>
-      <h1 className="header">Saved Outfits</h1>
+            <h1 className="header">Saved Outfits</h1>
+            
       <div className="saved-page" onMouseMove={() => updateOutfitsVisually()}>
-        {outfitList.map((outfit: JSX.Element) => outfit)}
+                {outfitList.map((outfit: JSX.Element) => outfit)}
+              
       </div>
+          
     </body>
   );
 }
