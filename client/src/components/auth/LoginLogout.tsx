@@ -31,13 +31,13 @@ const Login: React.FunctionComponent<ILoginPageProps> = (props) => {
   return (
     <div className="login-page">
       <img className="logo" src={logo} alt="Marker" />
-      <h2 className="tagline">Insert text here</h2>
+      <h2 className="tagline">Need help styling your front-end? Try Fit-Me-UP!</h2>
       <h1 className="app-title">{"Fit-Me-UP!"}</h1>
       {/* <h2> Insert text here </h2> */}
       <p className="app-description">
         Our platform combines fashion and sustainability — offering a unique
-        outfit generator that helps you experiment with new looks and track how
-        often you wear your clothes. Rediscover your wardrobe, reduce waste, and
+        outfit generator that helps you experiment with new looks and increase wardrobe usage. 
+        Rediscover your closet, reduce waste, and
         embrace eco-friendly fashion choices with ease.
       </p>
       <div className="login-box">
