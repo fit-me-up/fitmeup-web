@@ -78,6 +78,7 @@
     grid-row: 2;
     padding-top:10px;
   }
+
   .outfit-accessory-box {
     background-color: #f8f1e3;
     border-radius: 20px;
@@ -87,11 +88,12 @@
 
   .description {
   font-family: "Playfair-Display";
-  font-size: 18px;
+  font-size: 14px;
   align-items: center;
   font-weight: bold;
   padding-top: 25%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
-
 
 }
