@@ -32,7 +32,7 @@ export function showClothing(
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
-  const [text, setText] = useState(0);
+  const [text, setText] = useState(1);
   const texts = ["Formal", "Informal", "Flex"];
   const [hov, setHov] = useState("-1");
 
@@ -113,7 +113,6 @@ export default function GeneratePage(props: GenerationProps) {
           </div>
           <div
             className="shoe-box"
-            style={{ top: "72%", left: "64.5%" }}
             onMouseEnter={() => setHov(outfit.shoe)}
             onMouseLeave={() => setHov("-1")}
           >
