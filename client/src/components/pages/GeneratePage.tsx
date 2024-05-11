@@ -169,17 +169,18 @@ export default function GeneratePage(props: GenerationProps) {
         {determineBox(outfit.fullbody)}
         <div className="left-button-container">
           <button /* Button to generate an outfit*/
+            aria-label="Generate button"
             className="generate-btn"
             onClick={async () => generateNewOutfit(setOutfit)}
           >
             Generate ⚙
           </button>
-          <button className="type-btn" onClick={toggleText}> {/* Button to specify formality*/}
+          <button className="type-btn" aria-label="Type button" onClick={toggleText}> {/* Button to specify formality*/}
             {texts[text]}
           </button>
         </div>
         <div className="right-button-container">
-          <button className="save-btn" onClick={async () => saveOutfit()}> {/* Button to save an outfit*/}
+          <button className="save-btn" aria-label="Save button" onClick={async () => saveOutfit()}> {/* Button to save an outfit*/}
             Save ⭑
           </button>
         </div>

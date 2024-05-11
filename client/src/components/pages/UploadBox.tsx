@@ -394,7 +394,7 @@ export default function UploadBox() {
         onChange={(ev) => setDescription(ev.target.value.substring(0, Math.min(ev.target.value.length, 50)))} value={description}>
         </textarea>
       </div>
-      <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>
+      <button className="add-button" aria-label="submit item" onClick={handleSubmit}>+ Add Item!</button>
       { incompleteFields && <h3 className="incomplete-message"> Please fill out all fields! </h3>}
     </div>
   ) : (
