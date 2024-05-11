@@ -104,7 +104,6 @@ export default function GeneratePage(props: GenerationProps) {
           </div>
           <div
             className="shoe-box"
-            style={{ top: "72%", left: "64.5%" }}
             onMouseEnter={() => setHov(outfit.shoe)}
             onMouseLeave={() => setHov("-1")}
           >
@@ -119,17 +118,12 @@ export default function GeneratePage(props: GenerationProps) {
     <body>
       <div className="outfit-container">
         <div className="button-container">
-          <button onClick={async () => generateNewOutfit(setOutfit)}>
+          <button className="generate-btn" onClick={async () => generateNewOutfit(setOutfit)}>
             Generate
           </button>
-          <button onClick={async () => saveOutfit()}>
-            Save
-          </button>
-          <button onClick={toggleText}>
-            {texts[text]}
-          </button>
+          <button className="type-btn" onClick={toggleText}>{texts[text]}</button>
+          <button className="save-btn" onClick={async () => saveOutfit()}>Save</button>
         </div>
-        {determineBox(outfit.fullbody)}
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
           <div
@@ -147,6 +141,7 @@ export default function GeneratePage(props: GenerationProps) {
             {showClothing(outfit.accessory, props.clothes, hov, true)}
           </div>
         </div>
+        {determineBox(outfit.fullbody)}
       </div>
     </body>
   );
