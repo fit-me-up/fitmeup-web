@@ -32,7 +32,7 @@ export function showClothing(
 
 export default function GeneratePage(props: GenerationProps) {
   const [outfit, setOutfit] = useState<OutfitItem>(new OutfitItem());
-  const [text, setText] = useState(0);
+  const [text, setText] = useState(1);
   const texts = ["Formal", "Informal", "Flex"];
   const [hov, setHov] = useState("-1");
 
@@ -127,13 +127,6 @@ export default function GeneratePage(props: GenerationProps) {
   return (
     <body>
       <div className="outfit-container">
-        <div className="button-container">
-          <button className="generate-btn" onClick={async () => generateNewOutfit(setOutfit)}>
-            Generate
-          </button>
-          <button className="type-btn" onClick={toggleText}>{texts[text]}</button>
-          <button className="save-btn" onClick={async () => saveOutfit()}>Save</button>
-        </div>
         <div className="dresser-container">
           <img className="img-dresser" src={dresser} />
           <div
@@ -152,6 +145,22 @@ export default function GeneratePage(props: GenerationProps) {
           </div>
         </div>
         {determineBox(outfit.fullbody)}
+        <div className="left-button-container">
+          <button
+            className="generate-btn"
+            onClick={async () => generateNewOutfit(setOutfit)}
+          >
+            Generate ⚙
+          </button>
+          <button className="type-btn" onClick={toggleText}>
+            {texts[text]}
+          </button>
+        </div>
+        <div className="right-button-container">
+          <button className="save-btn" onClick={async () => saveOutfit()}>
+            Save ⭑
+          </button>
+        </div>
       </div>
     </body>
   );
