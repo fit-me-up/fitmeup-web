@@ -48,6 +48,7 @@ export default function ClosetPage(props: ClosetProps) {
           }}
           draggable={false}
           src={all}
+          aria-label="Show all clothes button"
           alt="Show all clothes"
           style={{ opacity: getButtonOpacity("All") }}
         />
@@ -59,6 +60,7 @@ export default function ClosetPage(props: ClosetProps) {
           }}
           draggable={false}
           src={tops}
+          aria-label="Show all tops button"
           alt="Show all tops"
           style={{ opacity: getButtonOpacity(Category.Top.toString()) }}
         />
@@ -70,6 +72,7 @@ export default function ClosetPage(props: ClosetProps) {
           }}
           draggable={false}
           src={bottoms}
+          aria-label="Show all bottoms button"
           alt="Show all bottoms"
           style={{ opacity: getButtonOpacity(Category.Bottom.toString()) }}
         />
@@ -82,6 +85,7 @@ export default function ClosetPage(props: ClosetProps) {
           draggable={false}
           src={fullbody}
           alt="Show full body items"
+          aria-label="Show all full body items button"
           style={{ opacity: getButtonOpacity(Category.FullBody.toString()) }}
         />
         <img
@@ -93,6 +97,7 @@ export default function ClosetPage(props: ClosetProps) {
           draggable={false}
           src={shoes}
           alt="Show all shoes"
+          aria-label="Show all shoes button"
           style={{ opacity: getButtonOpacity(Category.Shoe.toString()) }}
         />
         <img
@@ -104,6 +109,7 @@ export default function ClosetPage(props: ClosetProps) {
           draggable={false}
           src={outerwear}
           alt="Show all outerwear"
+          aria-label="Show all outerwear button"
           style={{ opacity: getButtonOpacity(Category.Outerwear.toString()) }}
         />
         <img
@@ -115,15 +121,14 @@ export default function ClosetPage(props: ClosetProps) {
           draggable={false}
           src={accessories}
           alt="Show all accessories"
+          aria-label="Show all accessories button"
           style={{ opacity: getButtonOpacity(Category.Accessory.toString()) }}
         />
         <button onClick={() => setShowAddBox(true)} aria-label="Add item">
           + Add
         </button>
       </div>
-      {showAddBox && (
-        <UploadBox/>
-      )}
+      {showAddBox && <UploadBox />}
       {!showAddBox && (
         <div className="closet-container">
           {Array.from(props.clothes.entries()).map((img, index) =>
@@ -139,7 +144,7 @@ export default function ClosetPage(props: ClosetProps) {
                   <img
                     key={index}
                     src={img[1][0]}
-                    alt="Marker"
+                    alt={img[1][3]}
                     className={"img"}
                     style={{ backgroundColor: img[1][1] }}
                     onClick={() => console.log(img[1][3])}
@@ -147,6 +152,7 @@ export default function ClosetPage(props: ClosetProps) {
                 )}
                 <img
                   className="img-trash"
+                  alt="delete item button"
                   src={trash}
                   onClick={() => {
                     removeClothing(parseInt(img[0]));

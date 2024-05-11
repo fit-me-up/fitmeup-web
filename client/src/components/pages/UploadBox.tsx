@@ -189,7 +189,9 @@ export default function UploadBox() {
    * @param m The material selected
    */
   function handleMaterialSelection(m: Material) {
+    console.log("material button pressed");
     const activeButton = document.getElementsByClassName("material-active");
+    console.log("active button is ", activeButton)
     if (activeButton[0]) {
       activeButton[0].className = "inactive";
     }
@@ -198,8 +200,11 @@ export default function UploadBox() {
     } else {
       setMaterial(m);
       const buttonName = "material " + m.toString();
+      console.log("button name is ", buttonName);
       const pressedButton = document.getElementById(buttonName);
+      console.log("pressed button is ", pressedButton)
       if (pressedButton !== null) {
+        console.log("setting pressed to active")
         pressedButton.className = "material-active";
       }
     }

@@ -111,24 +111,31 @@ export default function HomePage() {
 
   return (
     <div className="homepage">
-      <h1 className="hello-message">{getWelcomeMessage()}</h1>
-      <h3 className="positive-message">{generatePositiveMessage()}</h3>
+      <h1 className="hello-message" aria-label={getWelcomeMessage()}>
+        {getWelcomeMessage()}
+      </h1>
+      <h3 className="positive-message" aria-label={generatePositiveMessage()}>
+        {generatePositiveMessage()}
+      </h3>
       <div className="nav-buttons">
         <button
           onClick={() => navigate("/generate")}
           style={{ backgroundColor: "#d27088" }}
+          aria-label="Go to generate page"
         >
           Generate Today's Outfit{" "}
         </button>
         <button
           onClick={() => navigate("/saved")}
           style={{ backgroundColor: "#846a95" }}
+          aria-label="Go to saved page"
         >
           View Saved Outfits{" "}
         </button>
         <button
           onClick={() => navigate("/closet")}
           style={{ backgroundColor: "#3f6492" }}
+          aria-label="Go to closet page"
         >
           View My Closet{" "}
         </button>

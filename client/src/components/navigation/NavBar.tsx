@@ -70,12 +70,13 @@ export default function NavBar() {
       {showWeather && (
         <div className="temp-container">
           <div className="temp-numbers">
-            <h3 className="temptitle temp"> {highTemp}˚</h3>
-            <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
-            <h3 className="temptitle temp"> {lowTemp}˚</h3>
+            <h3 className="temptitle temp" aria-label="Today's high temperature"> {highTemp}˚</h3>
+            <h3 className="currenttitle temp" aria-label="Current temperature"> {currentTemp}˚ </h3>
+            <h3 className="temptitle temp" aria-label="Today's low temperature"> {lowTemp}˚</h3>
           </div>
           <img
             className="weather-icon"
+            aria-label="Weather icon"
             src={mapToImage(determineWeatherIcon(currentCloud, currentRain, currentSnow))}
           />
         </div>
@@ -84,27 +85,31 @@ export default function NavBar() {
         <h3
           className="pagetitle home"
           onClick={() => changePage(PageType.Home)}
+          aria-label="Go to home page"
         >
           {"Home"}
         </h3>
         <h3
           className="pagetitle generate"
           onClick={() => changePage(PageType.Generate)}
+          aria-label="Go to generate page"
         >
           {"Generate"}
         </h3>
-        <h1 className="maintitle" onClick={() => changePage(PageType.Home)}>
+        <h1 className="maintitle" aria-label="Go to home page" onClick={() => changePage(PageType.Home)}>
           {"Fit-Me-UP!"}
         </h1>
         <h3
           className="pagetitle saved"
           onClick={() => changePage(PageType.Saved)}
+          aria-label="Go to saved page"
         >
           {"Saved"}
         </h3>
         <h3
           className="pagetitle closet"
           onClick={() => changePage(PageType.Closet)}
+          aria-label="Go to closet page"
         >
           {"Closet"}
         </h3>

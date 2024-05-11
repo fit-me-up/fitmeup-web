@@ -61,7 +61,7 @@ const Logout: React.FunctionComponent<ILoginPageProps> = (props) => {
 
   return (
     <div className="logout-box">
-      <button className="logout-button" onClick={() => signOut()}>
+      <button className="logout-button" aria-label="Log out button" onClick={() => signOut()}>
         Sign Out
       </button>
     </div>
