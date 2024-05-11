@@ -15,7 +15,7 @@ public enum Subcategory {
   ROMPER(11, 60.0),
   SWEATSHIRT(12, 50.0),
   JACKET(13, 30.0),
-  CARDIGAN(14, 30.0),
+  CARDIGAN(14, 40.0),
   HEADWEAR(15, -1.0),
   SCARF(16, 30.0),
   BAG(17, 60.0);
