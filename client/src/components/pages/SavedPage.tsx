@@ -49,7 +49,7 @@ export default function SavedPage(props: SavedPageProps) {
                     
           {parseInt(outfit.top) > -1 && (
             <div
-              className="top-box"
+              className="outfit-top-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.top);
                 setHoverOutfit(outfit.id.toString());
@@ -72,7 +72,7 @@ export default function SavedPage(props: SavedPageProps) {
                     
           {parseInt(outfit.bottom) > -1 && (
             <div
-              className="bottom-box"
+              className="outfit-bottom-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.bottom);
                 setHoverOutfit(outfit.id.toString());
@@ -95,7 +95,7 @@ export default function SavedPage(props: SavedPageProps) {
                     
           {parseInt(outfit.shoe) > -1 && (
             <div
-              className="shoe-box"
+              className="outfit-shoe-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.shoe);
                 setHoverOutfit(outfit.id.toString());
@@ -118,7 +118,7 @@ export default function SavedPage(props: SavedPageProps) {
                     
           {parseInt(outfit.outerwear) > -1 && (
             <div
-              className="outerwear-box"
+              className="outfit-outerwear-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.outerwear);
                 setHoverOutfit(outfit.id.toString());
@@ -141,7 +141,7 @@ export default function SavedPage(props: SavedPageProps) {
                     
           {parseInt(outfit.accessory) > -1 && (
             <div
-              className="accessory-box"
+              className="outfit-accessory-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.accessory);
                 setHoverOutfit(outfit.id.toString());

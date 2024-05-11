@@ -32,9 +32,8 @@
   .type-btn {
     background-color: #7a94b4;
   }
-}
 
-button {
+  button {
     position: relative;
     margin: 5px;
     width: 130px;
@@ -52,6 +51,7 @@ button {
   button:hover {
     filter: brightness(90%);
   }
+}
 
 .right-button-container {
   width: 12%;
@@ -62,6 +62,24 @@ button {
   top: 5%;
   .save-btn {
     background-color: #846a95;
+  }
+  button {
+    position: relative;
+    margin: 5px;
+    width: 130px;
+    height: 40px;
+    font-family: "Playfair-Display";
+    font-size: 20px;
+    border: none;
+    border-radius: 17px;
+    color: #fafaf5;
+    font-weight: bold;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+  }
+
+  button:hover {
+    filter: brightness(90%);
   }
 }
 
@@ -140,10 +158,9 @@ button {
     position: absolute;
     border-radius: 35px;
     background-color: #f8f1e3;
-    width: 38%;
-    height: 32%;
+    width: 28%;
     top: 10%;
-    left: 30%;
+    left: 36%;
     align-items: center;
     justify-content: center;
   }
