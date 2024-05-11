@@ -95,9 +95,9 @@ public class CompatibilityUtils {
    * @param weatherData is the given weather stats.
    * @return a compatibility value between zero and 1.
    */
-  private double weatherComp(Clothing option, WeatherData weatherData) {
+  public double weatherComp(Clothing option, WeatherData weatherData) {
     if (option.subcategory().getWeather() == -1.0) {
-      return 1.0;
+      return 0.8;
     }
 
     double temp =
@@ -121,7 +121,7 @@ public class CompatibilityUtils {
    * @param existing is the list to test against.
    * @return the compatibility of material from 0 to 1.
    */
-  private double materialComp(Clothing option, ArrayList<Clothing> existing) {
+  public double materialComp(Clothing option, ArrayList<Clothing> existing) {
     double n = existing.size();
 
     if (n == 0) {

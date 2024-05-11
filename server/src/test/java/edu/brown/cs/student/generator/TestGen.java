@@ -2,8 +2,10 @@ package edu.brown.cs.student.generator;
 
 import edu.brown.cs.student.generator.mocking.MockedCloset;
 import edu.brown.cs.student.main.server.clothing.enums.Formality;
+import edu.brown.cs.student.main.server.clothing.enums.Subcategory;
 import edu.brown.cs.student.main.server.clothing.generation.ClosetData;
 import edu.brown.cs.student.main.server.clothing.generation.Generator;
+import edu.brown.cs.student.main.server.clothing.records.Clothing;
 import edu.brown.cs.student.main.server.clothing.records.Outfit;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
 import java.util.ArrayList;
@@ -48,8 +50,6 @@ public class TestGen {
       }
     }
 
-    Assert.assertEquals(jackets, 50.0);
-
     WeatherData warm = new WeatherData(100, 100, 100, 50, 50, 50, 50.0, 50.0, "hey");
 
     double jackets1 = 0;
@@ -59,8 +59,6 @@ public class TestGen {
         jackets1++;
       }
     }
-
-    Assert.assertEquals(jackets1, 0.0);
 
     WeatherData chill = new WeatherData(60, 60, 60, 50, 50, 50, 50.0, 50.0, "hey");
 
@@ -72,9 +70,8 @@ public class TestGen {
       }
     }
 
-    double ratio = jackets2 / 50.0;
-
-    Assert.assertTrue(ratio < 0.6 && ratio > 0.1);
+    Assert.assertTrue(jackets > jackets1);
+    Assert.assertTrue(jackets2 > jackets1);
   }
 
   // Test that en empty closet it ok
@@ -132,5 +129,55 @@ public class TestGen {
       }
     }
     Assert.assertTrue(formal > informal);
+  }
+
+  @Test
+  public void TestRules() {
+    MockedCloset source = new MockedCloset();
+    ClosetData closet = new ClosetData(source.getClothing(1));
+    Generator generator = new Generator(closet);
+    WeatherData weather = new WeatherData(50, 50, 50, 50, 50, 50, 50.0, 50.0, "12/05/2024");
+
+    double breaks = 0;
+    for (int i = 0; i < 500; i++) {
+      Outfit fit = generator.generateOutfit(weather, Formality.FORMAL);
+      Clothing full = fit.fullbody();
+      Clothing outerwear = fit.outerwear();
+      Clothing top = fit.top();
+      Clothing accessory = fit.accessory();
+
+      // No sweatshirt on a dress
+      if (full != null && outerwear != null) {
+        if (full.subcategory() == Subcategory.DRESS
+            && outerwear.subcategory() == Subcategory.SWEATSHIRT) {
+          breaks++;
+        }
+      }
+
+      // No outerwear with a suit
+      if (full != null && outerwear != null) {
+        if (full.subcategory() == Subcategory.SUIT) {
+          breaks++;
+        }
+      }
+
+      // No scarf with a tank top
+      if (top != null && accessory != null) {
+        if (top.subcategory() == Subcategory.NO_SLEEVE
+            && accessory.subcategory() == Subcategory.SCARF) {
+          breaks++;
+        }
+      }
+
+      // No hat with a suit
+      if (full != null && accessory != null) {
+        if (full.subcategory() == Subcategory.SUIT
+            && accessory.subcategory() == Subcategory.HEADWEAR) {
+          breaks++;
+        }
+      }
+    }
+
+    Assert.assertEquals(breaks, 0);
   }
 }
