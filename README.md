@@ -4,7 +4,7 @@
 https://github.com/fit-me-up/fitmeup-web
 
 ## Project Overview
-    Fit-Me-UP! is a website designed to encourage users to take advantage of their entire wardrobe with customized outfit suggestions. Our specialized algorithm takes into account color, weather, formality, and generic styling conventions to recommend outfits. Data is saved for every user through their GMail account, allowing users to save their wardrobe and access their favorite outfits across logins! 
+#### Fit-Me-UP! is a website designed to encourage users to take advantage of their entire wardrobe with customized outfit suggestions. Our specialized algorithm takes into account color, weather, formality, and generic styling conventions to recommend outfits. Data is saved for every user through their GMail account, allowing users to save their wardrobe and access their favorite outfits across logins! 
 
 ### Meet The Team!
 
