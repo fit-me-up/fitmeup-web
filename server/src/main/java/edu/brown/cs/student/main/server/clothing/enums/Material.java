@@ -28,6 +28,12 @@ public enum Material {
     this.index = id;
   }
 
+  /**
+   * Returns the compatibility of this material with another material.
+   *
+   * @param other the other material
+   * @return the compatibility of this material with the other material
+   */
   public double compatWith(Material other) {
     return this.compatibility[this.getIndex()][other.getIndex()];
   }

@@ -6,35 +6,11 @@ import edu.brown.cs.student.main.server.clothing.records.CompatibilityPair;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
 import java.util.ArrayList;
 
+/** This class contains the compatibility functions for the clothing items. */
 public class CompatibilityUtils {
 
+  /** Constructor for the compatibility utils. */
   public CompatibilityUtils() {}
-
-  /*
-  Start with a list of clothing items, and a list of existing items.
-
-  First check color compatibility.
-  For a given item, if there is one color in the existing items...
-  - it can be any color and the same shade
-  - it can be the same color by any shade
-  If there are multiple colors in the outfit
-  - it must be the same shade and same as one of the colors
-  If there are multiple shades in the outfit
-  - it must be the same color as all the rest
-
-  Function to get a list of all the existing colors in the outfit
-  Function to calculate the number of different shades and colors in the outfit
-  Calculate the compatibility values like above, and remove the worst (1/2)(floored)
-
-  Then check weather compatibility
-  Calculate the compatibility values, add them to the color, and remove the worst (1/3)(floored)
-
-  Then check the material compatibility
-  Function to get a list of all the existing materials
-  Calculate the material compatibility, at to existing values, and remove the worst (1/3)(floored)
-
-  Return the remaining item with the highest color score
-  */
 
   /**
    * Algorithmically decide the best item out of the options given the existing items and the

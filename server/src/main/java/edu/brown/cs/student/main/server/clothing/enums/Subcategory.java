@@ -29,6 +29,11 @@ public enum Subcategory {
     this.weather = weather;
   }
 
+  /**
+   * Returns the index of the subcategory.
+   *
+   * @return the index of the subcategory
+   */
   public int getIndex() {
     return this.index;
   }
