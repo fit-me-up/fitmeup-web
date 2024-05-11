@@ -32,7 +32,7 @@ To begin using Fit-Me-UP! follow these steps:
 6. Run "mvn clean package" from the server directory.
 7. To start the server, use "./run" from the server directory.
 8. To start the webpage, use "npm start" from the client directory.
-9. Launch the webpage at "http://localhost:8000/".
+9. Launch the webpage at http://localhost:8000/.
 
 ## Design Choices
 
