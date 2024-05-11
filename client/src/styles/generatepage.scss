@@ -8,6 +8,14 @@
   top: 125px;
   background-color: #d2708943;
   border-radius: 20px;
+}
+
+.button-container {
+  width: 12%;
+  height: 50%;
+  position: relative;
+  left: 5%;
+  top: 20%;
 
   .description {
   font-family: "Playfair-Display";
@@ -20,7 +28,6 @@
     width: 100px;
     height: 40px;
     left: 6%;
-    top: 17%;
     font-family: "Playfair-Display";
     font-size: 20px;
     border: none;
@@ -29,82 +36,84 @@
     color: #fafaf5;
   }
 
-  button:hover,
-  button:focus {
-    background-color: #37557a;
-    color: #ffffff;
+  button:hover {
+    filter:brightness(90%);
   }
 
-  .fullbody-box {
-    border-radius: 35px;
-    background-color: #f8f1e3;
-    position: absolute;
-    display: flex;
-    left: 61.5%;
-    top: 15%;
-    width: 21%;
-    min-width: 280px;
-    height: 52%;
-    min-height: 350px;
-    align-items: center;
-    justify-content: center;
+  .generate-btn {
   }
+}
 
-  .top-box {
-    border-radius: 35px;
-    background-color: #f8f1e3;
-    position: absolute;
-    display: flex;
-    left: 64%;
-    top: 4%;
-    width: 16.2%;
-    min-width: 220px;
-    height: 31%;
-    min-height: 200px;
-    align-items: center;
-    justify-content: center;
+.fullbody-box {
+  border-radius: 35px;
+  background-color: #f8f1e3;
+  position: absolute;
+  display: flex;
+  left: 61.5%;
+  top: 15%;
+  width: 21%;
+  min-width: 280px;
+  height: 52%;
+  min-height: 350px;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-box {
+  border-radius: 35px;
+  background-color: #f8f1e3;
+  position: absolute;
+  display: flex;
+  left: 64%;
+  top: 4%;
+  width: 16.2%;
+  min-width: 220px;
+  height: 31%;
+  min-height: 200px;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-box {
+  border-radius: 35px;
+  background-color: #f8f1e3;
+  position: absolute;
+  display: flex;
+  left: 64%;
+  top: 37%;
+  width: 16.2%;
+  min-width: 220px;
+  height: 31%;
+  min-height: 200px;
+  align-items: center;
+  justify-content: center;
+}
+
+.shoe-box {
+  border-radius: 35px;
+  background-color: #f8f1e3;
+  position: absolute;
+  display: flex;
+  left: 65.5%;
+  top: 70%;
+  width: 14%;
+  min-width: 185px;
+  height: 26%;
+  align-items: center;
+  justify-content: center;
+}
+
+.dresser-container {
+  width: 55vw;
+  min-width: 800px;
+  position: absolute;
+  left: 10%;
+  top: 8%;
+
+  .img-dresser {
+    width: 60%;
+    height: 100%;
   }
-
-  .bottom-box {
-    border-radius: 35px;
-    background-color: #f8f1e3;
-    position: absolute;
-    display: flex;
-    left: 64%;
-    top: 37%;
-    width: 16.2%;
-    min-width: 220px;
-    height: 31%;
-    min-height: 200px;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .shoe-box {
-    border-radius: 35px;
-    background-color: #f8f1e3;
-    position: absolute;
-    display: flex;
-    left: 65%;
-    top: 70%;
-    width: 14%;
-    min-width: 185px;
-    height: 26%;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .dresser-container {
-    width: 55vw;
-    min-width: 800px;
-    position: relative;
-    left: 10%;
-    top: 3%;
-
-    .img-dresser {
-      width: 60%;
-      height: 100%;
-    }
 
     .outerwear-box {
       position: absolute;
