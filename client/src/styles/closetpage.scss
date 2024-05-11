@@ -56,6 +56,15 @@
   border-radius: 20px;
   padding: 20px;
 
+  .description {
+  font-family: "Playfair-Display";
+  font-size: 18px;
+  position: center;
+  font-weight: bold;
+  padding-left: 10%;
+  padding-right: 10%;
+  }
+
   .box {
     border-radius: 35px;
     background-color: #f8f1e3;
@@ -82,12 +91,7 @@
   background-color: #37557a;
 }
 
-.description {
-  font-family: "Playfair-Display";
-  font-size: 18px;
-  position: center;
-  font-weight: bold;
-}
+
 
 .clothing-types-container {
   width: 100%;

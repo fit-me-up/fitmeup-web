@@ -391,7 +391,7 @@ export default function UploadBox() {
       <div className="description-container">
         <h3> Optional Description: </h3> {/* The description box*/}
         <textarea className="description-box" placeholder="No special characters!"
-        onChange={(ev) => setDescription(ev.target.value.substring(0, Math.min(ev.target.value.length, 50)))} value={description}>
+        onChange={(ev) => setDescription(ev.target.value.substring(0, Math.min(ev.target.value.length, 40)))} value={description}>
         </textarea>
       </div>
       <button className="add-button" aria-label="submit item" onClick={handleSubmit}>+ Add Item!</button>
