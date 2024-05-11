@@ -17,5 +17,8 @@ public interface StorageInterface {
 
   void deleteDocument(DocumentReference doc);
 
+  Map<String, Object> getDocument(DocumentReference doc)
+      throws InterruptedException, ExecutionException;
+
   DocumentReference getDocumentReference(String uid, String collection_id, String doc_id);
 }

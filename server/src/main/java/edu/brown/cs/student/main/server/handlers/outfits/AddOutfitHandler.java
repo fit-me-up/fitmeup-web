@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.handlers.outfits;
 
+import com.google.cloud.firestore.DocumentReference;
 import edu.brown.cs.student.main.server.handlers.Utils;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import spark.Route;
 public class AddOutfitHandler implements Route {
 
   public StorageInterface storageHandler;
-  private int lastID = 0;
 
   public AddOutfitHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
@@ -30,18 +30,33 @@ public class AddOutfitHandler implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
+
     Map<String, Object> responseMap = new HashMap<>();
     try {
       // Collect parameters from the request to build a clothing item.
       String uid = request.queryParams("uid");
-      String id = Integer.toString(this.lastID + 1);
-      this.lastID++;
       String topID = request.queryParams("top");
       String bottomID = request.queryParams("bottom");
       String shoeID = request.queryParams("shoe");
       String outerwearID = request.queryParams("outerwear");
       String fullbodyID = request.queryParams("fullbody");
       String accessoryID = request.queryParams("accessory");
+
+      // Try and get the next outfit ID, but if it doesnt exits, use 0.
+      String id;
+      try {
+        DocumentReference userIDs =
+            this.storageHandler.getDocumentReference(uid, "userIDs", "outfitID");
+        Map<String, Object> userIDsMap = this.storageHandler.getDocument(userIDs);
+        id = userIDsMap.get("nextID").toString();
+      } catch (Exception e) {
+        id = "0";
+      }
+
+      // Update the next outfit ID in the database.
+      Map<String, Object> outfitData = new HashMap<>();
+      outfitData.put("nextID", Integer.toString((Integer.parseInt(id) + 1)));
+      this.storageHandler.addDocument(uid, "userIDs", "outfitID", outfitData);
 
       Map<String, Object> data = new HashMap<>();
       // Create comma separated ID list:

@@ -22,7 +22,12 @@ import {
   suit,
   sweatshirt,
 } from "../icons/clothes/clothes";
-import { Subcategory, Formality, Category, Material } from "../components/items/enums";
+import {
+  Subcategory,
+  Formality,
+  Category,
+  Material,
+} from "../components/items/enums";
 
 function determineBottom(shape: number, material: number, formality: number) {
   switch (shape?.toString()) {

@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.handlers.clothing;
 
+import com.google.cloud.firestore.DocumentReference;
 import edu.brown.cs.student.main.server.handlers.Utils;
 import edu.brown.cs.student.main.server.storage.StorageInterface;
 import java.util.HashMap;
@@ -33,7 +34,6 @@ public class AddClothingHandler implements Route {
     try {
       // Collect parameters from the request to build a clothing item.
       String uid = request.queryParams("uid");
-      String id = request.queryParams("id");
       String category = request.queryParams("category");
       String subcategory = request.queryParams("subcategory");
       String formality = request.queryParams("formality");
@@ -41,6 +41,22 @@ public class AddClothingHandler implements Route {
       String primary = request.queryParams("primary");
       String secondary = request.queryParams("secondary");
       String description = request.queryParams("description");
+
+      // Try and get the next clothing ID, but if it doesnt exits, use 0.
+      String id;
+      try {
+        DocumentReference userIDs =
+            this.storageHandler.getDocumentReference(uid, "userIDs", "clothingID");
+        Map<String, Object> userIDsMap = this.storageHandler.getDocument(userIDs);
+        id = userIDsMap.get("nextID").toString();
+      } catch (Exception e) {
+        id = "0";
+      }
+
+      // Update the next clothing ID in the database.
+      Map<String, Object> clothingData = new HashMap<>();
+      clothingData.put("nextID", Integer.toString((Integer.parseInt(id) + 1)));
+      this.storageHandler.addDocument(uid, "userIDs", "clothingID", clothingData);
 
       Map<String, Object> data = new HashMap<>();
       String clothing =

@@ -111,6 +111,18 @@ public class FirebaseUtilities implements StorageInterface {
   }
 
   /**
+   * Gets the data from a document.
+   *
+   * @param doc the document to get data from.
+   * @return the data from the document.
+   */
+  @Override
+  public Map<String, Object> getDocument(DocumentReference doc)
+      throws InterruptedException, ExecutionException {
+    return doc.get().get().getData();
+  }
+
+  /**
    * Deletes all the documents in a user's collection.
    *
    * @param collection the collection to delete.
