@@ -107,6 +107,12 @@ It is used from the GenerateOutfit Handler to provide weather-based recommendati
 #### Outfit Generation:
 Outfit generation involes a complex interaction between weather, formality, color theory, and intuitive style principles.
 
+An outfit is created step by step, with each new item being ranked on its compatibility to the items already in the list. Certain rules determine whether a type of item will be present, but there is always either a top, bottom, and shoe, or full body item and shoe.
+
+When choosing an item for a category, a set of items is sampled randomly from the set of those items in the users closet. Then, for each option, its compatibility is determined with respect to color, weather, and material, and a weighted average is returned to pick the best item to add. Weather and material are fairly straighforward, but for color...
+
+There is a function to approximate the number of shades and hues in the current outfit by breaking down the colors. Based on this, it decides whether to prioritize shade or hue compatibility, while also taking into accound the secondary color if there is one.
+
 ## Errors / Bugs
 ### Front-End:
 On the front end, there are no known bugs affecting functionality, but some inconveniences that we hope to improve on in the future. There are some concurrency issues with the display having delayed updates on outfit removal, and the buttons on the generate page do not provide clear indications on whether their functionality was successful.
