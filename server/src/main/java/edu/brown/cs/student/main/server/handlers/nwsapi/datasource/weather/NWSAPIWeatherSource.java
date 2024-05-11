@@ -146,10 +146,24 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
     }
   }
 
+  /**
+   * Converts a temperature in Celsius to Fahrenheit.
+   *
+   * @param c the temperature in Celsius
+   * @return the temperature in Fahrenheit
+   */
   private static int convertToF(double c) {
     return (int) Math.round(c * 9.0 / 5.0 + 32.0);
   }
 
+  /**
+   * Given a list of temperature values, calculate the average over the next X hours.
+   *
+   * @param values the list of temperature values
+   * @param hours the number of hours to average over
+   * @param currentTime the current time
+   * @return the average temperature over the next X hours
+   */
   private static double xHrAvg(
       List<ForecastResponseTempValue> values, int hours, ZonedDateTime currentTime) {
     double sum = 0;
@@ -171,6 +185,12 @@ public class NWSAPIWeatherSource implements WeatherDatasource {
     return count == 0 ? 0 : sum / count;
   }
 
+  /**
+   * Converts a duration string to hours.
+   *
+   * @param durationStr the duration string
+   * @return the duration in hours
+   */
   private static int convertToHours(String durationStr) {
     Pattern pattern = Pattern.compile("P(?:(\\d+)D)?T(\\d+)H");
     Matcher matcher = pattern.matcher(durationStr);

@@ -17,6 +17,11 @@ public class ListOutfitsHandler implements Route {
 
   public StorageInterface storageHandler;
 
+  /**
+   * Constructor for the ListOutfitsHandler.
+   *
+   * @param storageHandler The storage handler to be used.
+   */
   public ListOutfitsHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
   }

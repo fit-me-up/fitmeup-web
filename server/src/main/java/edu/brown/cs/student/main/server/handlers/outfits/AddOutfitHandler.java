@@ -17,6 +17,11 @@ public class AddOutfitHandler implements Route {
 
   public StorageInterface storageHandler;
 
+  /**
+   * Constructor for the AddOutfitHandler.
+   *
+   * @param storageHandler The storage handler to be used.
+   */
   public AddOutfitHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
   }

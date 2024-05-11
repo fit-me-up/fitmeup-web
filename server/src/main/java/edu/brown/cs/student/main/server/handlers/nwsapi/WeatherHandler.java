@@ -13,20 +13,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
-/**
- * Handles a request to *OUR* server by making a request to *THEIR* server.
- *
- * <p>Implements Route: Route is the SparkJava interface for request handlers.
- *
- * <p>(1) The job of this class should be handling requests and sending responses, and NOTHING ELSE.
- * That includes specific details about how the weather data is obtained. Make a separate datasource
- * class for that, for many reasons (e.g., you can unit test that datasource much more easily, you
- * can use the proxy pattern to add caching, etc. etc.)
- *
- * <p>(2) This class shouldn't crash the system on an error. Rather, it should construct and send an
- * informative error response, instead. It is OK to log the error, but the API client won't see
- * that. Tell them what happened in terms they will understand.
- */
+/** This class handles weather requests. */
 public class WeatherHandler implements Route {
   // Internal datasource (note using interface; might be NWS, might be something else)
   private final WeatherDatasource state;
@@ -41,6 +28,13 @@ public class WeatherHandler implements Route {
     this.state = state;
   }
 
+  /**
+   * This method handles the request to get the weather.
+   *
+   * @param request the request
+   * @param response the response
+   * @return the response
+   */
   @Override
   public Object handle(Request request, Response response) {
     // Step 1: Prepare to send a reply of some sort

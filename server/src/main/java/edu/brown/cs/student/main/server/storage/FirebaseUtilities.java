@@ -22,6 +22,11 @@ import java.util.concurrent.ExecutionException;
 /** A class that handles the firebase functionality. */
 public class FirebaseUtilities implements StorageInterface {
 
+  /**
+   * Constructor for the FirebaseUtilities class.
+   *
+   * @throws IOException if the file is not found.
+   */
   public FirebaseUtilities() throws IOException {
     String workingDirectory = System.getProperty("user.dir");
     Path firebaseConfigPath =
@@ -71,6 +76,7 @@ public class FirebaseUtilities implements StorageInterface {
     return data;
   }
 
+  /** Gets a document reference for a specified user. */
   @Override
   public DocumentReference getDocumentReference(
       String uid, String collection_id, String document_id) {

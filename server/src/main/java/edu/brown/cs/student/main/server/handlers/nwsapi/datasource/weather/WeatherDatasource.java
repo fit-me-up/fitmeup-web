@@ -7,6 +7,7 @@ import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.DatasourceExc
  * provided to the source at time of request.
  */
 public interface WeatherDatasource {
+
   /**
    * Retrieve the current weather (in the form of a WeatherData record) at a given geolocation.
    *
