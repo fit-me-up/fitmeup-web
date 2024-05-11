@@ -39,7 +39,11 @@ public class FirebaseUtilities implements StorageInterface {
             .setCredentials(GoogleCredentials.fromStream(serviceAccount))
             .build();
 
-    FirebaseApp.initializeApp(options);
+    if (FirebaseApp.getApps().isEmpty()) { // Check if the default app has not been initialized
+      FirebaseApp.initializeApp(options); // Initialize with options
+    } else {
+      FirebaseApp.getInstance(); // Get the already initialized instance
+    }
   }
 
   /** Function that adds a new document to a collection for a specified user. */
