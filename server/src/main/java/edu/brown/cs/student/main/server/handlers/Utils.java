@@ -13,6 +13,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/** This class contains utility functions. */
 public class Utils {
 
   /**
@@ -90,6 +91,12 @@ public class Utils {
         + clothing.material().ordinal();
   }
 
+  /**
+   * Converts a clothing object to a hashmap.
+   *
+   * @param clothing the clothing object to convert.
+   * @return the hashmap representation of the clothing object.
+   */
   public static Map<String, String> clothingToHashMap(Clothing clothing) {
     Map<String, String> map = new HashMap<>();
     String hexColor1 =
@@ -114,6 +121,14 @@ public class Utils {
     return map;
   }
 
+  /**
+   * Converts a hex color to an RGB color.
+   *
+   * @param r the red value.
+   * @param g the green value.
+   * @param b the blue value.
+   * @return the hex color.
+   */
   public static String rgbToHex(double r, double g, double b) {
     int red = Math.min((int) (r * 255), 255);
     int green = Math.min((int) (g * 255), 255);
@@ -121,6 +136,12 @@ public class Utils {
     return String.format("#%02x%02x%02x", red, green, blue);
   }
 
+  /**
+   * Converts a hex color to an RGB color.
+   *
+   * @param hex the hex color.
+   * @return the RGB color.
+   */
   public static Color hexToRGB(String hex) {
     double r = Integer.parseInt(hex.substring(1, 3), 16) / 255.0;
     double g = Integer.parseInt(hex.substring(3, 5), 16) / 255.0;
@@ -129,6 +150,12 @@ public class Utils {
     return new Color(r, g, b);
   }
 
+  /**
+   * Converts an outfit string to a hashmap.
+   *
+   * @param outfit the outfit string to convert.
+   * @return the hashmap representation of the outfit string.
+   */
   public static Map<String, String> outfitStringToHashMap(String outfit) {
     Map<String, String> map = new HashMap<>();
     String[] parts = outfit.split(",");
@@ -143,6 +170,13 @@ public class Utils {
     return map;
   }
 
+  /**
+   * Converts an outfit object to a hashmap
+   *
+   * @param outfit the outfit object to convert.
+   * @param id the id of the outfit.
+   * @return the hashmap representation of the outfit object.
+   */
   public static Map<String, String> serializeOutfit(Outfit outfit, String id) {
     Map<String, String> map = new HashMap<String, String>();
     map.put("id", id);

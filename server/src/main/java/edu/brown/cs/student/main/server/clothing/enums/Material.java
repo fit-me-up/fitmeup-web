@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
+/** Enum for materials */
 public enum Material {
   WOOL_COTTON(0),
   PLASTIC_NYLON(1),
@@ -27,6 +28,12 @@ public enum Material {
     this.index = id;
   }
 
+  /**
+   * Returns the compatibility of this material with another material.
+   *
+   * @param other the other material
+   * @return the compatibility of this material with the other material
+   */
   public double compatWith(Material other) {
     return this.compatibility[this.getIndex()][other.getIndex()];
   }

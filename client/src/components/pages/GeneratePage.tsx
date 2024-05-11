@@ -4,10 +4,21 @@ import { Dispatch, useState, SetStateAction } from "react";
 import { dresser } from "../../icons/icons";
 import "../../styles/generatepage.scss";
 
+/**
+ * Class that handles and creates generate page features.
+ */
 export interface GenerationProps {
   clothes: Map<string, [string, string, string, string]>;
 }
 
+/**
+ * Function that sets up a visualized clothing item with the appropriate data.
+ * @param item the clothing item to display.
+ * @param props the passed in map of clothing items.
+ * @param hoverIndex index for the description.
+ * @param outfitID id of the outfit.
+ * @returns a visual of the item.
+ */
 export function showClothing(
   item: string,
   props: Map<string, [string, string, string, string]>,
@@ -36,21 +47,27 @@ export default function GeneratePage(props: GenerationProps) {
   const texts = ["Formal", "Informal", "Flex"];
   const [hov, setHov] = useState("-1");
 
+  /**
+   * Toggles formality button.
+   */
   const toggleText = () => {
     setText((text + 1) % texts.length);
   };
 
+  /**
+   * Calls backend to generate an outfit and updates the usestate.
+   * @param setOutfit the outfit usestate.
+   */
   async function generateNewOutfit(
     setOutfit: Dispatch<SetStateAction<OutfitItem>>
   ) {
     generateOutfit(text).then((outfit: { outfit: OutfitItem }) => {
-      console.log("generatedOutfit", outfit.outfit);
       setOutfit(outfit.outfit);
     });
   }
 
   /**
-   * Calls on the api from the frontend, passing in the newly generated outfit's details
+   * Calls on the api from the frontend, passing in the newly generated outfit's details.
    */
   async function saveOutfit() {
     // Check that the outfit is not empty.
@@ -74,8 +91,13 @@ export default function GeneratePage(props: GenerationProps) {
     );
   }
 
+  /**
+   * Function that determines the layout of the generated outfit.
+   * @param category the category of the item.
+   * @returns appropriate layout to display.
+   */
   function determineBox(category: string) {
-    if (category != "-1") {
+    if (category != "-1") { // Check to see if the item is a fullbody
       return (
         <div>
           <div
@@ -94,7 +116,7 @@ export default function GeneratePage(props: GenerationProps) {
           </div>
         </div>
       );
-    } else {
+    } else { // If the item is a regular outfit (top and bottom)
       return (
         <div>
           <div
@@ -113,6 +135,7 @@ export default function GeneratePage(props: GenerationProps) {
           </div>
           <div
             className="shoe-box"
+            style={{ top: "70%", left: "65%" }}
             onMouseEnter={() => setHov(outfit.shoe)}
             onMouseLeave={() => setHov("-1")}
           >
@@ -145,18 +168,18 @@ export default function GeneratePage(props: GenerationProps) {
         </div>
         {determineBox(outfit.fullbody)}
         <div className="left-button-container">
-          <button
+          <button /* Button to generate an outfit*/
             className="generate-btn"
             onClick={async () => generateNewOutfit(setOutfit)}
           >
             Generate ⚙
           </button>
-          <button className="type-btn" onClick={toggleText}>
+          <button className="type-btn" onClick={toggleText}> {/* Button to specify formality*/}
             {texts[text]}
           </button>
         </div>
         <div className="right-button-container">
-          <button className="save-btn" onClick={async () => saveOutfit()}>
+          <button className="save-btn" onClick={async () => saveOutfit()}> {/* Button to save an outfit*/}
             Save ⭑
           </button>
         </div>

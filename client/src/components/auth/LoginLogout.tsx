@@ -15,6 +15,9 @@ export interface ILoginPageProps {
 const Login: React.FunctionComponent<ILoginPageProps> = (props) => {
   const auth = getAuth();
 
+/**
+ * Sign in with Google functionality.
+ */
   const signInWithGoogle = async () => {
     try {
       const response = await signInWithPopup(auth, new GoogleAuthProvider());

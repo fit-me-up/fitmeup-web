@@ -1,3 +1,7 @@
+/**
+ * An object that represents a clothing item.
+ */
+
 export class ClothingItem {
   id : number = -1;
   category: number = -1;

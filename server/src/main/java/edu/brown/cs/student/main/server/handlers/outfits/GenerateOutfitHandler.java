@@ -24,6 +24,12 @@ public class GenerateOutfitHandler implements Route {
   private StorageInterface storageHandler;
   private WeatherDatasource weatherDatasource;
 
+  /**
+   * Constructor for the GenerateOutfitHandler.
+   *
+   * @param storageHandler The storage handler to be used.
+   * @param weatherDatasource The weather datasource to be used.
+   */
   public GenerateOutfitHandler(
       StorageInterface storageHandler, WeatherDatasource weatherDatasource) {
     this.storageHandler = storageHandler;

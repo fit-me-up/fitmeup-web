@@ -7,11 +7,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/** This class stores all the clothing items in a hashmap. */
 public class ClosetData {
 
   private HashMap<Category, HashMap<Formality, HashMap<Integer, Clothing>>> closet;
   private ArrayList<Clothing> clothingList; // Contains all the clothing
 
+  /**
+   * Constructor for the closet data.
+   *
+   * @param clothingList is the list of clothing items.
+   */
   public ClosetData(ArrayList<Clothing> clothingList) {
     this.clothingList = clothingList;
     this.initializeCloset();

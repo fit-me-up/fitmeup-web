@@ -10,14 +10,27 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+/** This class handles removing a clothing item. */
 public class RemoveClothingHandler implements Route {
 
   private StorageInterface storageHandler;
 
+  /**
+   * This constructor initializes a RemoveClothingHandler object.
+   *
+   * @param storageHandler the storage handler
+   */
   public RemoveClothingHandler(StorageInterface storageHandler) {
     this.storageHandler = storageHandler;
   }
 
+  /**
+   * This method handles the request to remove a clothing item.
+   *
+   * @param request the request
+   * @param response the response
+   * @return the response
+   */
   @Override
   public Object handle(Request request, Response response) {
     Map<String, Object> responseMap = new HashMap<>();

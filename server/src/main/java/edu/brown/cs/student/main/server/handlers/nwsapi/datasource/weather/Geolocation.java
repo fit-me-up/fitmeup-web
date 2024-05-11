@@ -19,15 +19,6 @@ public record Geolocation(double lat, double lon) {
   }
 
   /**
-   * Convenience function to convert this geolocation to an API parameter string
-   *
-   * @return API parameter string, for the NWS API, corresponding to this location
-   */
-  public String toOurServerParams() {
-    return "lat=" + lat + "&lon=" + lon;
-  }
-
-  /**
    * Static validity checker for geocoordinates. Since lat and lon are in degrees, we expect them to
    * fall into a particular range. If they do not, the coordinate is invalid.
    *

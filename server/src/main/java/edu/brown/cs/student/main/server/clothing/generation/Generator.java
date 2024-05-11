@@ -9,16 +9,29 @@ import edu.brown.cs.student.main.server.clothing.records.Outfit;
 import edu.brown.cs.student.main.server.handlers.nwsapi.datasource.weather.WeatherData;
 import java.util.ArrayList;
 
+/** This class generates an outfit based on the weather and formality. */
 public class Generator {
 
   private CompatibilityUtils comper;
   private ClosetData closet;
 
+  /**
+   * Constructor for the generator.
+   *
+   * @param myCloset is the closet data.
+   */
   public Generator(ClosetData myCloset) {
     this.closet = myCloset;
     this.comper = new CompatibilityUtils();
   }
 
+  /**
+   * This method generates an outfit based on the weather and formality.
+   *
+   * @param weatherData is the weather data.
+   * @param formality is the formality of the outfit.
+   * @return the generated outfit.
+   */
   public Outfit generateOutfit(WeatherData weatherData, Formality formality) {
     // Tracking current outfit for compatibility
     ArrayList<Clothing> selectedItems = new ArrayList<>();
@@ -56,6 +69,15 @@ public class Generator {
     return this.applyRules(top, bot, shoe, outerwear, full, accessory, weatherData, formality);
   }
 
+  /**
+   * This method adds an item to the outfit.
+   *
+   * @param formality is the formality of the outfit.
+   * @param weather is the weather data.
+   * @param selectedItems is the list of selected items.
+   * @param category is the category of the item.
+   * @return the item added to the outfit.
+   */
   private Clothing addItem(
       Formality formality,
       WeatherData weather,
@@ -85,6 +107,12 @@ public class Generator {
     }
   }
 
+  /**
+   * This method decides if a jacket is needed based on the weather.
+   *
+   * @param weatherData is the weather data.
+   * @return true if a jacket is needed, false otherwise.
+   */
   private boolean useJacket(WeatherData weatherData) {
     // Get a weighted average of the day's temperature
     double temp =
@@ -109,6 +137,12 @@ public class Generator {
     }
   }
 
+  /**
+   * This method decides if a full body outfit should be used.
+   *
+   * @param formality is the formality of the outfit.
+   * @return true if a full body outfit should be used, false otherwise.
+   */
   private boolean useFullBody(Formality formality) {
     double fullRatio;
 
@@ -121,6 +155,19 @@ public class Generator {
     }
   }
 
+  /**
+   * This method applies outfit rules to the outfit.
+   *
+   * @param top is the top of the outfit.
+   * @param bot is the bottom of the outfit.
+   * @param shoe is the shoe of the outfit.
+   * @param outerwear is the outerwear of the outfit.
+   * @param full is the full body outfit.
+   * @param accessory is the accessory of the outfit.
+   * @param weather is the weather data.
+   * @param formality is the formality of the outfit.
+   * @return the outfit with the rules applied.
+   */
   private Outfit applyRules(
       Clothing top,
       Clothing bot,

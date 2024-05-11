@@ -23,14 +23,14 @@ export default function UploadBox() {
   const [formality, setFormality] = useState<number>(-1);
 
   /**
-   * Handles behavior for the x being pressed to close the upload box
+   * Handles behavior for the x being pressed to close the upload box.
    */
   const handleBoxClose = () => {
     window.location.reload();
   };
   /**
-   * Handles behavior for when a type button is pressed
-   * @param type enum for clothing type
+   * Handles behavior for when a type button is pressed.
+   * @param type enum for clothing type.
    */
   function handleTypePress(category: Category) {
     // deselects active type button (and shape button) visually
@@ -107,8 +107,8 @@ export default function UploadBox() {
   }
 
   /**
-   * Handles behavior for when a shape button is pressed
-   * @param shape enum for shape
+   * Handles behavior for when a shape button is pressed.
+   * @param shape enum for shape.
    */
   function handleSubcategorySelection(sub: Subcategory) {
     const activeButton = document.getElementsByClassName("shape-active");
@@ -134,8 +134,8 @@ export default function UploadBox() {
     useState<string>("Select");
 
   /**
-   * Handles behavior for when the color slider is moved
-   * @param color the RGB color the slider is currently on
+   * Handles behavior for when the color slider is moved.
+   * @param color the RGB color the slider is currently on.
    */
   function handleColorChange(color: string, type: "main" | "secondary") {
     if (type === "main") {
@@ -149,7 +149,7 @@ export default function UploadBox() {
 
   /**
    * Function to handle color selection and set the clothing item's fields.
-   * @param color the selected RGB color
+   * @param color the selected RGB color.
    */
   function handleColorSelection(color: string, type: "main" | "secondary") {
     console.log(color);
@@ -176,7 +176,7 @@ export default function UploadBox() {
   }
 
   /**
-   * Defines behavior for if a user presses "none" to secondary color
+   * Defines behavior for if a user presses "none" to secondary color.
    */
   const handleNoSecondary = () => {
     setShowSecondaryColor(false);
@@ -185,8 +185,8 @@ export default function UploadBox() {
   };
 
   /**
-   * Handles behavior for when a material type is selected
-   * @param m The material selected
+   * Handles behavior for when a material type is selected.
+   * @param m The material selected.
    */
   function handleMaterialSelection(m: Material) {
     console.log("material button pressed");
@@ -209,7 +209,10 @@ export default function UploadBox() {
       }
     }
   }
-
+  /**
+   * Handles behavior for when a formality type is selected.
+   * @param f The formality selected.
+   */
   function handleFormalitySelection(f: Formality) {
     const activeButton = document.getElementsByClassName("formality-active");
     if (activeButton[0]) {
@@ -227,8 +230,11 @@ export default function UploadBox() {
     }
   }
 
-  const [incompleteFields, setIncompleteFields] = useState<boolean>(false);
+  const [incompleteFields, setIncompleteFields] = useState<boolean>(false); //determines if the user filled out all the fields
 
+  /**
+   * Handles submitting a clothing item.
+   */
   async function handleSubmit() {
     if (
       clothingType === -1 ||
@@ -244,7 +250,7 @@ export default function UploadBox() {
       setMainColorSelect("Select");
       setSecondaryColorSelect("Select");
       setShowShapes(false);
-      console.log(description)
+      console.log(description);
       setDescription("");
       // define these local variables because reset doesn't work after the await
 
@@ -261,6 +267,16 @@ export default function UploadBox() {
     }
   }
 
+  /**
+   * Calls the backend to add the clothing item to the database.
+   * @param category the category of the item.
+   * @param subcategory the subcategory of the item.
+   * @param formality the formality of the item.
+   * @param primary the primary color of the item.
+   * @param secondary the secondary color of the item.
+   * @param material the material of the item.
+   * @param description the description of the item.
+   */
   async function addClothing(
     category: number,
     subcategory: number,
@@ -286,7 +302,10 @@ export default function UploadBox() {
     );
   }
 
-  const addAnotherItem = () => { 
+  /**
+   * Handles functionality for adding another item from the upload box.
+   */
+  const addAnotherItem = () => {
     setNotSubmitted(true);
     setMainColor("#ffffff");
     setSecondaryColor("null");
@@ -300,7 +319,7 @@ export default function UploadBox() {
       </div>
       <h1 className="add-message"> Add to Closet </h1>
       <div className="types-container">
-        <h3 className="clothing-type-header"> Clothing Type:</h3>
+        <h3 className="clothing-type-header"> Clothing Type:</h3>  {/* All of the category buttons*/}
         <div className="row1">
           <button id={"type " + Category.Top.toString()} className="inactive" onClick={() => handleTypePress(Category.Top)}>Top</button>
           <button id={"type " + Category.Bottom.toString()} className="inactive" onClick={() => handleTypePress(Category.Bottom)}>Bottom</button>
@@ -314,7 +333,7 @@ export default function UploadBox() {
       </div>
       {showShapes && (
         <div className="shapes-container">
-          <h3 className="shapes-header"> Subcategory: </h3>
+          <h3 className="shapes-header"> Subcategory: </h3> {/* All of the subcategory buttons*/}
           <div className="button-container">
             {shapeLabels.map((label) => (
               <button id={`shape ${label[1].toString()}`} className="inactive" onClick={() => handleSubcategorySelection(label[1])}>
@@ -324,7 +343,7 @@ export default function UploadBox() {
           </div>
         </div>
       )}
-      <div className="color-container">
+      <div className="color-container"> {/* The color picker*/}
         <h3>Main Color:</h3>
         <div className="picker-container">
           <HexColorPicker color={mainColor} onChange={(mainColor) => handleColorChange(mainColor, 'main')}/>
@@ -347,8 +366,8 @@ export default function UploadBox() {
           </div>
         </div>
       )}
-      <div className="material-container">
-        <h3>Material:</h3>
+      <div className="material-container"> 
+        <h3>Material:</h3> {/* All of the material buttons*/}
         <div className="material-container row1" >
           <button id={"material " + Material.WoolCotton.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.WoolCotton)}>Cotton/Wool</button>
           <button id={"material " + Material.PlasticNylon.toString()} className="inactive" onClick={()=>handleMaterialSelection(Material.PlasticNylon)}>Synthetic</button>
@@ -362,7 +381,7 @@ export default function UploadBox() {
         </div>
       </div>
       <div className="formality-container">
-        <h3 > Formality: </h3>
+        <h3 > Formality: </h3> {/* All of the formality buttons*/}
         <div className="button-container">
           <button id={"formality " + Formality.Formal.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Formal)}>Formal</button>
           <button id={"formality " + Formality.Informal.toString()} className="inactive" onClick={() => handleFormalitySelection(Formality.Informal)}>Informal</button>
@@ -370,9 +389,9 @@ export default function UploadBox() {
         </div>
       </div>
       <div className="description-container">
-        <h3> Optional Description: </h3>
+        <h3> Optional Description: </h3> {/* The description box*/}
         <textarea className="description-box" placeholder="No special characters!"
-        onChange={(ev) => setDescription(ev.target.value)} value={description}>
+        onChange={(ev) => setDescription(ev.target.value.substring(0, Math.min(ev.target.value.length, 50)))} value={description}>
         </textarea>
       </div>
       <button className="add-button" onClick={handleSubmit}>+ Add Item!</button>

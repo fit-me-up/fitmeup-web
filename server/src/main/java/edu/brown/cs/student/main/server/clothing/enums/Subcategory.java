@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
+/** Enum for subcategories */
 public enum Subcategory {
   LONG_SLEEVE(0, 60.0),
   SHORT_SLEEVE(1, 70.0),
@@ -28,6 +29,11 @@ public enum Subcategory {
     this.weather = weather;
   }
 
+  /**
+   * Returns the index of the subcategory.
+   *
+   * @return the index of the subcategory
+   */
   public int getIndex() {
     return this.index;
   }
