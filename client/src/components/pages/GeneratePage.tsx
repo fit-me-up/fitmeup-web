@@ -15,7 +15,6 @@ export function showClothing(
   outfitID: boolean
 ) {
   let img = props.get(item);
-  console.log("img", img);
   return item !== "-1" ? (
     <div>
       {((hoverIndex === item && img?.[3] !== "" && outfitID) ? <div className="description">{img?.[3]}</div> : 
@@ -54,8 +53,18 @@ export default function GeneratePage(props: GenerationProps) {
    * Calls on the api from the frontend, passing in the newly generated outfit's details
    */
   async function saveOutfit() {
+    // Check that the outfit is not empty.
+    if (
+      outfit.top === "-1" &&
+      outfit.bottom === "-1" &&
+      outfit.shoe === "-1" &&
+      outfit.outerwear === "-1" &&
+      outfit.fullbody === "-1" &&
+      outfit.accessory === "-1"
+    ) {
+      return;
+    }
     await addOutfit(
-      outfit.id,
       outfit.top,
       outfit.bottom,
       outfit.shoe,

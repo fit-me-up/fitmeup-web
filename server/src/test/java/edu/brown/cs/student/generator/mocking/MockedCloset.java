@@ -85,6 +85,72 @@ public class MockedCloset {
             new Palette(new Color(0.0, 0.0, 0.2), new Color(0.0, 0.0, 0.0)),
             Material.DENIM));
 
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              8,
+              Category.OUTERWEAR,
+              Subcategory.SWEATSHIRT,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), new Color(0.2, 0.0, 0.0)),
+              Material.PLASTIC_NYLON));
+    }
+
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              9,
+              Category.ACCESSORY,
+              Subcategory.SCARF,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), new Color(0.0, 0.2, 0.0)),
+              Material.PLASTIC_NYLON));
+    }
+
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              10,
+              Category.ACCESSORY,
+              Subcategory.HEADWEAR,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), null),
+              Material.PLASTIC_NYLON));
+    }
+
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              11,
+              Category.OUTERWEAR,
+              Subcategory.SWEATSHIRT,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), new Color(0.2, 0.2, 0.0)),
+              Material.PLASTIC_NYLON));
+    }
+
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              12,
+              Category.FULL_BODY,
+              Subcategory.SUIT,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), new Color(0.0, 0.0, 0.0)),
+              Material.PLASTIC_NYLON));
+    }
+
+    if (type == 1) {
+      closet.add(
+          new Clothing(
+              11,
+              Category.TOP,
+              Subcategory.NO_SLEEVE,
+              Formality.FLEX,
+              new Palette(new Color(0.0, 0.0, 0.0), new Color(0.0, 0.0, 0.1)),
+              Material.PLASTIC_NYLON));
+    }
+
     return closet;
   }
 }

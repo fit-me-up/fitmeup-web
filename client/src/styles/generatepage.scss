@@ -17,6 +17,13 @@
   left: 5%;
   top: 20%;
 
+  .description {
+  font-family: "Playfair-Display";
+  font-size: 18px;
+  position: center;
+  font-weight: bold;
+}
+
   button {
     width: 100px;
     height: 40px;
@@ -138,3 +145,5 @@
   max-height: 90%;
   background-color: #37557a;
 }
+
+

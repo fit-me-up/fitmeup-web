@@ -3,6 +3,8 @@ import "../../styles/savedpage.scss";
 import { listOutfits } from "../../utils/api";
 import { OutfitItem } from "../items/OutfitItem";
 import { showClothing } from "../pages/GeneratePage";
+import { trash } from "../../icons/icons";
+import { removeOutfit } from "../../utils/api";
 
 export interface SavedPageProps {
   setClothing: Dispatch<
@@ -23,7 +25,7 @@ export default function SavedPage(props: SavedPageProps) {
         <div className="outfit-box">
           {parseInt(outfit.fullbody) > -1 && (
             <div
-              className="fullbody-box"
+              className="bottom-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.fullbody);
                 setHoverOutfit(outfit.id.toString());
@@ -141,6 +143,15 @@ export default function SavedPage(props: SavedPageProps) {
               )}
             </div>
           )}
+          <img
+            className="img-trash"
+            src={trash}
+            onClick={() => {
+              removeOutfit(outfit.id);
+              let newOutfits = outfits.filter((out) => out.id !== outfit.id);
+              setOutfits(newOutfits);
+            }}
+          />
         </div>
       ))
     );

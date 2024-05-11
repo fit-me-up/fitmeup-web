@@ -1,4 +1,8 @@
 import { getLoginCookie } from "./cookie";
+import { ClothingItem } from "../components/items/ClothingItem";
+import { Description } from "../components/items/Description";
+import { determineCategory } from "./determineImage";
+import { Dispatch, SetStateAction } from "react";
 
 const HOST = "http://localhost:3232";
 let cache: any;
@@ -13,6 +17,7 @@ async function queryAPI(
   endpoint: string,
   query_params: Record<string, string>
 ) {
+  console.log("Sending API!" + endpoint);
   const paramsString = new URLSearchParams(query_params).toString();
   const url = `${HOST}/${endpoint}?${paramsString}`;
   const response = await fetch(url);
@@ -49,7 +54,6 @@ export async function getWeatherData(lat: number, lon: number) {
 }
 
 export async function addClothingItem(
-  id: number,
   category: number,
   subcategory: number,
   formality: number,
@@ -61,7 +65,6 @@ export async function addClothingItem(
   console.log(description);
   return await queryAPI("add-clothing", {
     uid: getLoginCookie() || "",
-    id: id.toString(),
     category: category.toString(),
     subcategory: subcategory.toString(),
     formality: formality.toString(),
@@ -84,11 +87,10 @@ export async function listOutfits() {
   });
 }
 
-export async function addOutfit(id: string, top: string, bottom: string, shoe: string,
+export async function addOutfit(top: string, bottom: string, shoe: string,
   outerwear: string, fullbody: string, accessory: string) {
   return await queryAPI("add-outfit", {
     uid: getLoginCookie() || "",
-    id: id.toString(),
     top: top.toString(),
     bottom: bottom.toString(),
     shoe: shoe.toString(),
@@ -99,12 +101,28 @@ export async function addOutfit(id: string, top: string, bottom: string, shoe: s
 }
 
 export async function generateOutfit(formality: number) {
+  // Default to Providence, RI
+  let lat = "41.824"
+  let lon = "-71.41888"
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      lat = position.coords.latitude.toString();
+      lon = position.coords.longitude.toString();
+    });
+  } 
+
   return await queryAPI("generate-outfit", {
     uid: getLoginCookie() || "",
-    lat: "41.824",
-    lon: "-71.41888",
-    id: "0",
+    lat: lat,
+    lon: lon,
     formality: formality.toString(),
+  });
+}
+
+export async function removeOutfit(id: string) {
+  return await queryAPI("remove-outfit", {
+    uid: getLoginCookie() || "",
+    id: id
   });
 }
 
@@ -114,3 +132,38 @@ export async function removeClothing(id:number) {
     id: id.toString()
   });
 }
+
+export const updateClothing = (
+  setClothesProps: Dispatch<
+    SetStateAction<Map<string, [string, string, string, string]>>
+  >
+) => {
+  listClothing().then(
+    (clothing: { clothing: ClothingItem[]; descriptions: Description[] }) => {
+      let clothes = clothing.clothing;
+      let descriptions = clothing.descriptions;
+      let clothesMap = new Map<string, [string, string, string, string]>();
+      clothes.forEach((item) => {
+        let img = determineCategory(
+          item.category,
+          item.subcategory,
+          item.material,
+          item.formality
+        );
+        let description = "";
+        descriptions.forEach((desc) => {
+          if (desc.id === item.id.toString()) {
+            description = desc.desc;
+          }
+        });
+        clothesMap.set(item.id.toString(), [
+          img,
+          item.primary,
+          item.category.toString(),
+          description,
+        ]);
+      });
+      setClothesProps(clothesMap);
+    }
+  );
+};

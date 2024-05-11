@@ -1,22 +1,16 @@
-import { useState, Dispatch, SetStateAction, ChangeEvent } from "react";
+import { useState } from "react";
 import "../../styles/uploadbox.scss";
 import { Category, Formality, Material, Subcategory } from "../items/enums";
 import { closebutton, success } from "../../icons/icons";
-import { ClothingItem } from "../items/ClothingItem";
 import { addClothingItem } from "../../utils/api";
 import { HexColorPicker } from "react-colorful";
-
-export interface UploadBoxProps {
-  setShowAddBox: Dispatch<SetStateAction<boolean>>;
-  listofClothes: ClothingItem[];
-}
 
 /**
  * Defines the upload box component that allows users to add new items of clothing
  * @param props
  * @returns
  */
-export default function UploadBox(props: UploadBoxProps) {
+export default function UploadBox() {
   const [notSubmitted, setNotSubmitted] = useState<boolean>(true);
   const [clothingType, setClothingType] = useState<number>(-1);
   const [showShapes, setShowShapes] = useState<boolean>(false);
@@ -271,21 +265,12 @@ export default function UploadBox(props: UploadBoxProps) {
     material: number,
     description: string
   ) {
-    let index: number = 0;
-    if (props.listofClothes.length > 0) {
-      let max: number = 0;
-      props.listofClothes.forEach((id) => {
-        if (id.id > max) max = parseInt(id.id.toString());
-      });
-      index = max + 1;
-    }
     // Remove everything but letters from description:
     description = description.replace(/[^a-zA-Z ]/g, "");
     // Capitalize first letter of each word in description:
     description = description.replace(/\b\w/g, (char) => char.toUpperCase());
 
     await addClothingItem(
-      index,
       category,
       subcategory,
       formality,
@@ -398,13 +383,13 @@ export default function UploadBox(props: UploadBoxProps) {
           aria-label="Close"
         />
       </div>
-      <h1 className="success-message"> Successfully added item!</h1>
+      <h1 className="success-message"> Successfully Added Item!</h1>
       <button className="newitem-button" onClick={addAnotherItem}>
-        Add another item
+        Add Another Item
       </button>
       <br></br>
       <button className="closet-button" onClick={handleBoxClose}>
-        Back to closet
+        Back To Closet
       </button>
       <br></br>
       <img className="success-icon" src={success} />
