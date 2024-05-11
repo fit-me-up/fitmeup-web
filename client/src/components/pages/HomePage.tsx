@@ -1,6 +1,5 @@
 import "../../styles/navbar.scss";
-import { useState, useEffect } from "react";
-import NavBar from "../navigation/NavBar";
+import { useState} from "react";
 import sunlogo from "../../styles/images/sunshinefitmeup.png"
 import snowylogo from "../../styles/images/snowfitmeup.png"
 import rainylogo from "../../styles/images/rainyfitmeup.png"
@@ -8,15 +7,17 @@ import cloudylogo from "../../styles/images/cloudyfitmeup.png"
 import { getNameCookie } from "../../utils/cookie";
 import "../../styles/homepage.scss";
 import { useNavigate } from "react-router-dom";
+import { WeatherType } from "../items/enums";
 
+/**
+ * Class that handles and creates home page features.
+ */
 
-export enum WeatherType {
-  SNOW = 'snow',
-  CLOUDY = 'cloudy',
-  RAINY = 'rainy',
-  CLEAR = 'clear'
-}
-
+/**
+ * Function that determines the image to use for the weather.
+ * @param weather the type of weather.
+ * @returns an icon.
+ */
 export function mapToImage(weather: WeatherType) {
   switch(weather) {
     case WeatherType.CLEAR:
@@ -30,6 +31,13 @@ export function mapToImage(weather: WeatherType) {
   }
 }
 
+/**
+ * Function that determines the type of weather.
+ * @param cloud cloud cover percentage.
+ * @param rain rain percentage.
+ * @param snow snow percentage.
+ * @returns what the weather is.
+ */
 export function determineWeatherIcon(cloud: number, rain: number, snow : number) {
   if (snow > 1) {
     return WeatherType.SNOW;
@@ -42,7 +50,6 @@ export function determineWeatherIcon(cloud: number, rain: number, snow : number)
   }
 }
 
-
 export default function HomePage() {
   const date = new Date();
   const [showTimeOfDay, setShowTimeOfDay] = useState<boolean>(true);
@@ -51,11 +58,18 @@ export default function HomePage() {
   const [messageIndex, setMessageIndex] = useState<number>(0);
   const navigate = useNavigate();
 
+  /**
+   * Gets the user's name to display.
+   */
   const name = getNameCookie();
   if (name === undefined) {
     setShowName(false);
   }
 
+  /**
+   * Gets the time of day.
+   * @returns the section of the day in a string to display.
+   */
   const getTimeOfDay =  () => {
     const currHour = date.getHours();
     if (currHour >= 5 && currHour < 12) {
@@ -70,6 +84,10 @@ export default function HomePage() {
     }
   }
 
+  /**
+   * Gets the welcome message.
+   * @returns the message to display.
+   */
   const getWelcomeMessage = () => {
     if (showTimeOfDay) {
       if (showName) {
@@ -86,6 +104,10 @@ export default function HomePage() {
     }
   }
 
+  /**
+   * Generates a positive message randomly.
+   * @returns the message to display.
+   */
   const generatePositiveMessage = () => {
     var i = 0;
     if (date.getDate()===today[0] && date.getMonth()===today[1]) {

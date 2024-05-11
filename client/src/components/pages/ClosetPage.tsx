@@ -15,6 +15,10 @@ import { removeClothing } from "../../utils/api";
 import { Category } from "../items/enums";
 import { updateClothing } from "../../utils/api";
 
+/**
+ * Class that handles and creates closet page features.
+ */
+
 export interface ClosetProps {
   setClothes: Dispatch<
     SetStateAction<Map<string, [string, string, string, string]>>
@@ -32,7 +36,11 @@ export default function ClosetPage(props: ClosetProps) {
   useEffect(() => {
     updateClothing(props.setClothes);
   }, []);
-
+/**
+ * Helper function to highlight the current filter button.
+ * @param category the category you clicked on.
+ * @returns the appropriate opacity.
+ */
   const getButtonOpacity = (category: string) => {
     return activeButton === category.toString() ? 1 : 0.4;
   };
@@ -42,6 +50,7 @@ export default function ClosetPage(props: ClosetProps) {
       <div className="selection-bar">
         <img
           onClick={() => {
+            /*Filters to show all clothing*/
             setClothingFilter("All");
             setOpacity(1);
             setActiveButton("All");
@@ -53,6 +62,7 @@ export default function ClosetPage(props: ClosetProps) {
         />
         <img
           onClick={() => {
+            /*Filters to show tops*/
             setClothingFilter(Category.Top.toString());
             setOpacity(1);
             setActiveButton(Category.Top.toString());
@@ -64,6 +74,7 @@ export default function ClosetPage(props: ClosetProps) {
         />
         <img
           onClick={() => {
+            /*Filters to show bottoms*/
             setClothingFilter(Category.Bottom.toString());
             setOpacity(1);
             setActiveButton(Category.Bottom.toString());
@@ -75,6 +86,7 @@ export default function ClosetPage(props: ClosetProps) {
         />
         <img
           onClick={() => {
+            /*Filters to show full body items*/
             setClothingFilter(Category.FullBody.toString());
             setOpacity(1);
             setActiveButton(Category.FullBody.toString());
@@ -86,6 +98,7 @@ export default function ClosetPage(props: ClosetProps) {
         />
         <img
           onClick={() => {
+            /*Filters to show shoes*/
             setClothingFilter(Category.Shoe.toString());
             setOpacity(1);
             setActiveButton(Category.Shoe.toString());
@@ -97,6 +110,7 @@ export default function ClosetPage(props: ClosetProps) {
         />
         <img
           onClick={() => {
+            /*Filters to show outerwear items*/
             setClothingFilter(Category.Outerwear.toString());
             setOpacity(1);
             setActiveButton(Category.Outerwear.toString());
@@ -108,6 +122,7 @@ export default function ClosetPage(props: ClosetProps) {
         />
         <img
           onClick={() => {
+            /*Filters to show accessories*/
             setClothingFilter(Category.Accessory.toString());
             setOpacity(1);
             setActiveButton(Category.Accessory.toString());
@@ -121,10 +136,8 @@ export default function ClosetPage(props: ClosetProps) {
           + Add
         </button>
       </div>
-      {showAddBox && (
-        <UploadBox/>
-      )}
-      {!showAddBox && (
+      {showAddBox && <UploadBox />}
+      {!showAddBox /*Creates each box in the closet to display the appropriate data of the clothing item*/ && (
         <div className="closet-container">
           {Array.from(props.clothes.entries()).map((img, index) =>
             clothingFilter === "All" || img[1][2] === clothingFilter ? (
@@ -146,7 +159,7 @@ export default function ClosetPage(props: ClosetProps) {
                   />
                 )}
                 <img
-                  className="img-trash"
+                  className="img-trash" /*Functionality for deletion of clothing item*/
                   src={trash}
                   onClick={() => {
                     removeClothing(parseInt(img[0]));

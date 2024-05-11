@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
+/** Enum for materials */
 public enum Material {
   WOOL_COTTON(0),
   PLASTIC_NYLON(1),

@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
+/** Enum for subcategories */
 public enum Subcategory {
   LONG_SLEEVE(0, 60.0),
   SHORT_SLEEVE(1, 70.0),

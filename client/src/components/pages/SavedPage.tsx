@@ -6,6 +6,9 @@ import { showClothing } from "../pages/GeneratePage";
 import { trash } from "../../icons/icons";
 import { removeOutfit } from "../../utils/api";
 
+/**
+ * Class that handles and creates saved page features.
+ */
 export interface SavedPageProps {
   setClothing: Dispatch<
     SetStateAction<Map<string, [string, string, string, string]>>
@@ -19,14 +22,16 @@ export default function SavedPage(props: SavedPageProps) {
   const [outfits, setOutfits] = useState<OutfitItem[]>([]);
   const [hoverOutfit, setHoverOutfit] = useState("-1");
 
+  /**
+   * Function that updates the visual components with the item's data.
+   */
   const updateOutfitsVisually = () => {
     setOutfitList(
       outfits.map((outfit) => (
         <div className="outfit-box">
-                    
-          {parseInt(outfit.fullbody) > -1 && (
+          {parseInt(outfit.fullbody) > -1 && ( //if there is a fullbody item display it
             <div
-              className="bottom-box"
+              className="outfit-bottom-box"
               onMouseEnter={() => {
                 setHoverIndex(outfit.fullbody);
                 setHoverOutfit(outfit.id.toString());
@@ -36,18 +41,15 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
-                            
               {showClothing(
                 outfit.fullbody,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
-                          
             </div>
           )}
-                    
-          {parseInt(outfit.top) > -1 && (
+          {parseInt(outfit.top) > -1 && ( //if there is a top item display it
             <div
               className="outfit-top-box"
               onMouseEnter={() => {
@@ -59,18 +61,15 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
-                            
               {showClothing(
                 outfit.top,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
-                          
             </div>
           )}
-                    
-          {parseInt(outfit.bottom) > -1 && (
+          {parseInt(outfit.bottom) > -1 && ( //if there is a bottom item display it
             <div
               className="outfit-bottom-box"
               onMouseEnter={() => {
@@ -82,18 +81,15 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
-                            
               {showClothing(
                 outfit.bottom,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
-                          
             </div>
           )}
-                    
-          {parseInt(outfit.shoe) > -1 && (
+          {parseInt(outfit.shoe) > -1 && ( //if there is a shoe item display it
             <div
               className="outfit-shoe-box"
               onMouseEnter={() => {
@@ -105,18 +101,15 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
-                            
               {showClothing(
                 outfit.shoe,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
-                          
             </div>
           )}
-                    
-          {parseInt(outfit.outerwear) > -1 && (
+          {parseInt(outfit.outerwear) > -1 && ( //if there is an outerwear item display it
             <div
               className="outfit-outerwear-box"
               onMouseEnter={() => {
@@ -128,18 +121,15 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
-                            
               {showClothing(
                 outfit.outerwear,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
-                          
             </div>
           )}
-                    
-          {parseInt(outfit.accessory) > -1 && (
+          {parseInt(outfit.accessory) > -1 && ( //if there is an accessory item display it
             <div
               className="outfit-accessory-box"
               onMouseEnter={() => {
@@ -151,17 +141,14 @@ export default function SavedPage(props: SavedPageProps) {
                 setHoverOutfit("-1");
               }}
             >
-                            
               {showClothing(
                 outfit.accessory,
                 props.clothing,
                 hoverIndex,
                 hoverOutfit === outfit.id.toString()
               )}
-                          
             </div>
           )}
-                    
           <img
             className="img-trash"
             src={trash}
@@ -171,11 +158,12 @@ export default function SavedPage(props: SavedPageProps) {
               setOutfits(newOutfits);
             }}
           />
-                  
         </div>
       ))
     );
   };
+
+
   /**
    * Called to get each saved outfit from the backend and set it into the outfits list.
    */
@@ -188,13 +176,10 @@ export default function SavedPage(props: SavedPageProps) {
 
   return (
     <body>
-            <h1 className="header">Saved Outfits</h1>
-            
+    <h1 className="header">Saved Outfits</h1>
       <div className="saved-page" onMouseMove={() => updateOutfitsVisually()}>
-                {outfitList.map((outfit: JSX.Element) => outfit)}
-              
+        {outfitList.map((outfit: JSX.Element) => outfit)}
       </div>
-          
     </body>
   );
 }

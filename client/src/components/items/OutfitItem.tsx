@@ -1,3 +1,7 @@
+/**
+ * Class that represents an outfit.
+ */
+
 export class OutfitItem {
   top: string = "-1";
   bottom: string = "-1";

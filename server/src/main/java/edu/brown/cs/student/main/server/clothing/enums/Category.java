@@ -1,5 +1,6 @@
 package edu.brown.cs.student.main.server.clothing.enums;
 
+/** Enum for categories */
 public enum Category {
   TOP(0),
   BOTTOM(1),

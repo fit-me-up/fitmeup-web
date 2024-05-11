@@ -1,8 +1,19 @@
+/**
+ * Various enums used for our project.
+ */
+
 export enum PageType {
   Generate = "generate",
   Saved = "saved",
   Home = "home",
   Closet = "closet",
+}
+
+export enum WeatherType {
+  SNOW = "snow",
+  CLOUDY = "cloudy",
+  RAINY = "rainy",
+  CLEAR = "clear",
 }
 
 export enum Category {

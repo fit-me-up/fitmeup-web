@@ -29,6 +29,13 @@ import {
   Material,
 } from "../components/items/enums";
 
+/**
+ * Funcion that determines image of bottom.
+ * @param shape the shape of the bottom.
+ * @param material the material of the bottom.
+ * @param formality the formality of the bottom.
+ * @returns appropriate image to use.
+ */
 function determineBottom(shape: number, material: number, formality: number) {
   switch (shape?.toString()) {
     case Subcategory.Skirt.toString():
@@ -58,9 +65,14 @@ function determineBottom(shape: number, material: number, formality: number) {
   }
 }
 
+/**
+ * Funcion that determines image of top.
+ * @param subcategory the subcategory of the top.
+ * @param formality the formality of the top.
+ * @returns appropriate image to use.
+ */
 function determineTOP(
   subcategory: number,
-  material: number,
   formality: number
 ) {
   switch (subcategory.toString()) {
@@ -77,6 +89,11 @@ function determineTOP(
   }
 }
 
+/**
+ * Funcion that determines image of the fullbody item.
+ * @param subcategory the subcategory of the fullbody item.
+ * @returns appropriate image to use.
+ */
 function determineFullBody(subcategory: number) {
   switch (subcategory.toString()) {
     case Subcategory.Dress.toString():
@@ -88,6 +105,11 @@ function determineFullBody(subcategory: number) {
   }
 }
 
+/**
+ * Funcion that determines image of the shoe.
+ * @param subcategory the subcategory of the shoe.
+ * @returns appropriate image to use.
+ */
 function determineShoe(subcategory: number) {
   switch (subcategory.toString()) {
     case Subcategory.Sneaker.toString():
@@ -99,6 +121,11 @@ function determineShoe(subcategory: number) {
   }
 }
 
+/**
+ * Funcion that determines image of the outerwear item.
+ * @param subcategory the subcategory of the outerwear item.
+ * @returns appropriate image to use.
+ */
 function determineOuterwear(subcategory: number) {
   switch (subcategory.toString()) {
     case Subcategory.Sweatshirt.toString():
@@ -110,6 +137,11 @@ function determineOuterwear(subcategory: number) {
   }
 }
 
+/**
+ * Funcion that determines image of the accessory item.
+ * @param subcategory the subcategory of the accesory item.
+ * @returns appropriate image to use.
+ */
 function determineAccessory(subcategory: number) {
   switch (subcategory.toString()) {
     case Subcategory.Headwear.toString():
@@ -121,6 +153,14 @@ function determineAccessory(subcategory: number) {
   }
 }
 
+/**
+ * Function that calls on helper functions to get the appropriate image.
+ * @param category the category of the item.
+ * @param subcategory the subcategory of the item.
+ * @param material the material of the item.
+ * @param formality the formality of the item.
+ * @returns the image to use.
+ */
 export function determineCategory(
   category: number,
   subcategory: number,
@@ -129,7 +169,7 @@ export function determineCategory(
 ) {
   switch (category.toString()) {
     case Category.Top.toString():
-      return determineTOP(subcategory, material, formality);
+      return determineTOP(subcategory, material);
     case Category.Bottom.toString():
       return determineBottom(subcategory, material, formality);
     case Category.Shoe.toString():

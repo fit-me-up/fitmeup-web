@@ -5,6 +5,10 @@ import { determineWeatherIcon, mapToImage } from "../pages/HomePage";
 import { PageType } from "../items/enums";
 import { getWeatherData } from "../../utils/api";
 
+/**
+ * Class that handles making the navigation bar
+ * @returns the navigation bar with all of its features
+ */
 export default function NavBar() {
   const [highTemp, setHighTemp] = useState("");
   const [lowTemp, setLowTemp] = useState("");
@@ -15,7 +19,10 @@ export default function NavBar() {
   const [showWeather, setShowWeather] = useState(false);
 
   const navigate = useNavigate();
-
+/**
+ * Changes to the appropriate page when clicked.
+ * @param page the page to navigate to.
+ */
   const changePage = (page: PageType) => {
     switch (page) {
       case PageType.Generate:
@@ -35,7 +42,9 @@ export default function NavBar() {
         break;
     }
   };
-
+/**
+ * Gets weather data based on user location and sets the various weather fields.
+ */
   useEffect(() => {
     async function fetchWeatherData() {
       if (navigator.geolocation) {
@@ -70,20 +79,20 @@ export default function NavBar() {
       {showWeather && (
         <div className="temp-container">
           <div className="temp-numbers">
-            <h3 className="temptitle temp"> {highTemp}˚</h3>
-            <h3 className="currenttitle temp"> {currentTemp}˚ </h3>
-            <h3 className="temptitle temp"> {lowTemp}˚</h3>
+            <h3 className="temptitle temp"> {highTemp}˚</h3> {/*Displays high temp*/}
+            <h3 className="currenttitle temp"> {currentTemp}˚ </h3> {/*Displays current temp*/}
+            <h3 className="temptitle temp"> {lowTemp}˚</h3> {/*Displays low temp*/}
           </div>
           <img
             className="weather-icon"
-            src={mapToImage(determineWeatherIcon(currentCloud, currentRain, currentSnow))}
+            src={mapToImage(determineWeatherIcon(currentCloud, currentRain, currentSnow))} /*Displays weather icon based on data*/
           />
         </div>
       )}
       <div className="titles-container">
         <h3
           className="pagetitle home"
-          onClick={() => changePage(PageType.Home)}
+          onClick={() => changePage(PageType.Home)} 
         >
           {"Home"}
         </h3>
