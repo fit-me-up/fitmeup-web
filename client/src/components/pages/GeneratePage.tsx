@@ -113,7 +113,7 @@ export default function GeneratePage(props: GenerationProps) {
           </div>
           <div
             className="shoe-box"
-            style={{ top: "72%", left: "64.5%" }}
+            style={{ top: "70%", left: "65.5%" }}
             onMouseEnter={() => setHov(outfit.shoe)}
             onMouseLeave={() => setHov("-1")}
           >
